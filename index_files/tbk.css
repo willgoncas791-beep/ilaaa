@@ -1,0 +1,2868 @@
+/* Fix para teclado virtual */
+.page-login a.btn.btn-scotiabank.btn-scotiabank-mini.btn-key.block{
+    text-transform: none;
+}
+
+/* Fix para mensaje de error home */
+#msg-home {
+	top: 119px;
+}
+
+@media ( min-width : 992px) {
+	#msg-home {
+		position: relative;
+	}
+}
+
+/*Fix: Disabled clear iexplorer */
+input[type=text]::-ms-clear {
+	width: 0;
+	height: 0;
+}
+
+/*Fix: Input Disabled en safari*/
+input[disabled] {
+	-webkit-text-fill-color: #bbb !important;
+}
+
+/* ipad */
+@media ( max-width : 480px) {
+	/* Message autoforget [ ipad ] */
+	.messagem span {
+		font-size: 20px !important;
+		line-height: 20px;
+	}
+}
+
+/* Fix: dropdown ipadPro */
+.login-container .dropdown-menu {
+	min-width: 220px;
+}
+
+/* Fix: Graphic clean */
+.legenbox {
+	min-height: 20px;
+}
+
+@media ( max-width : 991px) {
+	/* Fix Accesos directos */
+	.modal-personalizar-accesos .wrap .wrap-1 .modal-body {
+		max-height: none;
+		height: 330px;
+	}
+}
+
+/* generales */
+@media ( min-width : 992px) {
+	.tbk-sm {
+		min-width: 1140px;
+	}
+	.margin-15-sm {
+		margin-right: 15px !important;
+	}
+	.margin-22-sm {
+		margin-right: 22px !important;
+	}
+	.captcha-input-div {
+		margin-top: 40px;
+	}
+	#btn-reload-captcha {
+		width: auto;
+	}
+	.margin-15-r-l-sm {
+		margin: 0px 15px !important;
+	}
+	.padding-8-t {
+		padding-top: 8px;
+	}
+	.padding-l-10 {
+		padding-left: 10px !important;
+	}
+	.text-center-sm, .text-center-refe, .list-tabl-row .item-col.info-refe.text-center-sm
+		{
+		text-align: center !important;
+	}
+	.div-2x {
+		width: 200%;
+	}
+	.width-20-col {
+		width: 100%;
+		min-width: 1800px;
+	}
+	.width-22-col {
+		width: 100%;
+		min-width: 2000px;
+	}
+	.col-0_5-20 {
+		width: 2.5%;
+	}
+	.col-0_75-20 {
+		width: 3.75%;
+	}
+	.col-1-20 {
+		width: 5%;
+	}
+	.col-1_25-20 {
+		width: 6.25%;
+	}
+	.col-1_5-20 {
+		width: 7.5%;
+	}
+	.col-1_75-20 {
+		width: 8.75%;
+	}
+	.col-2-20 {
+		width: 10%;
+	}
+	.col-2_5-20 {
+		width: 12.5%;
+	}
+	.col-3-20 {
+		width: 15%;
+	}
+	.col-3_5-20 {
+		width: 17.5%;
+	}
+	.col-4-20 {
+		width: 20%;
+	}
+	.col-5-20 {
+		width: 25%;
+	}
+	.col-6-20 {
+		width: 30%;
+	}
+	.col-7-20 {
+		width: 35%;
+	}
+	.col-8-20 {
+		width: 40%;
+	}
+	.col-9-20 {
+		width: 45%;
+	}
+	.col-19-50 {
+		width: 50%;
+	}
+	.col-18-20 {
+		width: 90%;
+	}
+	.col-19-20 {
+		width: 95%;
+	}
+	.pagos-telebanking .container-consulta .container-fechas {
+		margin-top: 24px !important;
+	}
+	.margin-t-0 {
+		margin-top: 0px !important;
+		top: 0px !important;
+	}
+	.margin-t-14-sm {
+		margin-top: 14px !important;
+	}
+	.margin-t-30-sm {
+		margin-top: 30px !important;
+	}
+	.margin-b-30-sm {
+		margin-bottom: 30px !important;
+	}
+	.text-link {
+		color: #white !important;
+	}
+	.text-header-link {
+		color: #4C4C4C !important;
+	}
+	.no-border-bottom {
+		border-bottom-width: 0px !important;
+	}
+	.width-820 {
+		width: 820px !important;
+	}
+	/* CABECERA FIJA */
+
+	/* Accesos Directos */
+	.modal-personalizar-accesos .wrap-2 .btn.btn-scotiabank {
+		width: 254px;
+		line-height: normal;
+		height: 84px;
+		padding: 33px 15px;
+		margin-bottom: 10px;
+	}
+
+	/* fijado cabecer para pagos del/al exterior */
+	.head-tab-pagos-delalexterior-fijado {
+		position: fixed;
+		top: 55px;
+		z-index: 9;
+		/* width: 1170px; */
+		width: 1197px !important;
+	}
+	.title-tab-teleb.head-tab-pagos-delalexterior-fijado {
+		width: 1197px !important;
+		position: fixed;
+		top: 110px;
+		z-index: 9;
+		overflow: hidden;
+		padding: 0px 25px !important;
+		margin-left: -15px;
+		min-width: initial;
+		width: initial;
+	}
+	.title-tab-teleb.head-tab-pagos-delalexterior-fijado .wrapper-head {
+		position: relative;
+	}
+	@media ( min-width : 1200px) {
+		.title-tab-teleb.head-tab-pagos-delalexterior-fijado {
+			min-width: 1200px;
+			width: 1200px;
+		}
+	}
+
+	/* ./ fijado cabecer para pagos del/al exterior */
+	.title-tab-teleb.head-tab-solicitud-crediticia-fijado {
+		position: fixed;
+		top: 110px;
+		z-index: 9;
+		/*min-width: 1200px;
+		width: 1200px;*/
+		overflow: hidden;
+		/* padding: 0px 0px !important;
+		margin-left: -15px;
+		width: 100% !important; */
+	}
+	.title-tab-teleb.head-tab-solicitud-crediticia-fijado .wrapper-head {
+		position: relative;
+		/*width: 1800px;
+		padding-left: 30px;*/
+	}
+	.title-tab-teleb.head-tab-notas-constancias-fijado {
+		position: fixed;
+		top: 110px;
+		z-index: 9;
+		/*min-width: 1200px;
+		width: 1200px;*/
+		overflow: hidden;
+		/* padding: 0px 0px !important;
+		margin-left: -15px;
+		width: 100% !important; */
+	}
+	.title-tab-teleb.head-tab-notas-constancias-fijado .wrapper-head {
+		position: relative;
+		/*width: 1800px;
+		padding-left: 30px;*/
+	}
+	.title-tab-teleb.head-tab-cheques-gerencia-fijado {
+		position: fixed;
+		top: 110px;
+		z-index: 9;
+		/*min-width: 1200px;
+		width: 1200px;*/
+		overflow: hidden;
+		padding: 0px 25px !important;
+		margin-left: -15px;
+	}
+	.title-tab-teleb.head-tab-cheques-gerencia-fijado .wrapper-head {
+		position: relative;
+		/*width: 1800px;
+		padding-left: 30px;*/
+	}
+	/* PARCHE PARA CELDA PATEADA EN SM*/
+	.title-tab-teleb.head-tab-pago-nomina-fijado {
+		position: fixed;
+		top: 110px;
+		z-index: 9;
+		/*min-width: 1200px;
+		width: 1200px;*/
+		overflow: hidden;
+		padding: 0px 25px !important;
+		margin-left: -15px;
+	}
+	.title-tab-teleb.head-tab-pago-nomina-fijado .wrapper-head {
+		position: relative;
+		/*width: 1800px;
+		padding-left: 30px;*/
+	}
+	.title-tab-teleb.head-tab-pago-nomina-fijado-1220 {
+		position: fixed;
+		top: 110px;
+		z-index: 9;
+		/*min-width: 1200px;
+		width: 1200px;*/
+		overflow: hidden;
+		padding: 0px 25px !important;
+		margin-left: -15px;
+	}
+	.title-tab-teleb.head-tab-pago-nomina-fijado-1220 .wrapper-head {
+		position: relative;
+		/*width: 1800px;
+		padding-left: 30px;*/
+	}
+	.list-tabl-row .item-col.info-fecha {
+		top: 0px !important;
+	}
+
+	/* Unfix: Nuevo Home.
+	/** PARCHE LOGIN BOTON INICIO **
+	.page-login .form-data .options .btn-scotiabank {
+		background-color: #d81e05;
+		border-color: #d81e05;
+		color: #fff;
+		margin-left: 8px;
+		width: 180px;
+		height: 43px;
+		line-height: 2;
+		font-size: 18px;
+	}
+	/** PARCHE LOGIN BARRA HORIZONTAL | AUTOFORGET **
+	.page-login {
+		overflow: hidden;
+	}*/
+	.modal-width-sm {
+		width: 700px;
+	}
+}
+
+/* Fix: Icono de mano en operaciones pendientes responsive */
+#slider-scotiabank .carousel-inner {
+	cursor: pointer;
+}
+
+/* Fix Notificaciones no leidas */
+.notif_unread_bt .icon-conf {
+	color: black;
+}
+
+/* Fix Grupo de Iconos : Detalle de General de Saldos */
+.butt-iconsal.group-icons {
+	width: initial;
+}
+
+/* Fix Breadcumb */
+.pagos-telebanking .breadcrumb {
+	padding-left: 0px;
+}
+/* Fix Fixed Modals*/
+.modal-open {
+	position: static;
+}
+/* Fix Acceso Directo */
+/*.modal-personalizar-accesos .wrap-2 li button.access{
+    right: -12px;
+}*/
+/*-------------*/
+.d-inline {
+	display: inline;
+}
+
+.d-inline-block {
+	display: inline-block;
+}
+
+.helpdesk-container.separator-top {
+	position: relative;
+}
+
+.separator-top:before {
+	content: "";
+	position: absolute;
+	top: -10px;
+	left: -24px;
+	right: -24px;
+	border: 1px solid #ededed;
+}
+
+.mensaje-error {
+	padding-top: 20px;
+	color: #d81e05;
+	font-size: 12px;
+}
+
+.mensaje-error:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px;
+}
+
+.icon-scotiabank_24_ok:before {
+	content: "\e91a";
+}
+
+.validacion-tbk {
+	width: 101px;
+	line-height: 1.2;
+	font-size: 11px;
+	white-space: nowrap;
+	padding-top: 10px;
+	color: #B3B3B3;
+}
+
+.link-focusable:focus {
+	font-weight: bold !important;
+	color: red;
+}
+
+.btn-group.bootstrap-select.cuentas button {
+	z-index: 0;
+}
+
+.link-bold-red {
+	color: #d8433a;
+	font-weight: bold;
+	padding: 5px 0px;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+	background-color: transparent;
+}
+
+a.helper-div:hover, a.helper-div:focus {
+	color: #333 !important;
+}
+
+.footer .back-to-top-label {
+	position: absolute;
+	color: #fff;
+	top: 30px;
+	left: -6px;
+	font-family: Arial, sans-serif;
+}
+
+.footer .back-to-top:after {
+	content: "";
+}
+
+.truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.cargando-tbk {
+	margin-right: 0px !important;
+	margin-left: 0px !important;
+	margin-top: 0px !important;
+	text-align: center;
+	/* display: block; */
+	padding: 0px 0px 0px 0px;
+	/* vertical-align: middle; */
+	position: inherit;
+}
+
+.red-scotia {
+	color: #d52b1e;
+}
+
+/* home > shortcuts */
+a.shortcut-disabled span {
+	color: #a4b3cc;
+}
+
+a.shortcut-disabled {
+	cursor: default;
+}
+
+#ajax_loader {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 1000000;
+	background-color: black;
+	opacity: 0.3;
+}
+
+#ajax_loader div {
+	position: fixed;
+	top: 50%;
+	margin-top: -22.5px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
+
+#ajax_loader div span {
+	color: white;
+}
+
+.col-md-4 .ctrl .validationMessage-container {
+	display: block;
+	min-height: 20px
+}
+
+.col-md-4 .ctrl .validationMessage-container .validationMessage {
+	padding-left: 0px;
+	color: #d81e05
+}
+
+.col-md-4 .ctrl .validationMessage-container .validationMessage:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px
+}
+
+/* login UnFix: Nuevo Home
+.login-container .dropdown-menu a:hover {
+	color: black;
+}*/
+
+/*Mijail: se ha comentado por error en datos de user2017-03-08*/
+/* .login-container .dropdown-menu { */
+/* 	width: auto !important; */
+/* } */
+
+/* home */
+.modal-personalizar-accesos .action.one:after {
+	content: '1';
+}
+
+.modal-personalizar-accesos .action.two:after {
+	content: '2';
+}
+
+.modal-personalizar-accesos .action.three:after {
+	content: '3';
+}
+
+.modal-personalizar-accesos .action.four:after {
+	content: '4';
+}
+
+.modal-personalizar-accesos .action.five:after {
+	content: '5';
+}
+
+#modalCoverageTeam .list-tabl-row .item-col {
+	font-size: 13.35px;
+}
+
+.grid-items .sumary-pending-operation {
+	height: 45px;
+	border-bottom: 1px solid #e0e0e0;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+/* pagos_telebanking */
+.head-tab-pagos-telebanking-fijado {
+	position: fixed;
+	top: 110px;
+	z-index: 9;
+	width: 1170px;
+}
+
+.title-tab-teleb.head-tab-pagos-telebanking-fijado {
+	width: 1171px;
+	/*padding: 0px !important;*/
+}
+
+.validationMessage-container .tbk-validation {
+	padding-left: 0px;
+	color: #d81e05;
+	min-height: 0px;
+	min-width: 0px;
+	font-size: 14px;
+}
+
+.validationMessage-container .tbk-validation:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px;
+}
+
+.tbk-validation-document {
+	width: 360px;
+}
+
+.btn-scotiabank-red-pagos-tkb {
+	background-color: #D81E05;
+	color: #fff;
+	border: 2px solid #D81E05;
+	width: 250px;
+	font-size: 18px;
+	text-transform: uppercase;
+	padding: 9px 70px !important;
+	border-radius: 4px;
+}
+
+.btn-scotiabank-red-pagos-tkb:hover, .btn-scotiabank-red-pagos-tkb:focus,
+	.btn-scotiabank-red-pagos-tkb:active {
+	background-color: #991006;
+	color: #fff;
+	border: 2px solid #991006
+}
+
+.disabled-href {
+	background-color: #991006;
+	color: #fff;
+	pointer-events: none;
+	border: 2px solid #991006
+}
+
+.message-no-selected .message-not-selected {
+	padding-left: 30px;
+	color: #d81e05;
+	min-height: 0px;
+	min-width: 0px;
+	font-size: 14px;
+}
+
+.message-no-selected .message-not-selected:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px;
+}
+
+.padding-right {
+	padding-right: 50px;
+}
+
+.column-payment-tbk .column-payment-tbk-body {
+	cursor: pointer;
+}
+
+.contsub-fil .btn-scotiabank-red-pagos-tkb[disabled] {
+	color: #b4b4b4;
+	background: none;
+	border-color: #b4b4b4;
+}
+
+.grid-no-clickable {
+	cursor: auto !important;
+	border-top: 1px solid #e2e2e2;
+	background-color: #ffffff !important;
+}
+
+@media screen and (min-width: 992px) {
+	.list-tabl-row .item-col.info-refe-tbk {
+		float: none;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		text-align: center !important;
+	}
+	/*Marco*/
+	.akuTab__header {
+		font-size: 15px;
+	}
+	.akuTab__header.akuTab__header--is-active {
+		font-size: 16px;
+	}
+}
+
+.list-tabl-row .item-col.info-refe-tbk {
+	float: none;
+	position: absolute;
+	bottom: 1px;
+	right: 0;
+	text-align: right;
+	height: 30px;
+	line-height: 30px;
+}
+/* pagos_del_al_exterior */
+
+/* notas_constancias */
+
+/* cheques_gerencia */
+
+/* consulta_general_saldos */
+
+/* rommy estilo pago nomina */
+.datos-cuentacc h5 {
+	font-family: 'Arial';
+	font-size: 17px;
+	color: #7B7E80;
+	font-weight: normal;
+	background: #fff;
+	padding: 16px 0;
+	/* 	border-top: 1px solid #EAEBEB; */
+	/* 	border-bottom: 1px solid #EAEBEB; */
+	margin-bottom: 0
+}
+
+.datos-cuentacc h5 span {
+	color: red;
+	font-size: 24px;
+	vertical-align: middle;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	margin-top: -6px;
+	cursor: pointer
+}
+
+.item-col-div {
+	display: flex;
+	align-items: center;
+	height: 48px;
+	justify-content: center;
+}
+
+@media screen and (max-width: 890px) {
+	.cont-resp.row-cont.row-special .list-tabl-row {
+		height: 95px;
+	}
+}
+
+/* Fix: Extract print.css */
+.print-logo {
+	height: 30px;
+	width: auto;
+}
+
+.print-logo.logo-rojo {
+	background-color: red !important;
+}
+
+.print-logo img {
+	width: auto;
+	height: 100%;
+}
+
+.print-logo img.margin-t {
+	margin-top: 15px;
+}
+
+@media print {
+	a[href]:after {
+		content: none !important;
+	}
+	.noprint {
+		display: none !important;
+	}
+	a:link:after, a:visited:after {
+		display: none;
+		content: "";
+	}
+}
+
+.print-canvas .canvas-time {
+	margin: 0 0 5px !important;
+}
+
+.print-canvas .canvas-title {
+	font-size: 18px;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.print-canvas .canvas-subtitle {
+	font-size: 24px;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.print-canvas .canvas-filter {
+	font-size: 18px;
+}
+
+/*Estilo para cheque de gerencia*/
+.columna-print-check {
+	font-size: 11px;
+}
+
+.text-right {
+	text-align: right !important;
+}
+
+p.margin0 {
+	padding: 10px 0px 5px 0px;
+}
+
+p.padding-right-10 {
+	padding-right: 10px !important;
+}
+
+.margin20 {
+	margin-left: 20px;
+}
+
+.row-cont-cg {
+	padding: 0px;
+}
+
+/* Bug al mantener fijas las cabeceras.
+.list-desktop {
+	margin: 0px;
+}*/
+.telebanking-cuenta .cuenta-list .title-table {
+	line-height: 50px;
+	height: 50px;
+	/*Bug al mantener fijas las cabeceras.
+	padding: 0px;*/
+}
+
+#grid-body-print .row-cont .list-tabl-row .payment-print-body {
+	padding: 10px;
+}
+
+.list-desktop .row-cont .list-tabl-row .item-col {
+	padding: 0px;
+}
+
+.list-tabl-row {
+	padding: 10px;
+}
+
+.col-xs-1.col-sm-1.columna-print-check.text-left {
+	padding: 0px;
+}
+
+.col0 {
+	padding: 0px;
+}
+
+.padding0 {
+	padding: 0px;
+}
+
+/* Fix: Se repite este selector. margin10 */
+.margin10 {
+	margin-left: 17px;
+}
+
+.padding37 {
+	padding-left: 37px;
+}
+
+.margin8 {
+	margin-left: 8px;
+}
+
+.padding7 {
+	padding-left: 7px;
+}
+
+/**mijael**/
+.margin6r {
+	margin-right: 6px;
+}
+
+.margin30l {
+	margin-left: 30px;
+}
+
+.margin20 {
+	margin-left: 20px;
+}
+
+.margin15 {
+	margin-left: 15px;
+}
+
+.padtop10 {
+	padding-top: 10px;
+}
+
+.margin6 {
+	margin-left: 6px;
+}
+
+.padding30 {
+	padding-left: 30px;
+}
+
+.padding35 {
+	padding-left: 35px;
+}
+
+/*cesar grilla */
+.margin40 {
+	margin-left: 40px;
+}
+
+.margin25 {
+	margin-left: 25px;
+}
+
+.margin20r {
+	margin-right: 20px;
+}
+
+.margin10 {
+	margin-right: 10px;
+}
+
+/***/
+
+/*
+.list-desktop {
+    margin: 0 0px; 
+}*/
+
+/* rommy estilo pago nomina */
+.font-login {
+	color: #505050 !important;
+}
+
+#link-term-conditions {
+	color: white;
+}
+
+.item-result-database {
+	width: 100%;
+}
+
+/*Nuevos cambios para adapatar css a cheques de gerencia print*/
+.padding27l {
+	padding-left: 27px;
+}
+
+.pad24r {
+	padding-right: 24px;
+}
+
+.pad7r {
+	padding-right: 7px;
+}
+
+.margin27l {
+	margin-left: 27px;
+}
+
+.padl21 {
+	padding-left: 21px;
+}
+
+.margin5r {
+	margin-right: 5px;
+}
+
+.padi5r {
+	padding: 10px 5px 5px 0px;
+}
+
+.padl4 {
+	padding-left: 4px;
+}
+
+.padi33 {
+	padding-left: 33px;
+}
+
+.text {
+	text-align: center;
+}
+
+.font-login {
+	color: #505050 !important;
+}
+
+/***** estilos para operaciones frecuentes************/
+li.list-links-item-operation {
+	float: left;
+	zoom: 1;
+	vertical-align: top;
+	width: 19%;
+	background-color: #fff;
+	margin-right: 5px;
+}
+
+li.list-links-item-operation a {
+	font-size: 11px;
+	display: inline-block;
+	zoom: 1;
+	width: 100%;
+	padding: 10px 10px;
+}
+
+.list-links-item-operation {
+	background-color: #fff;
+	padding: 10px 0;
+}
+
+@media ( min-width : 992px) {
+	.list-links-item-operation a span.ico-link {
+		color: #D81E05;
+		font-size: 40px;
+		margin: 0;
+		margin-bottom: 10px;
+	}
+}
+
+@media ( min-width : 992px) {
+	.list-links-item-operation a span {
+		display: block;
+		text-align: center;
+	}
+}
+
+@media ( min-width : 992px) {
+	.list-links-item-operation a span.text-link {
+		min-height: 45px;
+	}
+
+	/***** estilos para transferencias************/
+	.col-xs-12.col-sm-10.col-md-8.col-lg-8 .validationMessage-container {
+		display: block;
+		min-height: 20px
+	}
+	.col-xs-12.col-sm-10.col-md-8.col-lg-8 .validationMessage-container .validationMessage
+		{
+		padding-left: 0px;
+		color: #d81e05
+	}
+	.col-xs-12.col-sm-10.col-md-8.col-lg-8 .validationMessage-container .validationMessage:before
+		{
+		position: relative;
+		top: 1px;
+		display: inline-block;
+		font-family: 'Glyphicons Halflings';
+		font-style: normal;
+		font-weight: 400;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		content: "\e088";
+		margin-right: 6px
+	}
+	.icon-print-grid {
+		font-size: 25px;
+		color: #9d9d9d";
+	}
+}
+
+#text-autologoff {
+	display: inline-block;
+}
+
+/***** estilos para transferencias************/
+.col-xs-12.col-sm-10.col-md-8.col-lg-8 .validationMessage-container {
+	display: block;
+	min-height: 20px
+}
+
+.col-xs-12.col-sm-10.col-md-8.col-lg-8 .validationMessage-container .validationMessage
+	{
+	padding-left: 0px;
+	color: #d81e05
+}
+
+.col-xs-12.col-sm-10.col-md-8.col-lg-8 .validationMessage-container .validationMessage:before
+	{
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px
+}
+
+.transf-monto.row .validationMessage-container {
+	display: block;
+	min-height: 20px
+}
+
+.transf-monto.row .validationMessage-container .validationMessage {
+	padding-left: 0px;
+	color: #d81e05
+}
+
+.transf-monto.row .validationMessage-container .validationMessage:before
+	{
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px
+}
+
+div.validationMessage-container {
+	display: block;
+	min-height: 20px
+}
+
+div.validationMessage-container .validationMessage {
+	padding-left: 0px;
+	color: #d81e05
+}
+
+div.validationMessage-container .validationMessage:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px
+}
+
+.message-no-selected .message-invalid-dates:before {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\e088";
+	margin-right: 6px;
+}
+
+.message-no-selected .message-invalid-dates {
+	padding-left: 30px;
+	color: #d81e05;
+	min-height: 0px;
+	min-width: 0px;
+	font-size: 14px;
+}
+
+#durandal-wrapper>div.header.header-login>div>div>div.white-space.collapse.in>div.col-sm-6.col-xs-6.text-right>div>a.language-item>span
+	{
+	color: #4C4C4C;
+}
+
+#durandal-wrapper>div.header.header-login>div>div>div.white-space.collapse.in>div.col-sm-6.col-xs-6.text-right>div>a.language-item.select>span
+	{
+	color: #fff;
+}
+
+.text-language a span {
+	color: #4C4C4C;
+}
+
+.text-language a.select span {
+	color: #fff;
+}
+
+/*Mijail: Clase para emular drop-down para que jquery no lo oculte pero si mantega su estilo*/
+.drop-down-alterno {
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, .15);
+	border-radius: 4px;
+}
+
+/* Terminos y Condiciones */
+.head-terminos {
+	margin-top: 0px !important;
+}
+
+.rich-text li h4 {
+	line-height: inherit;
+}
+
+.show-yes {
+	display: initial !important
+}
+
+.align-center {
+	text-align: center;
+}
+
+.table__col.col-xs-1.u-w-8-pc.icons-transfer.pl-cell-25 {
+	padding-left: 40px;
+}
+
+.icon-entre-cuentas {
+	padding-left: 5px;
+}
+
+.modal-scotiabank .modal-body.modal-entre-cuentas {
+	height: 70vmax;
+	overflow: auto;
+}
+
+.modal-scotiabank .modal-body.modal-entre-cuentas {
+	height: 42vmax;
+	max-height: 630px;
+}
+
+.info-tab strong.text-conditions {
+	color: #000000;
+	margin-right: 5px;
+	font-weight: normal;
+}
+
+.col-xs-1.col-sm-1.padding-right {
+	padding-left: 0px;
+}
+
+.item-col-div.padding-left {
+	padding-left: 15px;
+}
+
+.padding-both-side {
+	padding-right: 60px;
+}
+
+/* Actualizacion Rommy */
+.align-center {
+	text-align: center;
+}
+
+.table__col.col-xs-1.u-w-8-pc.icons-transfer.pl-cell-25 {
+	padding-left: 40px;
+}
+
+.icon-entre-cuentas {
+	padding-left: 5px;
+}
+
+.modal-scotiabank .modal-body.modal-entre-cuentas {
+	height: 70vmax;
+	overflow: auto;
+}
+
+.modal-scotiabank .modal-body.modal-entre-cuentas {
+	height: 42vmax;
+	max-height: 630px;
+}
+
+.info-tab strong.text-conditions {
+	color: #000000;
+	margin-right: 5px;
+	font-weight: normal;
+}
+
+.col-xs-1.col-sm-1.padding-right {
+	padding-left: 0px;
+}
+
+.item-col-div.padding-left {
+	padding-left: 15px;
+}
+
+.padding-both-side {
+	padding-right: 60px;
+}
+
+/* /Actualizacion Rommy */
+
+/*ESTILOS REUTILIZABLES PARA CONSULTAS*/
+.overflow_custom {
+	overflow: hidden;
+}
+
+@media ( max-width : 480px) {
+	.overflow_custom .margin0 {
+		padding-top: 0px !important;
+	}
+}
+
+.list-tabl-row .item-col.info-fecha {
+	color: #939393;
+}
+
+.recorte_parrafo {
+	width: 100%;
+	/* BOTH of the following are required for text-overflow */
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.elipsis {
+	text-overflow: ellipsis;
+}
+
+.btn_exportar {
+	
+}
+
+.butt-iconsal {
+	position: relative;
+}
+
+.box_test {
+	position: absolute;
+	width: 80px;
+	height: 65px;
+	top: 40px;
+	display: none;
+	right: 0;
+	z-index: 2000;
+}
+
+.cajilla {
+	position: absolute;
+	width: 200px;
+	background: white;
+	top: 19px;
+	z-index: 2000 !important;
+	display: none;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	color: red;
+	text-align: left;
+	right: 0px;
+	float: none;
+	left: inherit;
+}
+
+.cajila li a {
+	display: block !important;
+	padding: 10px !important;
+}
+
+.cajilla-e {
+	position: absolute;
+	width: 100px;
+	background: white;
+	top: 40px;
+	z-index: 2000 !important;
+	display: none;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	text-align: left;
+	right: 0px;
+	float: none;
+	left: inherit;
+}
+
+.capa_custom {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	display: none;
+	left: 0;
+	top: 0;
+}
+
+.capa_custom_exp_cg {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	display: none;
+	left: 0;
+	top: 0;
+}
+
+.cajila-e li a {
+	display: block !important;
+	padding: 10px !important;
+}
+
+@media ( min-width : 992px) {
+	.width-1140-col {
+		width: 100%;
+		min-width: 1040px !important;
+	}
+}
+
+.title-tab-teleb.head-tab-cheques-gerencia-fijado {
+	min-width: initial;
+	width: initial;
+}
+
+.title-tab-teleb.head-tab-pago-nomina-fijado {
+	min-width: initial;
+	width: initial;
+}
+
+.title-tab-teleb.head-tab-pago-nomina-fijado-1220 {
+	min-width: initial;
+	width: initial;
+}
+
+@media ( min-width : 1200px) {
+	.title-tab-teleb.head-tab-cheques-gerencia-fijado {
+		min-width: 1200px;
+		width: 1200px !important;
+	}
+	#div-principal .title-tab-teleb.head-tab-pago-nomina-fijado-1220 {
+		min-width: 1200px;
+		width: 1220px !important;
+	}
+	#div-principal .title-tab-teleb.head-tab-pago-nomina-fijado {
+		min-width: 1200px;
+		width: 1200px !important;
+	}
+}
+
+.margin-text-payment {
+	padding-right: 10px;
+}
+
+/* For payment to from abroad */
+.width-table-pa {
+	width: 1170px !important;
+}
+
+.head-tabl-custom {
+	min-width: 1140px !important;;
+}
+
+.tabsScotiabank>li>a {
+	text-overflow: inherit !important;
+}
+
+/** Luis Hernandez: Scroll en explorer en consultas. **/
+.pagos-telebanking .container-consulta {
+	padding: 20px 0px;
+}
+
+.width-table-payment {
+	width: 1186px !important;
+}
+
+.payment-import-padding {
+	text-align: right !important;
+	padding-right: 20px !important;
+}
+
+.popover_tipoCambio_custom {
+	background: white;
+	z-index: 200;
+	position: absolute;
+	right: 12px;
+	padding: 20px 0px 10px 10px;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.management-table-one-register {
+	margin-bottom: 120px !important;
+}
+
+.cajilla-hider-columns {
+	position: absolute;
+	width: 280px;
+	background: white;
+	z-index: 2000 !important;
+	display: none;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	text-align: left;
+	right: 0px;
+	float: none;
+	left: inherit;
+}
+
+.displayBlock {
+	display: block !important;
+}
+
+.header-detalle-leasing {
+	min-width: 1140px;
+	margin-left: 15px !important;
+}
+
+.fila-detalle-leasing {
+	min-width: 1140px;
+}
+
+.cajilla-cg {
+	position: absolute;
+	width: 100px;
+	background: white;
+	top: 40px;
+	z-index: 2000 !important;
+	display: none;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	text-align: left;
+	right: 0px;
+	float: none;
+	left: inherit;
+}
+
+@media ( max-width : 1186px) {
+	.head-tab-notas-constancias-fijado {
+		left: 0 !important;
+		padding: 0 !important;
+	}
+	.head-tab-solicitud-crediticia-fijado {
+		left: 0 !important;
+		padding: 0 !important;
+	}
+}
+
+@media ( min-width : 1200px) {
+	.no-left-pagos-tbk {
+		left: inherit !important;
+	}
+}
+
+.marginLeft_pagonomina {
+	margin-left: 5px !important;
+}
+
+.page-movimientos {
+	margin-bottom: 200px;
+}
+
+.page_initial {
+	overflow: inherit;
+}
+
+.padding-rigth-check {
+	padding-right: 10px !important;
+}
+
+@media ( min-width : 900px) {
+	.tbk-validation-document {
+		width: 360px;
+	}
+}
+
+.block {
+	display: block;
+}
+
+.capita {
+	width: 100%;
+	height: 90%;
+	background: transparent;
+	position: absolute;
+	z-index: 9999999;
+	display: none;
+}
+
+.export-saldosd {
+	position: inherit;
+	z-index: 999999999;
+}
+
+@media ( min-width : 600px) and (max-width: 768px) {
+	.tabsSubScotiabank-container {
+		background-color: transparent;
+	}
+}
+
+.g-input_design.u-no-display {
+	display: none;
+}
+
+.number_account_tercero {
+	margin-top: 40px;
+}
+
+/* Fix para proveedores*/
+@media ( max-width : 995px) {
+	#crear_proveedor .codigo-interbancario, #editar_proveedor .codigo-interbancario
+		{
+		margin-bottom: 50px;
+	}
+}
+
+.fix-master-inputs {
+	padding-left: 0px;
+}
+/*------------------------*/
+/* Parche para menu de segundo nivel : 1er Release */
+
+/* UnFix: Nuevo Home
+#menuCompany {
+	width: 100%;
+	background: white;
+}
+@media ( min-width : 992px) {
+
+	.contservc a{
+		color: white !important;
+	}
+	.top-homh {
+		margin-top: 25px;
+	}
+	.header{
+		height: 70px;
+	}
+	.header-top{
+		height: 60px;
+	}
+	.session-container, .session-info-container{
+		float: right;
+		z-index: initial;
+	}
+	.header-gen {
+	    margin-top: 0px !important;
+	}
+}
+.notification-head .badge-notify {
+    font-size: 11px;
+    margin-left: 0px;
+    margin-top: -5px;
+}
+*/
+.notif-linl:before {
+	border-left: 1px solid #D6D6D6;
+}
+
+div.open .cajilla {
+	display: block;
+}
+
+@media ( max-width : 1200px) {
+	/*Marco*/
+	.akuTab__header {
+		/*padding: 20px 22px 20px 14px;*/
+		font-size: 13px;
+	}
+}
+/*-------------------------------------------------*/
+.classRateInterest {
+	padding-top: 40px;
+}
+
+/************* Transferencias masivas*/
+.size_title_error {
+	font-size: 24px;
+}
+
+.rowtab-mo div.account-number {
+	font-size: 12.35px;
+}
+
+/*Centrando detalle de la grilla de beneficiarios*/
+#maestro_proveedores #table-body tr {
+	text-align: center;
+}
+
+/*Centrando para la grilla de aceptantes*/
+#maestros_aceptantes #table_body tr {
+	text-align: center;
+}
+
+#span_amount_charge {
+	margin-left: 0px;
+}
+
+#span_amount_charge_modal {
+	margin-left: 0px;
+}
+/*Pagos masivos*/
+.table--big--pagos {
+	min-width: 1450px;
+}
+
+.link-disabled {
+	pointer-events: none;
+	cursor: default;
+}
+
+#orderModal .search-m.open .lupa-m {
+	display: none;
+}
+
+#orderModal .search-m button {
+	right: -36px;
+	top: -3px;
+}
+
+.color-red-scotia {
+	color: #d81e05;
+}
+
+.orden-number .orden-number-w input {
+	box-shadow: none;
+}
+/*Fin pagos masivos*/
+.header_box {
+	background: #f5f5f5;
+	height: 50px;
+}
+
+.box_col {
+	border-right: 1px solid #f5f5f5;
+}
+
+.box_col-2 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100px;
+}
+
+.fila_height {
+	height: 50px;
+	line-height: 50px;
+}
+
+.box_fila-2 {
+	background: #f5f5f5;
+}
+
+.custom_row {
+	margin-right: 0;
+	margin-left: 0;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+.flex_row {
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+
+.section-cuent-custom {
+	min-width: 880px;
+}
+
+/* Fixeando tabla de beneficiarios */
+.custom_25 {
+	width: 375px;
+}
+
+.custom_24 {
+	width: 360px;
+}
+
+.custom_23 {
+	width: 345px;
+}
+
+.custom_22 {
+	width: 330px;
+}
+
+.custom_21 {
+	width: 315px;
+}
+
+.custom_20 {
+	width: 300px;
+}
+
+.custom_19 {
+	width: 285px;
+}
+
+.custom_18 {
+	width: 270px;
+}
+
+.custom_17 {
+	width: 255px;
+}
+
+.custom_16 {
+	width: 240px;
+}
+
+.custom_15 {
+	width: 225px;
+}
+
+.custom_14 {
+	width: 210px;
+}
+
+.custom_13 {
+	width: 195px;
+}
+
+.custom_12 {
+	width: 180px;
+}
+
+.custom_11 {
+	width: 165px;
+}
+
+.custom_10 {
+	width: 150px;
+}
+
+.custom_9 {
+	width: 135px;
+}
+
+.custom_8 {
+	width: 120px;
+}
+
+.custom_7 {
+	width: 105px;
+}
+
+.custom_6 {
+	width: 90px;
+}
+
+.custom_5 {
+	width: 75px;
+}
+
+.custom_4 {
+	width: 60px;
+}
+
+.custom_3 {
+	width: 45px;
+}
+
+.custom_2 {
+	width: 30px;
+}
+
+.custom_1 {
+	width: 15px;
+}
+
+.table__body-wrapper {
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+.touch_custom {
+	-webkit-overflow-scrolling: touch;
+}
+
+.table__header-wrapper {
+	overflow: hidden !important;
+}
+
+.u-ov-auto {
+	overflow: auto;
+}
+
+input.nombre-banco-input {
+	color: #626262 !important;
+}
+
+.label-payroll-message-individual {
+	color: red;
+	font-size: 15px;
+	font-weight: bold;
+	margin-top: 0px;
+}
+
+.width-pop-up {
+	width: 370px;
+}
+
+/* Fix para notificaciones*/
+#optionsNotifications {
+	z-index: 0;
+}
+
+/* Fix para seleccion de empresa */
+@media ( min-width : 769px) {
+	.tabsScotiabank>li.dropdown .selector-empresa {
+		padding-left: 10px;
+	}
+}
+
+/* Fix para containers : Basado en notificaciones */
+@media ( min-width : 993px) {
+	.header-gen>.container.cont-resp {
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+}
+
+/* Fix Home Operaciones Pendientes xs */
+div#grid-details-operation-footer {
+	padding-bottom: 0px;
+	padding-top: 25px;
+	height: auto;
+}
+
+#container-frequent-operations {
+	margin-top: 20px;
+}
+
+@media ( max-width : 767px) {
+	div#grid-details-operation-footer {
+		padding-top: 0px;
+	}
+	#container-frequent-operations {
+		margin-top: 5px;
+	}
+}
+
+/* TRANSFERENCIAS INTERBANCARIAS */
+.input__monto {
+	padding-left: 20px !important;
+	position: relative;
+}
+
+.tipo__moneda {
+	display: none;
+	position: absolute;
+	top: 6.5px !important;
+	font-size: 16px;
+}
+
+.label__active {
+	
+}
+
+.block {
+	display: block !important;
+	z-index: 999 !important;
+}
+/* FIN TRANSFERENCIAS INTERBANCARIAS */
+.info-tab-customize {
+	margin-top: 20px;
+}
+
+@media ( min-width : 768px) {
+	.tipo-mm-planilla {
+		margin-left: 0px;
+	}
+}
+
+.tipo-m-planilla {
+	margin-top: 44px;
+}
+
+/* ******** INICIO HISTORIAL PAGOS ************ */
+.custom_8 {
+	width: 80px;
+}
+
+.custom_9 {
+	width: 90px;
+}
+
+.custom_11 {
+	width: 110px;
+}
+
+.custom_13 {
+	width: 130px;
+}
+
+.custom_10 {
+	width: 100px;
+}
+
+.table__body-wrapper {
+	overflow-y: auto;
+}
+
+.tab-cont {
+	padding-bottom: 50px;
+}
+
+.btn-historical-payments {
+	text-align: center;
+	padding: 10px;
+}
+
+.btn-historical-payments>a {
+	padding: 10px 60px !important;
+	width: inherit !important;
+}
+
+/* ******** FIN HISTORIAL PAGOS ************ */
+
+/*Pago de Servicios - Quitar al integrar ultimos fixes de Multiplica*/
+.header-table-servicios .search-m.open .lupa-m {
+	display: none;
+}
+
+.header-table-servicios .search-m button {
+	right: -36px;
+	top: -3px;
+}
+
+#pago_servicios_preparar_orden_servicios .u-w-5-pc {
+	width: 75px;
+}
+
+#pago_servicios_preparar_orden_servicios .table__title {
+	padding: 12px 5px;
+	text-align: left !important;
+}
+
+/*Fin pago de servicios*/
+.width-pop-up-filtro {
+	width: 400px;
+}
+
+.select-w-combos label.error-combos {
+	color: #D81E05;
+	font-size: 14px !important;
+	top: 38px !important;
+}
+
+.select-w-combos label.error-combos:before {
+	position: relative;
+	top: 2px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	content: "\e088";
+	margin-right: 6px;
+}
+
+.row-maestros {
+	padding-right: 15px !important;
+	padding-left: 15px !important;
+	padding-top: 10px !important;
+	padding-bottom: 8px !important;
+}
+
+/*** PARA TABLA DE PLANTILLAS POR TIPO DE PAGO */
+/*.table__align-top {
+    vertical-align: top;
+}
+
+#div-crear-plantilla{
+
+}
+#div-crear-plantilla label.error{
+
+    position: relative !important;
+    top: 5px !important;
+}
+*/
+.cursor_pointer {
+	cursor: pointer !important;
+}
+
+/*Letras y Facturas*/
+.padding-top-letras-facturas {
+	padding-top: 10px;
+}
+
+#preparar_orden_inicio .cont-breadcrumb, .preparar_orden .consulta-title
+	{
+	padding: 0px 0px;
+}
+
+#resultado_validacion_masivo .cont-breadcrumb {
+	padding-left: 0px;
+}
+
+#preparar_orden_listado .cont-resp .h1data {
+	padding-left: 12px;
+}
+
+#programacion_orden .cont-resp .h1data {
+	padding-left: 12px;
+}
+
+.arrow-fixed-letras-facturas {
+	position: absolute;
+	top: 40%;
+}
+/*Fin letras y Facturas*/
+/*Recaudaciones */
+.table_recaudaciones .cargar-mov {
+	text-align: center;
+	padding: 20px 0px;
+}
+
+.table_recaudaciones .cont-info-datos {
+	margin: 0px 10px;
+}
+
+/** Solicitudes **/
+.title-tabla-apertura-masiva-cuenta-modal {
+	color: #515151;
+	font-size: 20px;
+	font-family: "Roboto", sans-serif;
+	padding: 9px;
+	padding-left: 17px;
+	padding-top: 21px;
+}
+/** Fin Solicitudes**/
+#layer_btn_load_more {
+	text-align: center;
+}
+
+#layer_btn_load_more_detail {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+/* Mensajes de error para select-w */
+.select-w label.error {
+	color: #D81E05;
+	font-size: 14px !important;
+}
+
+.select-w label.error:before {
+	position: relative;
+	top: 2px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	content: "\e088";
+	margin-right: 6px;
+}
+
+/* ./ Mensajes de error para select-w*/
+.select-w label.information {
+	color: #000099;
+	font-size: 14px !important;
+}
+
+.select-w label.information:before {
+	position: relative;
+	top: 2px;
+	display: inline-block;
+	font-family: 'scotiabank';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	content: "\e935";
+	margin-right: 6px;
+}
+/* ./ Mensajes de error para select-w*/
+.g-input_design label.information {
+	color: #000099;
+	font-size: 14px !important;
+}
+
+.g-input_design label.information:before {
+	position: relative;
+	top: 2px;
+	display: inline-block;
+	font-family: 'scotiabank';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	content: "\e935";
+	margin-right: 6px;
+	margin-top: -10px;
+}
+/* ./ Mensajes de error para select-w*/
+
+/* ./ Mensajes de error para g-label_design */
+.g-label_design label.information {
+	color: #000099;
+	font-size: 14px !important;
+}
+
+.g-label_design label.information:before {
+	position: relative;
+	top: 2px;
+	display: inline-block;
+	font-family: 'scotiabank';
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1;
+	content: "\e935";
+	margin-right: 6px;
+}
+/* ./ Mensajes de error para g-label_design */
+
+/* Fix: Breadcumb con col-xs-12 en preparar orden */
+.preparar_orden .col-xs-12 .cont-breadcrumb {
+	padding: 0px;
+}
+
+#preparar_orden_listado .col-xs-12 .cont-breadcrumb .breadcrumb {
+	padding: 15px;
+}
+
+#div-crear-plantilla .laber_error_platipago {
+	position: relative;
+	top: 5px !important;
+}
+
+#div-crear-plantilla .table__align-top {
+	vertical-align: top;
+}
+
+/* Tabla con despliegue de detalles en detalle de ordenes procesadas*/
+#tableBodyProcessedOrdersDetail tr.tr-hidden {
+	background-color: #fafafa;
+	border-top: 1px solid #e2e2e2;
+}
+
+#tableBodyProcessedOrdersDetail tr.tr-hidden:hover {
+	background-color: #e8ebef;
+}
+
+#tableBodyProcessedOrdersDetail tr span.table__col {
+	display: none;
+}
+
+/*Fix: Autocompletar*/
+.ui-autocomplete {
+	max-height: 200px;
+	overflow-x: hidden;
+}
+
+.ui-autocomplete .ui-menu-item {
+	overflow: hidden;
+}
+
+.info-det li .recaudaciones_contextual_option {
+	font-size: 13px;
+	color: #8a8a8a;
+	font-weight: 700;
+	padding: 6px 0px 0px 0px;
+	display: inline-block;
+	width: 100%;
+	margin-left: 13px;
+}
+
+/* administracion edit perfil user */
+.cont-ac-list {
+	height: 60px
+}
+
+.cont-ac-list .check-vis {
+	right: 53px
+}
+
+.fixedTable-body .sect .table__body.table-scrlcpt .table__row.tr__n-3>td
+	{
+	height: 60px
+}
+
+.fixedTable-body .sect .table__body.table-scrlcpt .table__row.tr__n-4>td
+	{
+	height: 60px
+}
+/*.fixedTable-body .sect .table__body.table-scrlcpt .table__row .table__body .table__row:first-child { border-top: 0 }*/
+.accordeon-subtitle, .accordeon-subtitle2 {
+	display: table;
+	width: 100%;
+	padding: 8px 0;
+	background-color: transarent;
+	color: #7F7F7F;
+	font-size: 15px;
+	cursor: pointer;
+	position: relative;
+	padding-left: 53px;
+	height: 100%;
+	vertical-align: middle;
+}
+
+.accordeon-subtitle span, .accordeon-subtitle2 span {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 11px 0;
+	padding-left: 49px
+}
+
+.accordeon-content__n-3, .accordeon-content__n-4,
+	.accordeon-content__n-5 {
+	display: none
+}
+
+.agregado {
+	border-top: 0 !important;
+}
+
+.full-table-check .table__row {
+	height: 60px;
+	line-height: 1;
+}
+
+.checkboxn.checkbonabsolute {
+	position: absolute;
+	right: 50px;
+}
+
+.rb_pagos {
+	padding-top: 7px;
+}
+
+@media only screen and (max-width: 768px) {
+	.rb_pagos {
+		padding-top: 3px;
+	}
+}
+
+.sect.table__row:nth-child(even) {
+	background-color: white !important;
+}
+
+.sect.table__row:nth-child(even) {
+	background-color: #f5f5f5;
+}
+
+.fila_custom {
+	height: 60px !important;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.primer_nivel {
+	padding-left: 49px;
+}
+
+.segundo_nivel {
+	padding-left: 80px;
+}
+
+.tercer_nivel {
+	padding-left: 120px;
+	position: relative;
+}
+
+.cuarto_nivel {
+	padding-left: 145px;
+}
+
+.accordeon-subtitle span, .accordeon-subtitle2 span {
+	padding-left: 0px;
+}
+
+.accordeon-subtitle span, .accordeon-subtitle2 span {
+	font-weight: 100;
+}
+
+/******** RUC para el nav ********/
+.tabsScotiabank .dropdown-menu li>a .company-name {
+	padding-left: 0;
+}
+
+.tabsScotiabank .dropdown-menu li>a .company-name .company-ruc {
+	margin-top: 5px;
+}
+
+.tabsScotiabank .dropdown-menu li>a .company-icon {
+	font-size: 25px;
+}
+
+.tabsSubScotiabank-container .navbar-nav li .dropdown-menu li a.company-box
+	{
+	padding: 3px;
+}
+
+.item-global {
+	vertical-align: middle;
+}
+
+.ruc-label {
+	padding-left: 5px;
+}
+
+@media ( min-width : 768px) {
+	.ruc-label {
+		display: block;
+	}
+	.glob-menu.active {
+		max-width: 160px !important;
+		height: 30px;
+		padding-top: 10px;
+		min-width: 160px;
+	}
+	.glob-menu.active:after {
+		top: 10px;
+	}
+	.ruc-label {
+		padding-left: 5px;
+	}
+}
+
+@media ( min-width : 992px) {
+	.ruc-label {
+		padding-left: 5px;
+	}
+	.tabsScotiabank .dropdown-menu li>a.company-box {
+		height: 90px;
+	}
+	.tabsScotiabank .dropdown-menu li>a .company-name {
+		height: 80px;
+	}
+	.tabsSubScotiabank-container .navbar-nav li .dropdown-menu li a.company-box
+		{
+		height: 90px;
+	}
+	div.sel-empresas.tabsSubScotiabank-container {
+		width: auto;
+	}
+	nav.navbar.navbar-static-top.marginBottom-0.nav-empresas.nav-left-empr {
+		width: auto;
+	}
+	.ruc-label {
+		margin-left: 0;
+	}
+	.ruc-label {
+		padding-left: 18px;
+	}
+}
+
+@media ( min-width : 1020px) {
+	.glob-menu.active {
+		max-width: 360px !important;
+		min-width: 170px;
+	}
+}
+
+.simple-global-active {
+	color: #D81E05;
+}
+
+.glob-menu {
+	padding-right: 15px !important;
+}
+
+@media ( min-width : 992px) {
+	.sel-empresas .navbar-nav>li:first-child {
+		width: 82px;
+	}
+}
+
+@media ( min-width : 768px) {
+	.sel-empresas .navbar-nav>li:first-child {
+		width: 65px;
+	}
+	.sel-empresas .navbar-nav>li.dropdown {
+		width: auto;
+	}
+}
+
+.sel-empresas .navbar-nav>li.dropdown {
+	width: auto;
+	margin-left: -4px;
+}
+
+.sel-empresas .navbar-nav>li:first-child {
+	width: 65px;
+}
+/******** FIN RUC para el nav ********/
+
+/* <CC10 - Tipo de cambio especial> */
+.special-exchange_box.menu-box {
+	position: absolute;
+	right: 15px;
+	float: right;
+}
+
+.special-exchange_box {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+}
+
+.special-exchange_box .special-exchange {
+	font-size: 22px;
+
+	/*color: #D81E05;*/
+}
+
+.special-exchange_box.header-box .special-exchange--texto {
+	display: inline-block;
+	vertical-align: top;
+	color: #f4b1ac;
+}
+
+.special-exchange_box.header-box .special-exchange {
+	color: #fff;
+}
+
+.g-inlineblock-xs {
+	display: inline-block;
+}
+
+.special-exchange-message p:first-child {
+	background-color: #D4D4D4;
+}
+
+.special-exchange-message p {
+	padding: 4px;
+	padding-left: 15px;
+}
+
+.special-exchange-message p:last-child {
+	background-color: #F2F2F2;
+}
+
+.special-exchange-message {
+	border-left: 2px solid #4C4C4C;
+}
+/* -----Tipo de Cambio Especial */
+@media ( min-width : 1200px) .navCompanies {
+	top
+	:
+	 
+	75
+	px
+	;
+	
+
+}
+
+@media ( min-width : 992px) .header {
+	height
+	:
+	 
+	75
+	px
+	;
+	
+
+}
+
+.tipocambio-popupover {
+	background-color: white;
+}
+
+.session-info-esp-container {
+	font-style: bold;
+	margin-right: 5px;
+	padding: 0 8px;
+	text-align: right;
+	position: relative;
+}
+
+span.change-here {
+	vertical-align: super;
+	text-decoration: underline #ffffff;
+}
+
+.list-down.test-down {
+	vertical-align: super;
+	margin-right: 3px;
+}
+
+span.text-especial {
+	color: #666d6f;
+}
+
+span.special-exchange--texto {
+	vertical-align: super;
+}
+
+span.text-especial.txt-negrita {
+	font-weight: bold;
+}
+
+.tipocambioEspecial-flayout {
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	width: 356px;
+	padding: 11px;
+	position: absolute;
+	right: 9px;
+	top: 22px;
+}
+
+.session-info-container span {
+	margin-right: 3px;
+}
+
+span.icon-scotiabank_88_exchange.special-exchange.icon-color {
+	color: #d52b1e;
+	font-size: 22px;
+}
+
+span.icon-scotiabank_88_exchange.special-exchange.icon-color {
+	color: #d52b1e;
+	font-size: 22px;
+	vertical-align: sub;
+}
+
+.resize-header {
+	height: 75px !important;
+}
+
+.resize-menu {
+	top: 75px !important;
+}
+
+.session-info-container-spec {
+	text-align: right;
+	position: relative;
+	z-index: 99;
+}
+
+.session-info-container-spec {
+	padding: 0 8px;
+}
+
+.session-info-container-spec a {
+	color: #fdaaa4;
+	padding-right: 3px;
+}
+
+.session-info-container-spec span {
+	margin-right: 3px;
+}
+
+.session-info-container-spec {
+	float: right;
+	z-index: initial;
+}
+
+.resize-sub-header {
+	top: 65px !important;
+}
+
+.col-data-bank-new {
+	display: inline-block;
+	margin-top: 12px !important;
+}
+/**Fin Tipo Cambio Especial*/
+
+/** DETALLE DE TARJETA DE DEBITO **/
+}
+.akuTab__header.akuTab__header_red--is-active {
+	font-weight: normal;
+	font-size: 20px;
+	color: #d81e05;
+	border-bottom: 2px solid #d81e05;
+}
+
+.title_header_db .color-red {
+	color: #d81e05;
+}
+
+.title_header_db h3 {
+	font-size: 39px;
+	font-weight: 100;
+}
+
+@media ( max-width : 992px) {
+	.title_header_db h3 {
+		font-size: 20px;
+		font-weight: 400;
+	}
+}
+
+.title-cuentas .color-red {
+	color: #d81e05;
+}
+
+.tab_principales {
+	display: inline-block;
+	padding: 20px 30px;
+	cursor: pointer;
+	position: relative;
+	color: #d81e05;
+	border-bottom: 2px solid #d81e05;
+}
+/*SWITCH */
+.toggle { -
+	-width: 50px; -
+	-height: calc(var(- -width)/2); -
+	-border-radius: calc(var(- -height)/2);
+	display: inline-block;
+	cursor: pointer;
+}
+
+.toggle__input {
+	display: none;
+}
+
+.toggle__fill {
+	position: relative;
+	width: var(- -width);
+	height: var(- -height);
+	border-radius: var(- -border-radius);
+	background: #d81e05;
+	transition: background 0.2s;
+}
+
+.toggle__fill.disabled {
+	background: #ececec;
+}
+
+.toggle__input:checked ~ .toggle__fill {
+	background: #009578;
+}
+
+.toggle__fill::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: var(- -height);
+	width: var(- -height);
+	background: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+	border-radius: var(- -border-radius);
+	transition: transform 0.2s;
+}
+
+.toggle__input:checked ~ .toggle__fill::after {
+	transform: translateX(var(- -height));
+}
+
+.g-input_design.input-inactive {
+	display: none;
+}
+
+.bg-none {
+  background-color: transparent !important;
+}
+
+
+ /*Estilos Agendas*/
+.cont-modal-bancos {
+height: auto !important;
+background: #f4f4f4;
+border-radius: 6px;
+}
+.cont-modal-bancos .height-modal-table {
+min-height: 157px !important;
+}
+.cont-modal-bancos .height-modal-table .heigth-wrapper-table {
+height: 129px !important;
+}
+.cont-modal-bancos .height-modal-table .heigth-wrapper-table_abono {
+height: 111px !important;
+}
+.cont-modal-bancos .height-modal-constancia {
+min-height: 140px !important;
+}
+.cont-modal-bancos .height-modal-constancia .heigth-wrapper-constancia {
+height: 116px !important;
+}
+.cont-modal-bancos .cont-inputs-modal {
+padding: 0 3rem;
+}
+@media (max-width: 672px) {
+.cont-modal-bancos .height-modal-table {
+min-height: 174px !important;
+}
+}
+.modal-sub .input-destino {
+display: flex;
+}
+.modal-sub .input-destino .cont-input-modal {
+display: flex;
+margin: auto;
+}
+.modal-sub .input-destino .cont-input-modal .agenda, .modal-sub .input-destino .cont-input-modal .agregar {
+font-size: 24px;
+}
+.modal-sub .input-destino .cont-input-modal .agregar {
+margin-left: 1rem;
+}
+.modal-sub .content-message {
+padding: 3rem 6rem 0 !important;
+width: 100%;
+}
+.modal-sub .content-message .txt-area-modal {
+height: 50px;
+}
+.modal-sub .cont-grilla-modal {
+background-color: #f3f3f3;
+}
+.modal-sub th {
+border-top: none !important;
+}
+.modal-sub .nav_content_items {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.modal-sub .cont-agrega-modal, .modal-sub .cont-search-modal {
+margin-top: 1rem;
+background: #f3f3f3;
+}
+.modal-sub .cont-agrega-modal {
+padding: 0 4rem;
+}
+.modal-sub .cont-agrega-modal .cont-blank {
+background-color: #fff;
+padding: 10px 0;
+}
+.modal-sub .cont-agrega-modal .cont-blank .cont-btn-agregar {
+width: 100%;
+display: flex;
+justify-content: flex-end;
+align-items: center;
+margin-bottom: 1rem;
+padding: 0;
+}
+.modal-sub .cont-agrega-modal .cont-blank .cont-btn-agregar .btn-agregar {
+width: 90px;
+height: 40px;
+}
+.modal-sub .cont-agrega-modal .cont-blank .cont-btn-agregar .btn-agregar button {
+width: 100%;
+height: 100%;
+font-size: 12px;
+}
+.modal-sub .cont-search-modal .nav_content_items_search {
+display: flex;
+justify-content: flex-end;
+margin: 1rem 3rem;
+align-items: center;
+}
+.modal-sub .cont-tabla-agenda-modal {
+margin-top: 0 !important;
+}
+.modal-sub .cont-tabla-agenda-modal .tabla-agenda-modal {
+height: 150px !important;
+}
+.modal-sub .p-text-modal {
+padding: 0 2em;
+}
+.modal-sub .footer-buttons {
+word-spacing: 31px;
+}
+@media (max-width: 992px) {
+.modal-sub .content-message {
+padding: 3rem 15px 0 !important;
+}
+.modal-sub .footer-buttons .butt-confirmar {
+width: 100%;
+margin-bottom: 1rem;
+}
+.modal-sub .footer-buttons .butt-cancelar {
+width: 100%;
+}
+.modal-sub .modal-footer #btn-enviar {
+margin-bottom: 10px !important;
+}
+.modal-sub .modal-footer .btn-acepta-transferencia {
+margin-bottom: 10px;
+}
+}
+.modal-sub .checkboxn-modal {
+padding: 0 !important;
+margin: 0 !important;
+}
+.modal-sub .checkboxn-modal .check-modal:before {
+top: 3px !important;
+left: 1px !important;
+}
+.modal-sub .checkboxn-modal .check-modal:after {
+top: 3px !important;
+/* left: 83px;
+*/
+margin-left: 1px !important;
+}
+@media (max-width: 992px) {
+#modalEnlace .btn-acepta-transferencia {
+margin-bottom: 10px !important;
+}
+}
+
+#bandeja_dispositivos .exp-ortopt.dropdown-menu, 
+#detail_device .exp-ortopt.dropdown-menu { z-index: 1000; }
+
+#modalEnroll { overflow-y: auto; }

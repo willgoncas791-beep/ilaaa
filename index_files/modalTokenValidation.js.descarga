@@ -1,0 +1,617 @@
+/*!
+ * modal-token-validation.js (Bootstrap 3.4.1 + jQuery 3.5.1)
+ * Reutilizable, accesible y robusto
+ */
+(function (root, factory) {
+  // AMD (RequireJS)
+  if (typeof define === "function" && define.amd) {
+    define(["jquery", "bootstrap"], function ($) {
+      return factory($, root, root.document);
+    });
+    return;
+  }
+  // Fallback global
+  var api = factory(root.jQuery, root, root.document);
+  root.ModalTokenValidation = api;
+  if (typeof root.defineMain === "function") {
+    root.defineMain("modalTokenValidation", function () {
+      return api;
+    });
+  } else {
+    root.__modules = root.__modules || {};
+    root.__modules["modalTokenValidation"] = api;
+    if (typeof root.requireMain !== "function") {
+      root.requireMain = function (name) {
+        return root.__modules && root.__modules[name];
+      };
+    }
+  }
+})(typeof self !== "undefined" ? self : this, function ($, window, document) {
+  "use strict";
+
+  var NS = ".mtv"; // namespace de eventos
+
+  // Reglas (ligadas al HTML/proyecto)
+  var MIN_PWD = 8;
+  var MAX_PWD = 32;
+  var TOKEN_LEN = 6;
+
+  // Opciones sobre-escribibles por vista
+  var DEFAULTS = {
+    // Dónde llamar para validar
+    request: {
+      url: null, // <- establecer por vista
+      method: "POST",
+      contentType: "application/json",
+      requireFunction: null, // si usas $.fn.sendRequire con requireFunction/module_url
+      moduleUrl: null,
+    },
+    // Construye el payload para tu backend (ctx: { pwd, token, $root, api })
+    buildPayload: function (ctx) {
+      return {
+        password: ctx.pwd,
+        tokenNumber: ctx.token,
+        orders: [],
+        redirectTo: "",
+        numTabSelected: "",
+      };
+    },
+    // Parseadores por si tu backend usa otros nombres
+    parseCode: function (response) {
+      return String((response && response.code) || "");
+    },
+    parseMsg: function (response) {
+      return response && response.msg ? String(response.msg) : "";
+    },
+
+    // Callbacks
+    onSuccess: function (/*response, api*/) {},
+    onClientError: function (/*response, api*/) {}, // p.ej. 400
+    onServerError: function (/*response, api*/) {}, // p.ej. 5xx
+
+    // UX
+    messages: {
+      netError:
+        "No se pudo validar el token. Verifica tu conexión e inténtalo de nuevo.",
+    },
+    focus: "password", // 'password' | 'token' | 'auto'
+  };
+
+  function within($root, id) {
+    return $root.find('[id="' + id + '"]');
+  }
+
+  // -------- Clase de instancia (una por vista) --------
+  function Instance($ctx, options) {
+    this.options = $.extend(true, {}, DEFAULTS, options || {});
+    this.$root = $ctx.is("#modalTokenValidation")
+      ? $ctx
+      : $ctx.find("#modalTokenValidation");
+    if (!this.$root.length) return; // no está el fragmento en DOM
+
+    // El modal ES el root (bugfix: antes se buscaba #modalValidation, que no existe)
+    this.$modal = this.$root;
+
+    // Campos
+    this.$pwd = within(this.$root, "inputPasswordValidation");
+    this.$token = within(this.$root, "inputTokenValidation");
+    // Botones
+    this.$submit = within(this.$root, "btnTokenValidation");
+    this.$close = within(this.$root, "btnTokenValidationClose");
+    // Mensajes
+    this.$msgPwdHint = within(this.$root, "camsValidationMessage"); // required/length
+    this.$msgPwdErr400 = within(this.$root, "camsValidationMessage2"); // inválido (server)
+    this.$msgPwdErr = within(this.$root, "camsValidationMessage3"); // inesperado
+    this.$msgTokHint = within(this.$root, "tokenValidationMessage");
+    this.$msgTokErr400 = within(this.$root, "tokenValidationMessage2");
+    this.$msgTokErr = within(this.$root, "tokenValidationMessage3");
+
+    if (!this.$pwd.length || !this.$token.length || !this.$submit.length) {
+      if (window.console)
+        console.warn(
+          "[mtv] Fragmento incompleto: faltan elementos requeridos."
+        );
+      return;
+    }
+
+    this._init();
+  }
+
+  // ---------- Métodos privados ----------
+  Instance.prototype._init = function () {
+    var self = this;
+
+    // Atributos de inputs
+    this.$token.attr({
+      maxlength: TOKEN_LEN,
+      inputmode: "numeric",
+      pattern: "\\d*",
+    });
+    this.$pwd.attr({ autocomplete: "current-password", maxlength: MAX_PWD });
+
+    // Accesibilidad en contenedores de mensajes
+    this.$root.find(".validationMessage-container").attr("aria-live", "polite");
+
+    // Bind/Unbind idempotentes
+    this._unbind();
+    this._bind();
+
+    // Reset inicial
+    this.reset();
+
+    // Eventos del modal
+    this.$modal.on("hidden.bs.modal" + NS, function () {
+      self.reset();
+      self._setBusy(false);
+      self._blockModal(false);
+      self.$root.removeData("action");
+      self.$root.removeData("orders");
+    });
+
+    this.$modal.on("shown.bs.modal" + NS, function () {
+      // Foco inicial
+      var target = self.options.focus;
+      if (target === "auto") {
+        var which = self.$pwd.val() || "" ? self.$token : self.$pwd;
+        which.focus();
+      } else if (target === "token") {
+        self.$token.focus();
+      } else {
+        self.$pwd.focus();
+      }
+    });
+
+    // Guardar instancia
+    this.$root.data("mtvInstance", this);
+  };
+
+  Instance.prototype._bind = function () {
+    var self = this;
+
+    this.$pwd.on("input" + NS, function () {
+      self._updateMessages();
+      self._updateSubmitState();
+    });
+
+    this.$token.on("input" + NS, function () {
+      self._sanitizeToken();
+      self._updateMessages();
+      self._updateSubmitState();
+    });
+
+    this.$submit.on("click" + NS, function (e) {
+      e.preventDefault();
+      self._handleSubmit();
+    });
+
+    this.$close.on("click" + NS, function () {
+      self.reset();
+      self.close();
+    });
+
+    // Enter confirma
+    this.$pwd.add(this.$token).on("keydown" + NS, function (e) {
+      if (e.key === "Enter" && !self.$submit.prop("disabled")) {
+        e.preventDefault();
+        self.$submit.click();
+      }
+    });
+  };
+
+  Instance.prototype._unbind = function () {
+    this.$pwd && this.$pwd.off(NS);
+    this.$token && this.$token.off(NS);
+    this.$submit && this.$submit.off(NS);
+    this.$close && this.$close.off(NS);
+    this.$modal &&
+      this.$modal.off("hidden.bs.modal" + NS + " shown.bs.modal" + NS);
+  };
+
+  // Estado busy del botón submit
+  Instance.prototype._setBusy = function (isBusy) {
+    if (!this.$submit.length) return;
+    if (isBusy) {
+      if (!this.$submit.data("orig-html")) {
+        this.$submit.data("orig-html", this.$submit.html());
+      }
+      this.$submit
+        .prop("disabled", true)
+        .addClass("disabled")
+        .html(
+          '<span class="glyphicon glyphicon-refresh glyphicon-spin" aria-hidden="true"></span> ' +
+            this.$submit.text()
+        );
+    } else {
+      var orig = this.$submit.data("orig-html");
+      if (orig) this.$submit.html(orig);
+      this.$submit.prop("disabled", false).removeClass("disabled");
+    }
+  };
+
+  // Overlay y bloqueo integral del modal
+  Instance.prototype._ensureBusyOverlay = function () {
+    if (this.$busy && this.$busy.length) return;
+    // Asegura stacking y posición
+    if (this.$modal.css("position") === "static") {
+      this.$modal.css("position", "relative");
+    }
+    this.$busy = $(
+      '<div class="mtv-busy-overlay" aria-hidden="true">' +
+        '<span class="glyphicon glyphicon-refresh glyphicon-spin" aria-hidden="true"></span>' +
+        '<span class="sr-only">Procesando…</span>' +
+        "</div>"
+    ).hide();
+    this.$modal.append(this.$busy);
+  };
+
+  Instance.prototype._blockModal = function (flag, message) {
+    this._ensureBusyOverlay();
+
+    if (flag) {
+      this.$modal.addClass("is-busy").attr("aria-busy", "true");
+      if (message) {
+        // si quieres texto visible, puedes añadir un span o tooltip aquí
+      }
+      // Muestra overlay que captura eventos
+      this.$busy.show();
+
+      // Deshabilita controles y foco
+      this.$modal
+        .find("input, select, textarea, button, a")
+        .each(function () {
+          var $el = $(this);
+          $el.data("mtv-prev-tabindex", $el.attr("tabindex"));
+        })
+        .prop("disabled", true)
+        .attr("tabindex", -1)
+        .addClass("disabled");
+
+      // Evita cerrar por eventos internos mientras está bloqueado
+      this.$modal.on("hide.bs.modal" + NS, function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      });
+      this.$modal.on("keydown" + NS, function (e) {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+    } else {
+      this.$modal.removeClass("is-busy").removeAttr("aria-busy");
+      this.$busy.hide();
+
+      this.$modal
+        .find("input, select, textarea, button, a")
+        .prop("disabled", false)
+        .removeClass("disabled")
+        .each(function () {
+          var $el = $(this);
+          var prev = $el.data("mtv-prev-tabindex");
+          if (prev === undefined) {
+            $el.removeAttr("tabindex");
+          } else {
+            if (prev === null) $el.removeAttr("tabindex");
+            else $el.attr("tabindex", prev);
+            $el.removeData("mtv-prev-tabindex");
+          }
+        });
+
+      // Restablece handlers y estados
+      this.$modal.off("hide.bs.modal" + NS);
+      this.$modal.off("keydown" + NS);
+      this._updateSubmitState(); // vuelve a calcular si el submit debe habilitarse
+    }
+  };
+
+  Instance.prototype.lock = function (message) {
+    this._blockModal(true, message);
+  };
+
+  Instance.prototype.unlock = function () {
+    this._blockModal(false);
+  };
+
+  // Conveniencia: bloquea mientras corre un jqXHR/Promise y desbloquea al final
+  Instance.prototype.busyWhile = function (promise, message) {
+    var self = this;
+    this.lock(message);
+    return promise.always(function () {
+      self.unlock();
+    });
+  };
+
+  // Sanitización/validación
+  Instance.prototype._sanitizeToken = function () {
+    var clean = (this.$token.val() || "")
+      .replace(/\D/g, "")
+      .slice(0, TOKEN_LEN);
+    if (this.$token.val() !== clean) this.$token.val(clean);
+    return clean;
+  };
+
+  Instance.prototype._isPasswordValid = function () {
+    var v = this.$pwd.val() || "";
+    return v.length >= MIN_PWD && v.length <= MAX_PWD;
+  };
+
+  Instance.prototype._isTokenValid = function () {
+    return this._sanitizeToken().length === TOKEN_LEN;
+  };
+
+  // Mensajes y ARIA
+  Instance.prototype._hideAllMessages = function () {
+    this.$msgPwdHint.addClass("hidden");
+    this.$msgPwdErr400.addClass("hidden");
+    this.$msgPwdErr.addClass("hidden");
+    this.$msgTokHint.addClass("hidden");
+    this.$msgTokErr400.addClass("hidden");
+    this.$msgTokErr.addClass("hidden");
+    this.$pwd.removeAttr("aria-describedby");
+    this.$token.removeAttr("aria-describedby");
+  };
+
+  Instance.prototype._toggleHidden = function ($el, hidden) {
+    if (!$el || !$el.length) return;
+    $el.toggleClass("hidden", hidden);
+  };
+
+  Instance.prototype._linkDescribedBy = function ($input, $msg) {
+    if (!$input || !$input.length || !$msg || !$msg.length) return;
+    if ($msg.hasClass("hidden")) {
+      $input.removeAttr("aria-describedby");
+    } else {
+      $input.attr("aria-describedby", $msg.attr("id"));
+    }
+  };
+
+  Instance.prototype._updateMessages = function () {
+    // Mostrar hints sólo cuando el campo tiene contenido y está inválido
+    var showPwdHint =
+      !this._isPasswordValid() && !!(this.$pwd.val() || "").length;
+    var showTokHint =
+      !this._isTokenValid() && !!(this.$token.val() || "").length;
+
+    this._toggleHidden(this.$msgPwdHint, !showPwdHint);
+    this._toggleHidden(this.$msgTokHint, !showTokHint);
+
+    // Accesibilidad
+    this.$pwd.attr("aria-invalid", !this._isPasswordValid());
+    this.$token.attr("aria-invalid", !this._isTokenValid());
+    this._linkDescribedBy(this.$pwd, this.$msgPwdHint);
+    this._linkDescribedBy(this.$token, this.$msgTokHint);
+  };
+
+  Instance.prototype._updateSubmitState = function () {
+    var enable = this._isPasswordValid() && this._isTokenValid();
+    this.$submit.prop("disabled", !enable);
+  };
+
+  Instance.prototype._handleSubmit = function () {
+    var opt = this.options;
+    if (this.$submit.prop("disabled")) return;
+
+    // Validación cliente final
+    if (!this._isPasswordValid() || !this._isTokenValid()) {
+      // Fuerza hints en ambos si faltan reglas
+      this._updateMessages();
+      (!this._isPasswordValid() ? this.$pwd : this.$token).focus();
+      return;
+    }
+
+    // Busy + limpiar mensajes
+    this._setBusy(true);
+    this._hideAllMessages();
+
+    var ctx = {
+      pwd: this.$pwd.val(),
+      token: this._sanitizeToken(),
+      $root: this.$root,
+      api: this.api(),
+      action: this.$root.data("action") || "",
+    };
+    var payload = opt.buildPayload(ctx);
+    var self = this;
+
+    var onComplete = function () {
+      self._setBusy(false);
+      self._updateSubmitState();
+    };
+
+    var url =
+      typeof opt.request.url === "function"
+        ? opt.request.url(ctx)
+        : opt.request.url;
+    var method =
+      typeof opt.request.method === "function"
+        ? opt.request.method(ctx)
+        : opt.request.method || "POST";
+    var contentType =
+      typeof opt.request.contentType === "function"
+        ? opt.request.contentType(ctx)
+        : opt.request.contentType || "application/json";
+
+    if (
+      opt.request &&
+      typeof $.fn.sendRequire === "function" &&
+      opt.request.requireFunction
+    ) {
+      $.fn.sendRequire({
+        url: url,
+        requireFunction: opt.request.requireFunction,
+        module_url: opt.request.moduleUrl,
+        dataHttp: payload,
+        method: method,
+        contentType: contentType,
+        validResponse: function (response) {
+          self._processResponse(response);
+        },
+        error: function () {
+          self._networkError();
+        },
+        complete: onComplete,
+      });
+    } else {
+      // jQuery AJAX estándar
+      $.ajax({
+        url: url,
+        type: method,
+        data:
+          opt.request.contentType === "application/json"
+            ? JSON.stringify(payload)
+            : payload,
+        contentType: contentType,
+      })
+        .done(function (response) {
+          self._processResponse(response);
+        })
+        .fail(function () {
+          self._networkError();
+        })
+        .always(onComplete);
+    }
+  };
+
+  // Mapea la respuesta del backend a los spans existentes
+  Instance.prototype._processResponse = function (response) {
+    var code = this.options.parseCode(response);
+    var msg = this.options.parseMsg(response);
+
+    if (code === "200") {
+      if (typeof this.options.onSuccess === "function") {
+        this.options.onSuccess(response, this.api());
+      }
+      return;
+    }
+
+    if (code === "400") {
+      // Inválido (pwd/token) — mostramos ambos mensajes 400 para no revelar cuál falló
+      this._showFor(this.$pwd, this.$msgPwdErr400, msg);
+      this._showFor(this.$token, this.$msgTokErr400, msg);
+      if (typeof this.options.onClientError === "function") {
+        this.options.onClientError(response, this.api());
+      }
+      return;
+    }
+
+    // Otros (5xx, etc.)
+    var fallback = msg || "No se pudo completar la validación.";
+    this._showFor(this.$pwd, this.$msgPwdErr, fallback);
+    this._showFor(this.$token, this.$msgTokErr, fallback);
+    if (typeof this.options.onServerError === "function") {
+      this.options.onServerError(response, this.api());
+    }
+  };
+
+  // Mostrar mensaje y vincular aria-describedby
+  Instance.prototype._showFor = function ($input, $msg, text) {
+    if (!$msg.length) return;
+    if (text) $msg.text(text);
+    $msg.removeClass("hidden");
+    if ($input && $input.length) {
+      $input.attr("aria-invalid", "true");
+      $input.attr("aria-describedby", $msg.attr("id"));
+      $input.focus();
+    }
+  };
+
+  Instance.prototype._networkError = function () {
+    var text =
+      (this.options.messages && this.options.messages.netError) ||
+      "Error de red.";
+    this._showFor(this.$pwd, this.$msgPwdErr, text);
+    this._showFor(this.$token, this.$msgTokErr, text);
+  };
+
+  // ---------- API pública por instancia ----------
+  Instance.prototype.open = function () {
+    // Más seguro durante validación
+    this.$modal.modal({ backdrop: "static", keyboard: false, show: true });
+  };
+  Instance.prototype.close = function () {
+    this.$modal.modal("hide");
+  };
+  Instance.prototype.reset = function () {
+    this.$pwd.val("");
+    this.$token.val("");
+    this._hideAllMessages();
+    this._updateMessages();
+    this._updateSubmitState();
+  };
+  Instance.prototype.destroy = function () {
+    this._unbind();
+    this.$root.removeData("mtvInstance");
+  };
+
+  // Permite forzar muestra de error desde la vista:
+  // api.showError({ field: 'password'|'token'|'global', type: 'invalid'|'unexpected', message })
+  Instance.prototype.showError = function (err) {
+    this._hideAllMessages();
+    var type = (err && err.type) || "unexpected";
+    var text = err && err.message;
+    if (!err || err.field === "global") {
+      this._showFor(
+        this.$pwd,
+        type === "invalid" ? this.$msgPwdErr400 : this.$msgPwdErr,
+        text
+      );
+      this._showFor(
+        this.$token,
+        type === "invalid" ? this.$msgTokErr400 : this.$msgTokErr,
+        text
+      );
+      return;
+    }
+    if (err.field === "password") {
+      this._showFor(
+        this.$pwd,
+        type === "invalid" ? this.$msgPwdErr400 : this.$msgPwdErr,
+        text
+      );
+      return;
+    }
+    if (err.field === "token") {
+      this._showFor(
+        this.$token,
+        type === "invalid" ? this.$msgTokErr400 : this.$msgTokErr,
+        text
+      );
+      return;
+    }
+  };
+
+  Instance.prototype.api = function () {
+    return {
+      open: this.open.bind(this),
+      close: this.close.bind(this),
+      reset: this.reset.bind(this),
+      destroy: this.destroy.bind(this),
+      root: this.$root,
+      showError: this.showError.bind(this),
+      lock: this.lock.bind(this),
+      unlock: this.unlock.bind(this),
+      busyWhile: this.busyWhile.bind(this),
+    };
+  };
+
+  // ---------- Manager expuesto (attach/get) ----------
+  var Manager = {
+    attach: function (ctx, options) {
+      var $ctx = ctx instanceof $ ? ctx : $(ctx);
+      var existing = this.get($ctx);
+      if (existing) return existing;
+      var inst = new Instance($ctx, options);
+      return inst && inst.api ? inst.api() : null;
+    },
+    get: function (ctx) {
+      var $ctx = ctx instanceof $ ? ctx : $(ctx);
+      var $root = $ctx.is("#modalTokenValidation")
+        ? $ctx
+        : $ctx.find("#modalTokenValidation");
+      var inst = $root.data("mtvInstance");
+      return inst ? inst.api() : null;
+    },
+  };
+
+  return Manager;
+});

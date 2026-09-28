@@ -1,0 +1,82 @@
+var requireMain = requirejs.config({
+  baseUrl: staticPath + "/resources/js",
+  urlArgs: "v=" + jsVersion,
+  waitSeconds: 200,
+  paths: {
+    text: "lib/text",
+    jquery: "lib/jquery-3.7.1.min",
+    "jquery-ui": "lib/jquery-ui.min",
+    bootstrap: "lib/bootstrap.min",
+    hammer: "lib/hammer.min",
+    "bootstrap-select": "lib/bootstrap-select.min",
+    d3: "lib/d3.min",
+    c3: "lib/c3.min",
+    forma_pago: "data/forma_pago",
+    datepicker_valid: "lib/jquery.ui.datepicker.validation.min",
+    forms: "data/forms",
+    handlebars: "lib/handlebars-latest",
+    moment: "lib/moment",
+    "jquery.validated": "lib/jquery.validated",
+    utilities: "lib/utilities",
+    tbk: "lib/tbk",
+    cambioclave: "cambioclave/cambioclave",
+    notifications: "notificaciones/890_notificaciones",
+    terminos: "terminos/terminos",
+    akuTab: "lib/aku-tab",
+    scrollto: "lib/scrollto",
+    datepicker: "lib/datepicker",
+    html2canvas: "lib/html2canvas",
+    globalMethods: "tbk/globalMethods",
+    requestHome: "tbk/requestHome",
+    systemInf: "tbk/systemInf",
+    methodsHome: "tbk/methodsHome",
+    autocompleteUtil: "tbk/autocompleteUtil",
+    modalTokenValidation: "tbk/modalTokenValidation",
+    regexUtils: "tbk/regexUtils",
+    formsUtil: "tbk/formsUtil",
+    orderMethods: "tbk/orderMethods",
+    knockout: "lib/knockout-3.4.0",
+    table: "data/table",
+    companiestabdata: "data/companiestab_data",
+    menucompanydata: "data/menucompany_data",
+    durandal: "lib/durandal",
+    fingerprinting: "fingerprinting/fingerprint",
+    murmurhash3: "hash/murmurhash3",
+    hashcode: "hash/java_hashcode",
+  },
+  shim: {
+    utilities: {
+      deps: ["jquery", "bootstrap-select", "moment", "html2canvas", "tbk"],
+      exports: "jQuery",
+    },
+    bootstrap: {
+      deps: ["jquery"],
+      exports: "jQuery",
+    },
+    "bootstrap-select": {
+      deps: ["bootstrap"],
+    },
+    c3: {
+      deps: ["d3"],
+    },
+    handlebars: {
+      exports: "Handlebars",
+    },
+    datepicker_valid: {
+      deps: ["jquery.validated"],
+    },
+    html2canvas: {
+      deps: ["jquery"],
+      exports: "jQuery",
+    },
+  },
+});
+
+require(["jquery"], function($) {
+  window.$ = $;
+  window.jQuery = $;
+});
+
+require(["jquery", "modalTokenValidation"], function ($, modal) {
+  modal.init && modal.init();
+});

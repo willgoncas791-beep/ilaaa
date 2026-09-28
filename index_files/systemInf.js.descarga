@@ -1,0 +1,218 @@
+var systemInf = {
+	EXTENSION_XLS : 'xls',
+	EXTENSION_XLSM : 'xlsm',
+	SO_WINDOWS : 'windows',
+	SO_WINDOWS_PHONE : 'Windows Phone',
+	SO_ANDROID : 'Android',
+	SO_IOS : 'iOS',
+	NAVIGATOR_FIREFOX : 'firefox',
+	NAVIGATOR_CHROME : 'chrome',
+	NAVIGATOR_SAFARI : 'safari',
+	NAVIGATOR_OPERA : 'opera',
+	NAVIGATOR_IE : 'ie',
+	DEFAULT : 'default'
+}
+
+// INICIO: EXTRAIDO DE TBK.JS
+
+// Mijail: Tipos de navegadores
+// Opera 8.0+
+var isOpera = (!!window.opr && !!opr.addons) || !!window.opera
+		|| navigator.userAgent.indexOf(' OPR/') >= 0;
+
+// Firefox 1.0+
+var isFirefox = typeof InstallTrigger !== 'undefined';
+
+// Safari 3.0+ "[object HTMLElementConstructor]"
+var isSafari = /constructor/i.test(window.HTMLElement) || (function(p) {
+	return p.toString() === "[object SafariRemoteNotification]";
+})(!window['safari'] || safari.pushNotification);
+
+// Internet Explorer 611
+var isIE = /* @cc_on!@ */false || !!document.documentMode;
+
+// Edge 20+
+var isEdge = !isIE && !!window.StyleMedia;
+
+// Chrome 1+
+var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+// Blink engine detection
+var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+function isAndroidOS() {
+
+	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+	if (/android/i.test(userAgent)) {
+		return true;
+	}
+	return false;
+}
+
+var isAnroidOS = isAndroidOS();
+
+// Funcion no usada actualmente
+function getMobileOperatingSystem() {
+
+	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+	// Windows Phone must come first because its UA also contains "Android"
+	if (/windows phone/i.test(userAgent)) {
+		return systemInf.SO_WINDOWS_PHONE;// "Windows Phone";
+	}
+
+	if (/android/i.test(userAgent)) {
+		return systemInf.SO_ANDROID;// "Android";
+	}
+
+	// iOS detection from: http://stackoverflow.com/a/9039885/177710
+	if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+		return systemInf.SO_IOS;// "iOS";
+	}
+
+	return "unknown";
+}
+
+function isIpad() {
+	var deviceAgent = navigator.userAgent;
+	// Set var to iOS device name or null
+	var ios = deviceAgent.toLowerCase().match(/(iphone|ipod|ipad)/);
+
+	var esIpad = '0';
+	if (ios) {
+		esIpad = '1';
+	}
+	return esIpad;
+}
+
+function contentTypeForNavigator() {
+
+	var contentType;
+
+	if (isAnroidOS && isChrome) {
+		console.log("Estad ud en navegador chrome en Android")
+		contentType = contentType = "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet";
+		return contentType;
+	} else if (isAnroidOS && isFirefox) {
+		console.log("Estad ud en navegador chrome em Android")
+		contentType = contentType = "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet";
+		return contentType;
+	}
+
+	if (isFirefox) {
+		// console.log("Estad ud en navegador Firefox")
+		contentType = "application/vnd.msexcel"
+	} else if (isChrome) {
+		// contentType =
+		// "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"
+	} else if (isSafari) {
+		// console.log("Estad ud en navegador Safari")
+		contentType = "application/octetstream"
+	} else if (isOpera) {
+		// console.log("Estad ud en navegador Opera")
+		// averiguar
+		contentType = "application/octetstream"
+	} else if (isIE) {
+		// console.log("Estad ud en navegador IE")
+		// averiguar
+		contentType = "application/vnd.msexcel";
+	} else {
+		// console.log("No se ha reconocido el tipo de navegador para exportar")
+		// Default
+		contentType = "application/vnd.msexcel";
+	}
+
+	return contentType;
+}
+
+// FIN: EXTRAIDO DE TBK.JS
+
+systemInf.CONTENTYPES = {};
+
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS] = {};
+
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.SO_ANDROID] = {};
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.SO_ANDROID][systemInf.NAVIGATOR_FIREFOX] = 'application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet';
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.SO_ANDROID][systemInf.NAVIGATOR_CHROME] = 'application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet';
+
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.NAVIGATOR_CHROME] = 'application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet';
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.NAVIGATOR_FIREFOX] = 'application/vnd.msexcel';
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.NAVIGATOR_SAFARI] = 'application/octetstream';
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.NAVIGATOR_OPERA] = 'application/octetstream';
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.NAVIGATOR_IE] = 'application/vnd.msexcel';
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.NAVIGATOR_IE] = 'application/vnd.msexcel';
+
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLS][systemInf.DEFAULT] = 'application/vnd.msexcel';
+
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLSM] = {};
+systemInf.CONTENTYPES[systemInf.EXTENSION_XLSM][systemInf.DEFAULT] = 'application/vnd.msexcel.sheet.macroEnabled.12';
+
+systemInf.getMobileOperatingSystem = function() {
+	getMobileOperatingSystem();
+}
+
+systemInf.getNavigatorName = function() {
+
+	var isOpera = (!!window.opr && !!opr.addons) || !!window.opera
+			|| navigator.userAgent.indexOf(' OPR/') >= 0;
+	var isFirefox = typeof InstallTrigger !== 'undefined';
+	// Internet Explorer 611
+	var isIE = /* @cc_on!@ */false || !!document.documentMode;
+	// Edge 20+
+	var isEdge = !isIE && !!window.StyleMedia;
+	// Chrome 1+
+	var isChrome = !!window.chrome && !!window.chrome.webstore;
+	// Blink engine detection
+	var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+	if (isOpera) {
+		return systemInf.NAVIGATOR_OPERA;
+	} else if (isChrome) {
+		return systemInf.NAVIGATOR_CHROME;
+	} else if (isFirefox) {
+		return systemInf.NAVIGATOR_FIREFOX;
+	} else if (isSafari) {
+		return systemInf.NAVIGATOR_SAFARI;
+	} else if (isIE) {
+		return systemInf.NAVIGATOR_IE;
+	}
+
+	return "unknown";
+}
+// validacion solo para android
+
+// Metodo en contexto.
+systemInf.getContentType = function(_params) {
+
+	var params = {
+		SO : systemInf.getMobileOperatingSystem(),
+		NAVIGATOR : systemInf.getNavigatorName(),
+		EXTENSION : systemInf.EXTENSION_XLS
+	}
+
+	globalMethod.MergeRecursive(params, _params);
+
+	console.debug("PARAMETROS INICIALES:", params);
+	// Busca por EXTENSION
+	if (systemInf.CONTENTYPES[params.EXTENSION] !== undefined) {
+		// Busca por EXTENSION y SO
+		if (systemInf.CONTENTYPES[params.EXTENSION][params.SO] !== undefined) {
+			// Busca por EXTENSION, SO y NAVEGADOR
+			if (systemInf.CONTENTYPES[params.EXTENSION][params.SO][params.NAVIGATOR] !== undefined) {
+				return systemInf.CONTENTYPES[params.EXTENSION][params.SO][params.NAVIGATOR];
+			} else if (!globalMethod
+					.isObject(systemInf.CONTENTYPES[params.EXTENSION][params.SO])) {
+				return systemInf.CONTENTYPES[params.EXTENSION][params.SO];
+			}
+		} else if (!globalMethod
+				.isObject(systemInf.CONTENTYPES[params.EXTENSION])) {
+			return systemInf.CONTENTYPES[params.EXTENSION];
+		}
+		// BUSCA POR EXTENSION Y NAVEGADOR
+		if (systemInf.CONTENTYPES[params.EXTENSION][params.NAVIGATOR] !== undefined) {
+			return systemInf.CONTENTYPES[params.EXTENSION][params.NAVIGATOR];
+		}
+	}
+	return systemInf.CONTENTYPES[params.EXTENSION][systemInf.DEFAULT];
+}

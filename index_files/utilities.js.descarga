@@ -1,0 +1,1226 @@
+$(function() {
+
+	var moment = require('moment');
+
+	// ----- TOKEN DE SESSION EN AJAX -----
+	// Elvis Perez: Injectar atributos de seguridad al enviar una llamada ajax.
+	var httpToken = ConstantsThymeleaf.CSRF_TOKEN;
+	var httpHeader = ConstantsThymeleaf.CSRF_HEADER;
+	
+	var CONST_CROSS_SESSION = 502;
+
+	$(document).ajaxSend(function(event, jqxhr, settings) {
+		var ruc = $("#navbar-collapse-1 .dropdown-toggle.glob-menu.no-navigable.active").next().find("span").text();
+		if(!!httpHeader && !!httpToken){
+			jqxhr.setRequestHeader(httpHeader, httpToken);
+		}
+		if(ruc){
+			jqxhr.setRequestHeader("X-AUTH-COMPANY", ruc);
+		}
+		if(ConstantsThymeleaf.X_KEY_AUTH_KEY){
+			var xKeyAuth;
+			if (typeof (Storage) !== "undefined") {
+				xKeyAuth = localStorage.getItem(ConstantsThymeleaf.X_KEY_AUTH_KEY);
+			}else{
+				xKeyAuth = globalMethod.getCookie(ConstantsThymeleaf.X_KEY_AUTH_KEY);
+			}
+			if(xKeyAuth){
+				jqxhr.setRequestHeader(ConstantsThymeleaf.X_KEY_AUTH_KEY, xKeyAuth);
+			}
+		}
+		var correlationId = tbk.SecurityContext.value();
+		if(!!correlationId){
+			jqxhr.setRequestHeader('x-correlation-id', correlationId);
+		}
+	});
+
+	// Elvis Perez: Componente Loader
+	$.fn.createLoaderComponent = function(params) {
+
+		var _params = {
+			time : 1000,
+			message : '',
+			state : ''
+		}
+		$.extend(_params, params);
+		var interval = null;
+		var component = {
+			autoHide : function(callback) {
+				var obj = this;
+				var timeWaiting = 0;
+				clearInterval(interval);
+				interval = setInterval(
+						function() {
+							timeWaiting += _params.time;
+							if (document.getElementById("ajax_loader").style.display === 'block'
+									|| timeWaiting > 5000) {
+								obj.hide();
+								clearInterval(interval);
+								if (callback) {
+									callback();
+								}
+							}
+						}, _params.time);
+			},
+			setState : function(state) {
+				_params.state = state;
+				return this;
+			},
+			setMessage : function(message) {
+				_params.message = message;
+				return this;
+			},
+			setTime : function(time) {
+				_params.time = time;
+				return this;
+			},
+			getTime : function() {
+				return _params.time;
+			},
+			show : function(mensaje) {
+				if (_params.state !== LoaderComponent.STATE_ONLY_HIDE) {
+					if (!!mensaje) {
+						document.getElementById("ajax_loader-msg").innerHTML = mensaje;
+					} else {
+						document.getElementById("ajax_loader-msg").innerHTML = _params.message;
+					}
+					document.getElementById("ajax_loader").style.display = 'block';
+				}
+			},
+			hide : function() {
+				if (_params.state !== LoaderComponent.STATE_ONLY_SHOW) {
+					document.getElementById("ajax_loader").style.display = 'none';
+				}
+			},
+			isShow : function() {
+				return document.getElementById("ajax_loader").style.display == 'block';
+			}
+		}
+		return component;
+	}
+
+	$.fn.loaderComponent = $.fn.createLoaderComponent();
+
+	// Accion automatica al salir de pantalla.
+	$(window).bind("beforeunload", function() {
+		$.fn.loaderComponent.show();
+		$("#modalSesionExpire").modal('hide');
+		if ($.fn.objectInactiviy) {
+			$.fn.objectInactiviy.cancelTimeOutTimer();
+		}
+	});
+	$(window).bind("pageshow", function() {
+		$.fn.loaderComponent.hide();
+	});
+	// ----- CONFIGURACION GLOBAL DEL ERROR AJAX ------
+
+	if(ConstantsThymeleaf.correlationid_ajax_enabled === "true") {
+		console.log("Control ajax de correlationid.");
+		$(document).ajaxSuccess(function(event, xhr, settings) {
+			tbk.SecurityContext.handleAuditAjax(xhr);
+		});
+	}
+	
+	// Elvis Perez: Funcion por defecto al ocurrir un error en una peticion
+	// ajax.
+	$(document).ajaxError(function(event, request, settings) {
+		$.fn.modalLoad("hide");
+		if (request.status === 403 || request.status === 401) {
+			var data = {};
+			$.fn.httpData(data);
+			$.fn.submitForm(URLRequests.URL_LOGOUT, data);
+		}else if(request.status === 501){
+			var delay = request.getResponseHeader("delay");
+			var mode = request.getResponseHeader("mode");
+			if("success" === mode){
+				$.fn.modalSuccess(request.responseText, undefined, delay);
+			}else{
+				$.fn.modalErrorInesperado(request.responseText, undefined, delay);
+			}
+		}else if(CONST_CROSS_SESSION == request.status){
+			$.fn.modalErrorInesperado(ConstantsThymeleaf.unexpected_error_operation);
+		}else if(!settings.suppressGlobalErrorHandler){
+			$.fn.modalErrorInesperado(ConstantsThymeleaf.unexpected_error_operation);
+		}else{
+			console.error(event, request, settings);
+		}
+	});
+
+	// Elvis Perez: Control de Autocierre de sesion
+	$.fn.inactivityControl = function($dialog, $inputText, timoutWarning,
+			timoutNow, logoutFunction, active, options) {
+
+		var thisObject = {
+			warningTimer : null,
+			timeoutTimer : null,
+			secondsGlobal : timoutNow,
+			secondsTimer : null,
+			secondsWaiting : null,
+			isInactive : false,
+			isLive : true
+		}
+		
+		if(options === undefined){options = {};}
+		var _options = {
+			beforeShow: function(dialog){
+				dialog.modal('show');
+			}
+		}
+		$.extend(_options, options);
+		
+		if (active !== undefined) {
+			thisObject.isInactive = !active;
+		}
+
+		var ObjectInactivity = {
+
+			// Start warning timer.
+			startWarningTimer : function() {
+				if (!thisObject.isInactive) {
+					thisObject.isLive = true;
+					$object = this;
+					$object.cancelTimeOutTimer();
+					// ---
+					thisObject.secondsTimer = timoutWarning;
+					thisObject.warningTimer = setInterval(function() {
+						console.debug("secondsTimer: " + thisObject.secondsTimer);
+						if (--thisObject.secondsTimer <= 0) {
+							$object.idleWarning();
+							clearInterval(thisObject.warningTimer);
+						}
+					}, 1000);
+				}
+			},
+
+			// Reset timers.
+			cancelTimeOutTimer : function() {
+				$dialog.modal('hide');
+				clearInterval(thisObject.warningTimer);
+				clearInterval(thisObject.timeoutTimer);
+			},
+			setInactive : function(inactive) {
+				thisObject.isInactive = inactive;
+			},
+			// Reset timers.
+			resetTimeOutTimer : function() {
+				this.startWarningTimer();
+			},
+
+			// Show idle timeout warning dialog.
+			idleWarning : function() {
+				$object = this;
+				$object.cancelTimeOutTimer();
+				// ---
+				thisObject.secondsWaiting = thisObject.secondsGlobal;
+				$inputText.html(thisObject.secondsGlobal);
+				thisObject.timeoutTimer = setInterval(function() {
+					console.debug("secondsWaiting: " + thisObject.secondsWaiting);
+					thisObject.secondsWaiting = thisObject.secondsWaiting - 1;
+					$inputText.html(thisObject.secondsWaiting);
+					if (thisObject.secondsWaiting <= 0) {
+						$object.idleTimeout();
+						clearInterval(thisObject.timeoutTimer);
+					}
+				}, 1000);
+				_options.beforeShow($dialog);
+				thisObject.isLive = false;
+			},
+
+			// Logout the user.
+			idleTimeout : logoutFunction,
+
+			isModalShow : function() {
+				return !thisObject.isLive;
+			}
+		}
+
+		return ObjectInactivity;
+	}
+
+	// ------- AMARRAR SCROLL A DIV
+
+	// Elvis Perez: Desplaza un div de forma paralela al scroll de un
+	// componente.
+	$.fn.configScrollableTable = function(scrollable) {
+		$this = $(this);
+		$(scrollable).on('scroll', function() {
+			st = $(this).scrollLeft();
+			$this.css('left', -st);
+		});
+	}
+
+	// Elvis Perez: Componente Pop Over
+
+	$layer = $("#layer_popover");
+
+	function ocultarPopOver() {
+		$layer.hide();
+		$(".dropdown.dropdown_custom.open").removeClass("open");
+		$(".tbk-popover").slideUp();
+	}
+
+	$layer.on("click", function() {
+		ocultarPopOver();
+	});
+
+	$("body").on("click", ".cajilla a", function() {
+		ocultarPopOver();
+	});
+
+	$.fn.tbkPopOver = function(callback) {
+		$comp = $(this);
+		if ($comp.hasClass('dropdown') && $comp.hasClass('dropdown_custom')) {
+			$comp.addClass("open");
+		} else {
+			$comp.removeClass("hidden").addClass("tbk-popover");
+			$comp.slideDown();
+		}
+		$layer.show();
+		if (callback) {
+			callback();
+		}
+		return $comp;
+	}
+
+	// Elvis Perez: Ordenacion de divs
+	$.fn.utilSort = function(params) {
+		$rows = $(this);
+		var _params = {
+			orderType : ConstantsSpaceLocal.ORDER_ASC,
+			typeCol : ConstantsSpaceLocal.TYPE_STRING,
+			query : "*",
+			indexCol : 1
+		}
+		$.extend(_params, params);
+		// Conversion por tipo
+		_params.query += ":not(.hide):nth-child(" + _params.indexCol + ")";
+		var valOne = $(this).find(_params.query).text().trim();
+		$rows.each(function() {
+			$(this).data('orderby', $(this).find(_params.query).text().trim());
+		});
+		$rows.sort(function(a, b) {
+			var valA = convertType($(a).data('orderby'), _params.typeCol);
+			var valB = convertType($(b).data('orderby'), _params.typeCol);
+			return (valA === valB) ? 0 : (valA < valB) ? 1 * _params.orderType
+					: -1 * _params.orderType;
+		});
+		return $rows;
+	};
+
+	// ----- REDIRECCIONES --------
+
+	// Lanza el mensaje de error inesperado cuando se presiona el enlace.
+	$("body")
+			.on(
+					"click",
+					"a.router-error",
+					function(e) {
+						e.preventDefault();
+						$.fn
+								.modalErrorInesperado(ConstantsThymeleaf.unexpected_error_operation);
+					})
+
+	// Elvis Perez: Inhabilita redireccion de enlace.
+	$("body").on("click", "a.no-navigable", function(e) {
+		e.preventDefault();
+	});
+
+	// Elvis Perez: Desactiva el loader luego de enviar a un enlace externo.
+	$("body").on("click", "a.redirection-link", function(e) {
+		$.fn.desactivateLoader();
+	});
+
+	// Luis Llactahuaman.
+	$("body").on("click", "a.download-link", function(e) {
+		setTimeout(function() {
+			$("#ajax_loader").hide();
+		}, $(this).data('timeOut'));
+	});
+
+	/**
+	 * Elvis Perez: Envia todos los atributos data-* a la url especificada en su
+	 * atributo href que contenga la etiqueta <a>.
+	 * 
+	 */
+	$("body").on("click", "a.send-data", function(e) {
+		e.preventDefault();
+		var data = $(this).data();
+		var state = data.loaderMode ? data.loaderMode : '';
+		delete data.loaderMode;
+		$.fn.httpData(data);
+		$.fn.submitForm($(this).attr("href"), data);
+		$.fn.loaderComponent.setState(state).autoHide();
+	});
+
+	// ------- FUNCION GENERICA PARA EXPORTS --------
+	// Elvis Perez: Metodo general para exportar reportes.
+	$.fn.objectExport = function(params, urlExport) {
+
+		var _params = {
+			contentType : contentTypeForNavigator(),
+			fileName : null,
+			urlExport : urlExport,
+			dataExport: null
+		};
+
+		$.extend(_params, params);
+
+		var urlExport = _params.urlExport;
+		delete _params.urlExport;
+
+		var objectExport = {
+			sendTo : function(params) {
+				var data = {};
+				$.extend(data, _params);
+				$.extend(data, params);
+				$.fn.httpData(data);
+				$.fn.submitForm(urlExport, data);
+				$.fn.modalLoad('show');
+				$.fn.desactivateLoader();
+			},
+			appendData : function(data) {
+				$.extend(_params, data);
+			},
+			setContentType : function(value) {
+				_params.contentType = value;
+			},
+			setDataExport : function(value, normalizar) {
+				value = normalizarJson(value);
+				_params.dataExport = value;
+			},
+			setFileName : function(value) {
+				_params.fileName = value;
+			},
+			setUrlExport : function(value) {
+				urlExport = value;
+			},
+			debug : function() {
+				console.debug(urlExport, _params);
+			}
+		}
+
+		return objectExport;
+	}
+
+	// ------- TERMINOS Y CONDICIONES
+	// Elvis Perez: Metodo que recarga contenido de terminos y condiciones.
+	$("body").on(
+			"show.bs.modal",
+			"#modal-terms-conditions",
+			function(e) {
+				var link = $(e.relatedTarget);
+				$(this).find(".modal-body").load(
+						URLRequests.REQUEST_TERMS_AND_CONDITIONS);
+			});
+
+	$("body").on("click", "#terminos-back", function(e) {
+		e.preventDefault();
+		$("#modal-terms-conditions").modal('hide');
+	});
+
+	// ----- PARCHE SELECTS
+	// Elvis Perez: Mejorar comportamiento de componentes selectpicker.
+	$(".selectpicker").selectpicker({
+		style : "scotiabankselect"
+	});
+
+	$(".select-container .btn.dropdown-toggle").removeClass("btn-default")
+			.addClass("scotiabankselect");
+	$(".btn-group.bootstrap-select.cuentas .btn.dropdown-toggle").removeClass(
+			"btn-default").addClass("scotiabankselect");
+
+	// ------- CARGADOR DE MODULOS
+
+	/*
+	 * Elvis Perez 01dic2016
+	 * 
+	 * Para todos los enlaces que tengan el class router El atributo href del
+	 * enlace, cumple las siguientes condiciones:
+	 * 
+	 * 1ra forma: #cambioclave -> js-module: cambioclave/cambioclave , view:
+	 * cambioclave
+	 * 
+	 * 2da forma: #saldos-consulta -> js-module: saldos/saldos , view:
+	 * consulta/saldos
+	 * 
+	 * Actualmente esta preparado para ejecutar automaticamente las siguientes
+	 * funciones del "modulo invocado":
+	 * 
+	 * compositionComplete() atached() validations()
+	 */
+	$("body").on("click", "a.router", function(e) {
+		e.preventDefault();
+		var toks = $(this).attr('href').split("-");
+		var lang = $(this).attr('data-lang');
+		var dataHttp = {
+			lang : ConstantsThymeleaf.language
+		};
+		$.fn.httpData(dataHttp);
+		var requireContext = $.fn.getRequireContext(toks[1]);
+		toks[1] = requireContext.context;
+		$.fn.moduleComplete(toks, dataHttp, requireContext.requireFunction, undefined, requireContext.prefix);
+	});
+	
+	$.fn.getRequireContext = function(context){
+		
+		var requireContext = {
+			context: context,
+			requireFunction: null,
+			prefix: '/menu/'
+		}
+		
+		if (context === "consultas") {
+			requireContext.requireFunction = requireConsultas;
+		} else if (context === "txpagos") {
+			requireContext.requireFunction = requireTxPagos;
+		} else if (context === "txtransferencias") {
+			requireContext.requireFunction = requireTxTransferencias;
+		} else if (context === "txtransferenciasdis") {
+			requireContext.requireFunction = requireTxTransferenciasDis;
+		} else if (context === "txletrasfacturas") {
+			requireContext.requireFunction = requireTxLetrasFacturas;
+		} else if (context === "administracion") {
+			requireContext.requireFunction = requireAdministracion;
+		} else if (context === "txordenes") {
+			requireContext.requireFunction = requireOrdenesTbk;
+		} else if (context === "txsolicitudes") {
+			requireContext.requireFunction = requireSolicitudesTbk;
+		} else if (context === "txcreditos") {
+			requireContext.requireFunction = requireCreditosTbk;
+		} else if (context === "txrecaudaciones") {
+			requireContext.requireFunction = requireRecaudacionesTbk;
+		} else if (context === "bolsa") {
+			requireContext.requireFunction = requireBolsa;
+		} else if (context === "tarjetadebito") {
+			requireContext.requireFunction = requestDebitCard;
+		} else if (context === "txtransferenciassimpl") {
+			requireContext.requireFunction = reqTransferSimpl;
+		} else if (context === "pagossimpl") {
+			requireContext.requireFunction = requireSimplPagos;
+		} else if (context === "ordenessimpl") {
+			requireContext.requireFunction = requireSimplOrdenes;
+		} else if (context === "enroll") {
+			requireContext.requireFunction = requireEnroll;
+		} else if (context === "trade") {
+			requireContext.requireFunction = requireTrade;
+		} else {
+			requireContext.context = 'main';
+			requireContext.prefix = '/';
+			requireContext.requireFunction = requireMain;
+		}
+		
+		return requireContext;
+	}
+	
+	$.fn.sendRequire = function(_params, method){
+		
+		if (!method) {
+			method = 'GET'
+		}
+		
+		var params = {
+			url: null, //HTML
+			requireFunction: null, //FUNCION CONFIGURACION (main.js) 
+			module_url: null, // Ubicacion en carpeta js del contexto | Codigo registrado en main.js
+			dataHttp: null, // Data
+			contentType: null, // Format de envio
+			processData: null,
+			message: ConstantsThymeleaf.unexpected_error_operation, // Mensaje generico,
+			method: method,
+			validResponse: function(response){
+				//Codigo personalizado.
+				return true;
+			},
+			onImport: function(data, module){
+				$("#page-host").html(data);
+				$("#navbar-collapse-2").removeClass("in");
+				$("body.body-print").attr("style", "");
+				try{
+					if (module.compositionComplete !== undefined)
+						module.compositionComplete("#applicationHost");
+					if (module.attached !== undefined)
+						module.attached("#applicationHost");
+					if (module.validations !== undefined)
+						module.validations("#applicationHost");
+				}catch(err){
+					this.onError(err, params.requireFunction, params.module_url);
+				}
+				this.onCompleted();
+			},
+			onCompleted: function(){
+				scrollto("body");
+			},
+			onError: function(err, req, mod){
+				console.error(err);
+				$.fn.modalErrorInesperado(this.message);
+				if(req){
+					req.undef(mod);
+				}
+			}
+		}
+		
+		$.extend(params,_params);
+		
+		$.fn.modalLoad('show');
+		params.requireFunction([ params.module_url ],function(module) {
+			
+			var paramSend = {
+				url : params.url,
+				data : params.dataHttp,
+				type : params.method,
+				beforeSend : function() {
+					$.fn.modalLoad('show');
+				}
+			};
+	
+			if (params.contentType !== null) {
+				paramSend.contentType = params.contentType;
+				if (paramSend.contentType === "application/json") {
+					paramSend.data = JSON.stringify(paramSend.data)
+				}
+			}
+			
+			if (params.processData !== null) {
+				paramSend.processData = params.processData;
+			}
+	
+			$.ajax(paramSend).done(function(data, request, xhr) {
+				if(params.validResponse(data, request, xhr)){
+					params.onImport(data, module);
+				}
+			})
+			.always(function() {
+				$.fn.modalLoad('hide');
+			});
+		},function(err){
+			$.fn.modalLoad('hide');
+			params.onError(err, params.requireFunction, params.module_url);
+		});
+	}
+
+	// Elvis Perez: Funcion para recarga de modulos.
+	// toks : ['#txpagos','pagos_masivos']
+	// dataHttp : {dato1:'xxx',dato2: 'yyy'}
+	// requireFunction : main.js
+	// contentType : application/json | <vacio>
+	$.fn.moduleComplete = function(toks, dataHttp, requireFunction,
+			contentType, prefix, method) {
+		if (!prefix) {
+			prefix = '/menu/';
+		}
+		if (!method) {
+			method = 'GET'
+		}
+		var module_url = (toks[0].charAt(0) === '#') ? toks[0].substring(1) : toks[0];
+		var url = "../" + toks[1] + prefix + module_url;
+
+		$.fn.sendRequire({
+			url: url, 
+			requireFunction: requireFunction, 
+			module_url: module_url,
+			dataHttp: dataHttp,
+			contentType: contentType
+		}, method)
+	}
+
+	// ------- TYPES EXTENDED ------------
+	// Elvis Perez : new Date().format(string);
+	Date.prototype.format = function(format) {
+		return moment(this).format(format);
+	}
+
+	// Elvis Perez: Implementacion para comparar cadenas
+	if (typeof (String.prototype.localeCompare) === 'undefined') {
+		String.prototype.localeCompare = function(str, locale, options) {
+			return ((this == str) ? 0 : ((this > str) ? 1 : -1));
+		};
+	}
+
+	// Elvis Perez: 'texto'.replaceAll(string);
+	String.prototype.replaceAll = function(search, replacement) {
+		var target = this;
+		return target.replace(new RegExp(search, 'g'), replacement);
+	};
+
+	// ------- PROCESADOR DE DATA PARA GRAFICOS
+	// Elvis Perez: Procesa la informacion extraida desde
+	// HomeController.loadBalanceHistogram
+	// Utilizado en los graficos de home y General de Saldos -> Movimientos.
+	$.fn.procesorHistogramData = function(json_data) {
+
+		data = {};
+
+		data.getTitles = function(index) {
+			titles = [ json_data[0][0], json_data[1][0] ];
+			if (index !== undefined) {
+				return titles[index];
+			}
+			return titles;
+		}
+
+		data.getTypes = function() {
+			var g_types = {};
+			g_types[data.getTitles(0)] = 'area';
+			g_types[data.getTitles(1)] = 'area-spline';
+			return g_types;
+		}
+
+		var categories = [ '01', '03', '05', '07', '09', '11', '13', '15',
+				'17', '19', '21', '23', '25', '27', '29', '31' ];
+
+		data.getCategories = function(index) {
+			if (index !== undefined) {
+				return categories[index];
+			}
+			return categories;
+		}
+
+		data.getDataGraphic = function() {
+			catDataGraph = this.getCategories();
+			// Hack para firefox
+			catDataGraph[4] = '9';
+
+			var data_graphic = [ [], [] ];
+			data_graphic[0].push(this.getTitles(0));
+			data_graphic[1].push(this.getTitles(1));
+			for (k in catDataGraph) {
+				ind = parseInt(catDataGraph[parseInt(k)]);
+				if (ind < json_data[0].length) {
+					if (json_data[0][ind].balance === null
+							|| json_data[0][ind].balance === undefined) {
+						json_data[0][ind].balance = '0.00';
+					} else {
+						data_graphic[0].push(Number(json_data[0][ind].balance
+								.replaceAll(',', '')));
+					}
+				}
+				if (ind < json_data[1].length) {
+					if (json_data[1][ind].balance === null
+							|| json_data[1][ind].balance === undefined) {
+						json_data[1][ind].balance = '0.00';
+					} else {
+						data_graphic[1].push(Number(json_data[1][ind].balance
+								.replaceAll(',', '')));
+					}
+				}
+			}
+			// Hack para firefox
+			catDataGraph[4] = '09';
+			return data_graphic;
+		}
+
+		data.getJson = function() {
+			var len = json_data.lenght;
+			return [ json_data[0].slice(1, len), json_data[1].slice(1, len) ];
+		}
+
+		// Data para exportar.
+		data.getDataExport = function() {
+			var continuar = true;
+			var index = 0;
+			var jsonData = this.getJson();
+			try {
+				while (continuar) {
+					continuar = index < jsonData[0].length;
+					if (continuar) {
+						data.data_export_final[index] = {
+							fecha : new Date(jsonData[0][index].dateBalance)
+									.format(ConstantsSpaceLocal.FORMAT_DATE_DD),
+							monthOneValue : jsonData[0][index].balance
+						}
+					}
+					continuar = continuar || index < jsonData[1].length;
+					if (continuar) {
+						if (jsonData[1][index]) {
+							if (data.data_export_final.length > index) {
+								tbkLogger.debug(jsonData[1][index]);
+								data.data_export_final[index].monthTwoValue = jsonData[1][index].balance;
+							} else {
+								data.data_export_final[index] = {
+									fecha : new Date(
+											jsonData[1][index].dateBalance)
+											.format(ConstantsSpaceLocal.FORMAT_DATE_DD),
+									monthOneValue : "0",
+									monthTwoValue : jsonData[1][index].balance
+								}
+							}
+						}
+					}
+					++index;
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}
+		return data;
+	}
+
+	// ------- HANDLEBAR SERVICIO AL CLIENTE ------
+	// Elvis Perez: Accionar la busqueda de resultados en servicio al cliente.
+	$.fn.reloadOptionsMenu = function(mantener) {
+
+		var object = {
+			enviando_peticion : false, // Control de peticiones
+			replace : function($options, $input, ocultar) {
+
+				if ($input.val().length >= 3) {
+					$($options).each(
+							function(k, v) {
+								var $comp = $(v);
+								var strComp = $comp.text().toLowerCase();
+								var strInput = $input.val().toLowerCase();
+								var index = strComp.indexOf(strInput);
+								if (index > -1) {
+									var strLeft = $comp.text().substring(0,
+											index);
+									var strSelected = $comp.text().substring(
+											index, index + strInput.length);
+									var strRigth = $comp.text().substring(
+											index + strInput.length,
+											strComp.length);
+									$comp.html(strLeft + "<b>" + strSelected
+											+ "</b>" + strRigth);
+									$comp.parent().removeClass("hidden");
+								} else if (!!ocultar) {
+									$comp.html($comp.text().replace("<b>", "")
+											.replace("</b>", ""));
+									$comp.parent().addClass("hidden");
+								}
+							});
+				}
+			},
+
+			reloadOperations : function($input) {
+				var obj = this;
+				var $contenedor = $input.parent().parent().find('.questions-container-results');
+				if (!obj.enviando_peticion) {
+					var data = {
+						query : $input.val()
+					};
+					$.ajax({
+						url : URLRequests.REQUEST_SERVICE_CLIENT_ITEMS,
+						data : data,
+						type : 'GET',
+						dataType : 'html',
+						beforeSend : function() {
+							obj.enviando_peticion = true; // Enviando
+							// peticion.
+						},
+						success : function(response) {
+							response = response.trim();
+							if (response !== "") {
+								$contenedor.html(response);
+								obj.replace($contenedor.find("li > a"),$input);
+							} else {
+								$contenedor.html(ConstantsThymeleaf.no_results_found);
+							}
+							obj.enviando_peticion = false; // Recibi respuesta.
+						}
+					}).fail(function() {
+						obj.enviando_peticion = false; // Recibi respuesta.
+					});
+				}
+			},
+
+			reloadOperationsPostLogin : function($input) {
+				var obj = this;
+				var $contenedor = $input.parent().parent().find('.questions-container-results');
+				if (!obj.enviando_peticion) {
+					var data = {
+						query : $input.val()
+					};
+					$.ajax({
+						url : URLRequests.REQUEST_SERVICE_CLIENT_ITEMS_POSTLOGIN,
+						data : data,
+						type : 'GET',
+						dataType : 'html',
+						beforeSend : function() {
+							obj.enviando_peticion = true; // Enviando
+							// peticion.
+						},
+						success : function(response) {
+							response = response.trim();
+							if (response !== "") {
+								$contenedor.html(response);
+								obj.replace($contenedor.find("li > a"),$input);
+							} else {
+								$contenedor.html(ConstantsThymeleaf.no_results_found);
+							}
+							obj.enviando_peticion = false; // Recibi respuesta.
+						}
+					}).fail(function() {
+						obj.enviando_peticion = false; // Recibi respuesta.
+					});
+				}
+			},
+
+			reloadOptionsMenu : function($input) {
+				var obj = this;
+				var $contenedor = $input.parent().parent().find('.questions-shortcuts-results ul');
+				$contenedor.html("");
+				var $menuoptions = $("#navbar-collapse-2 > ul > li.dropdown ul > li > a");
+				for (var i = 0; i < $menuoptions.length; ++i) {
+					var $item = $($menuoptions[i]);
+					if (!($item.attr("href") == '' || $item.attr("href") == '#')) {
+						$contenedor.append(
+							$('<li class="hidden item-result-database"><a href="'
+								+ $item.attr("href")
+								+ '" class="router">'
+								+ $item.html()
+								+ '<span class="glyphicon glyphicon-chevron-right"></span></a></li>'
+							)
+						);
+					}
+				}
+				var $options = $contenedor.find("li > a");
+				obj.replace($options, $input, true);
+
+				//  Mostrar u ocultar el título según si hay <li> visibles
+				var $tutorialTitle = $input.parent().parent().find(".section-videotutorial");
+				var $container = $tutorialTitle.parent();
+				var $visibleItems = $contenedor.find("li.item-result-database").filter(function () {
+					return !$(this).hasClass("hidden");
+				});
+
+				if ($visibleItems.length > 0) {
+					$tutorialTitle.removeClass("hidden");
+					$container.css("padding-bottom", "18px");
+				} else {
+					$tutorialTitle.addClass("hidden");
+					$container.css("padding-bottom", "0px");
+				}
+			},
+
+			activate : function() {
+				var obj = this;
+				$(".input-group.search-container input").keyup(function() {
+					var $input = $(this);
+					if ($input.val().length >= 3) {
+						obj.reloadOperations($input);
+						obj.reloadOptionsMenu($input);
+						$(".questions-container-results,.questions-shortcuts-results")
+								.removeClass("hidden");
+						$(".analitics-container.home-shortcuts,.helpdesk-container")
+								.addClass("hidden");
+					} else {
+						if (!mantener) {
+							$(".questions-container-results,.questions-shortcuts-results")
+									.addClass("hidden");
+							if ($input.val().length == 0) {
+								var $contenedor = $input.parent().parent().find('.questions-container-results');
+								$contenedor.html("");
+							}
+						}
+						$(".analitics-container.home-shortcuts,.helpdesk-container")
+								.removeClass("hidden");
+					}
+				});
+
+				$(".input-group.search-container-postLogin input").keyup(function() {
+					var $input = $(this);
+					if ($input.val().length >= 3) {
+						obj.reloadOperationsPostLogin($input);
+						obj.reloadOptionsMenu($input);
+						$(".questions-container-results,.questions-shortcuts-results,.container-section-videotutorial")
+								.removeClass("hidden");
+						$(".analitics-container.home-shortcuts,.helpdesk-container")
+								.addClass("hidden");
+					} else {
+						if (!mantener) {
+							$(".questions-container-results,.questions-shortcuts-results,.container-section-videotutorial")
+									.addClass("hidden");
+							if ($input.val().length == 0) {
+								var $contenedor = $input.parent().parent().find('.questions-container-results');
+								$contenedor.html("");
+							}
+						}
+						$(".analitics-container.home-shortcuts,.helpdesk-container")
+								.removeClass("hidden");
+					}
+				});
+
+			}
+		};
+		return object;
+	}
+
+	// Elvis Perez: Activar|Desactivar Loader
+	$.fn.modalLoad = function(state, mensaje) {
+		if (state == 'show') {
+			$.fn.loaderComponent.setState(LoaderComponent.STATE_DEFAULT);
+			$.fn.loaderComponent.show(mensaje);
+		} else if (state == 'hide') {
+			$.fn.loaderComponent.hide();
+		}
+	}
+
+	$.fn.desactivateLoader = function(time) {
+		$.fn.loaderComponent.autoHide(function() {
+			$.fn.loaderComponent.setState(LoaderComponent.STATE_ONLY_HIDE)
+					.autoHide();
+		});
+	}
+
+	// Elvis Perez: Envios de formulario
+	$.fn.submitForm = function(url, data, method) {
+		if (!method) {
+			method = 'POST';
+		}
+		var $form = $('<form id="form-export-tbk" action="' + url
+				+ '" method="' + method + '" accept-charset="UTF-8"> ');
+		for ( var key in data) {
+			$form.append('<input type="hidden" name="' + key + '" value = "'
+					+ data[key] + '" />');
+		}
+		$form.append('</form>');
+
+		$('#layer-form-export-tbk').html($form);
+		$('#form-export-tbk').submit();
+		$('#layer-form-export-tbk').html('');
+	}
+
+	// Elvis Perez: Versionado y hash de hazelcast en request
+	$.fn.httpData = function(dataHttp) {
+		dataHttp._csrf = httpToken;
+		dataHttp._csrf_header = httpHeader;
+
+		var correlationId = localStorage.getItem("correlationId");
+		if(!!correlationId){
+			dataHttp['x-correlation-id'] = correlationId;
+		}
+		
+		dataHttp.v = new Date().getTime();
+		dataHttp.lang = ConstantsThymeleaf.language;
+	}
+
+	// Elvis Perez: Cargar banda de error inesperado en modulo main.
+
+	function showModalMsg(msg,callback,_delay){
+		var delay = 3500;
+		if(!!_delay){delay=_delay;}
+		$("#msg-dialog-error").html(msg);
+		$('.modal').modal('hide');
+		$('#msg-home').slideToggle(400, function() {
+			scrollto(this);
+			var $yo = $(this);
+			setTimeout(function() {
+				$yo.slideToggle(400,function(){
+					if(callback !== undefined){
+						callback();
+					}
+				});
+			}, delay);
+		});
+	}
+	
+	$.fn.modalErrorInesperado = function(msg,callback,delay) {
+		$('#msg-home').removeClass("mess_ok").addClass("mess_no");
+		if (!msg) {
+			msg = ConstantsThymeleaf.unexpected_error_operation
+		}
+		showModalMsg('<span class="icon-scotiabank_51_alert"></span>'+msg,callback,delay);
+	}
+	
+	$.fn.modalSuccess = function(msg,callback,delay){
+		$('#msg-home').removeClass("mess_no").addClass("mess_ok");
+		if(!msg){
+			msg = ConstantsThymeleaf.unexpected_error_operation;
+		}
+		showModalMsg('<span class="icon-scotiabank_24_ok"></span>'+msg,callback,delay);
+	}
+
+	// Elvis Perez: Funcion para mecanismo de banderas.
+	$.fn.validateFlagsFunction = function(array, callback) {
+		var params = {};
+		params.flags = array;
+		params.callback = callback;
+		obj = {
+			validate : function() {
+				for (var flag in params.flags) {
+					if (!params.flags[flag]) {
+						return false;
+					}
+				}
+				return true;
+			},
+			setFlag : function(index, value) {
+				params.flags[index] = value;
+				return this;
+			},
+			action : function() {
+				if (this.validate()) {
+					params.callback();
+				}
+				return this;
+			}
+		}
+		return obj;
+	}
+
+	// Elvis Perez: Convierte a canvas y ejecuta prinDiv de tbk.js
+	$.fn.printCanvas = function(_params) {
+		$this = $(this).toArray();
+
+        var $imgs = [];
+
+		var index = 0;
+		var imprimiendo = false;
+		
+		$html = $(
+			'<div>'+
+		        '<div id="header-print" class="print-canvas">'+
+		            '<p class="canvas-time"></p>'+
+		            '<img width="200px" src="../nuevotbk/resources/img/scotiabank_logo_red.svg" alt="Image scotiabank.">'+
+		            '<p class="canvas-title"></p>'+
+		            '<h2 class="canvas-subtitle"></h2>'+
+		            '<p class="canvas-filter"></p>'+
+		            '<p class="canvas-filter-2"></p>'+
+		        '</div>'+
+		    '</div>'		
+		);
+
+		
+		var params = {
+            comps: [],
+			width : 1200,
+			showLoader : true,
+			type: 2, // 1 -> HOME | 2 -> ADMINISTRACION,
+			titlePrint: '',
+			subTitlePrint: '',
+			filter: '',
+			bussinessInformation: '',
+			before: function(){},
+			after: function(){},
+			cssLinks : [
+		        "../nuevotbk/resources/css/jquery-ui.min.css",
+                "../nuevotbk/resources/css/bootstrap.min.css",
+                "../nuevotbk/resources/css/bootstrap-select.min.css",
+                "../nuevotbk/resources/css/bootstrap-theme.min.css",
+                "../nuevotbk/resources/css/durandal.css",
+                "../nuevotbk/resources/css/c3.min.css",
+                "../nuevotbk/resources/css/main.css",
+                "../nuevotbk/resources/css/trade.css",
+                "../nuevotbk/resources/css/main_fixes.css",
+                "../nuevotbk/resources/css/tbk.css",
+		        "../nuevotbk/resources/css/print_fixed.css",
+	    	],
+	    	//mode: 'debug'
+		}
+		
+		
+		function after(){			
+			$(".table__body-wrapper").css("max-height","");
+			$(".hidden__print").css("display","initial");	
+            $(".u-ov-auto").css("position", "");		
+			params.after();
+		}
+		
+		function before(){
+			$(".table__body-wrapper").css("max-height","none");
+			$(".hidden__print").css("display","none");
+            $(".u-ov-auto").css("position", "relative");
+			params.before();
+		}
+		
+		params.printMethod = function(callback){
+            var printContents = $("<div>");
+            for (i = 0; i < $this.length; i++) {
+                printContents.append($($this[i]).html());
+            }
+            $html.append(printContents.html());
+            callback($html.html());
+		}
+		
+		$.extend(params, _params);
+        
+		$html.find('#header-print p:eq(0)').text(getDateTimeForReport());
+		$html.find('#header-print img').attr('src','../nuevotbk/resources/img/scotiabank_logo_red.svg');
+		
+		switch(params.type){
+			case 2: // ADMINISTRACION | ORDENES
+				var render = false;
+				if(params.bussinessInformation !== ''){
+					$html.find('#header-print p:eq(1)')
+					.append(params.bussinessInformation);
+					render = true;
+				}				
+				
+                if(params.titlePrint !== ''){	
+					$html.find('#header-print h2')
+					.append(params.titlePrint);
+					render = true;
+				}
+                
+                if(params.subTitlePrint !== ''){	
+					$html.find('#header-print p:eq(2)')
+					.append(params.subTitlePrint);
+					render = true;
+                }
+                if(params.filter !== ''){	
+					$html.find('#header-print p:eq(3)')
+					.append(params.filter);
+					render = true;
+                }
+                
+				if(!render){
+					console.error("Enviar parametros: "+"{bussinessInformation:'<LINEA_1>', titlePrint:'<LINEA_2>', subTitlePrint:'<LINEA_3>'}")
+				}
+				break;
+			default: // HOME
+				$html.find('#header-print p:eq(1)').append(params.bussinessInformation);
+				$html.find('#header-print p:eq(2)').append(params.subTitlePrint);
+				break;
+		}
+		
+		before();
+		params.onSuccess = after;
+		printDiv(params);
+    }
+
+	/**
+	 * Cesar GM - modificacion metodo ordenamiento despues de presionar boton
+	 * consultar modificacion: 01/12/2016
+	 */
+
+	$('#response-data-find').on('click', '.sort-icons', function() {
+		var span = $(this).children('span');
+		var txtClass = span.attr('class');
+		var data = {};
+		data.column = $(this).data("colum");
+
+		if (txtClass == 'glyphicon glyphicon-menu-up') {
+			$(this).html('<span class="glyphicon glyphicon-menu-down">');
+			data.order = 2;
+		} else {
+			$(this).html('<span class="glyphicon glyphicon-menu-up">');
+			data.order = 1;
+		}
+		$.get("orderByColumn.html", data, function(data) {
+			$("#table-body").parent().html(data);
+		});
+	});
+
+	/** Cesar GM - Ordenamiento modo responsive */
+	$('#response-data-find').on('click', '.order-asc', function() {
+
+		$(this).removeClass("order-asc active").addClass("order-asc");
+		$('.order-des').removeClass("order-des").addClass("order-des active");
+
+	});
+
+	$('#response-data-find').on('click', '.order-des', function() {
+
+		$(this).removeClass("order-des active").addClass("order-des");
+		$('.order-asc').removeClass("order-asc").addClass("order-asc active");
+	});
+	
+
+	//* Notificaciones *//
+	$.fn.reloadCountNotifications = function(counter){
+		var textTitleNotif = $(".cont-notific").data("title");
+		$("#titleNotifications span:eq(1)").html(textTitleNotif.replace('@1',counter));
+		$("#btn-notificaciones .badge.badge-notify").html(0 === Number(counter) ? "" : counter);
+		$(".cont-notific").data("counter", counter);
+	}
+
+});

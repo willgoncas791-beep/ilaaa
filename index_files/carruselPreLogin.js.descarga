@@ -1,0 +1,255 @@
+define(['jquery'], function (require) {
+	function showSlide(n) {
+		const carouselClass = '.carousel-container .slide';
+		let dots = document.getElementsByClassName("dot");
+		const slides = document.querySelectorAll(carouselClass);
+
+		if (dots != null && dots.length > 0) {
+			for (i = 0; i < dots.length; i++) {
+				dots[i].className = dots[i].className.replace(" active", "");
+			}
+
+			if (n >= slides.length) {
+				slideIndex = 0;
+			} else if (n < 0) {
+				slideIndex = slides.length - 1;
+			}
+			slides.forEach((slide) => {
+				slide.style.transform = `translateX(-${slideIndex * 100}%)`;
+			});
+
+			dots[slideIndex].className += " active";	
+		}
+	}
+
+	function currentSlide(n) {
+		showSlide(slideIndex = n);
+		//console.log("slideIndex: " + slideIndex);
+	}
+	return {
+		compositionComplete : function(view) {
+
+			if (availableContentful && !isMobileContentful&&!(navigator.maxTouchPoints > 1)) {
+
+				const CONTENTFUL_URL = "https://cdn.contentful.com";
+				const SPACE_URL = "/spaces/" + contentSpace;
+				const CF_ENV_URL = contentEnvironment;
+				const CF_ENTRIE_URL = "entries";
+				const GET_ENDPOINT_DELIM = "?";
+				const ENTRY = "sys.id=:ID_CAMPAIGN";
+				const PARAM_DELIM = "&";
+				const ACCESS_TOKEN = "access_token=" + contentAccessToken + "&include=3";
+				const CF_PRELOGIN_SLIDES_URL = CONTENTFUL_URL 
+				+ SPACE_URL 
+				+ CF_ENV_URL 
+				+ CF_ENTRIE_URL
+				+ GET_ENDPOINT_DELIM 
+				+ ENTRY 
+				+ PARAM_DELIM 
+				+ ACCESS_TOKEN;
+				//console.log(CF_PRELOGIN_SLIDES_URL);
+
+				let ds = {};
+				let els = {};
+				let items = {};
+
+				(async function() {
+					try {
+						const response = await fetch(CF_PRELOGIN_SLIDES_URL.replace(":ID_CAMPAIGN", idContentPrelogin), {
+							method: "GET",
+							headers: {
+								"Content-Type": "application/json"
+							}
+						});
+
+						if (!response.ok) {
+							loadPreloginPreview();
+							setTimeout(async () => {
+								
+								let status = response.status;
+								let statusText = response.statusText;
+								let url = response.url;
+								let method = "GET";
+								let err = await response.json();
+								let errDetail = JSON.stringify(err);
+								
+								let errorDetail = `Estado: error | Codigo: HTTP: ${status} - ${statusText} | Error: ${errDetail} | URL: ${url} | Method: ${method}`;
+
+								let datosView = {
+									where: "prelogin",
+									contentId: idContentPrelogin,
+									e: errorDetail
+								};
+								$.ajax({
+									url : URLRequests.ERROR_CONTENT_CONNECT,
+									type : 'POST',
+									data: datosView,
+									dataType : 'html',
+								});
+
+							}, 3000);
+						} else {
+
+							const dataRootServer = await response.json();
+							
+							let idDataPreLogin = dataRootServer?.items[0]?.fields?.publications?.sys?.id || "";
+							let dataPreLogin = dataRootServer?.includes?.Entry?.filter(x => x.sys.id == idDataPreLogin);
+							let objLanguage = (contentLanguage.trim().toLowerCase() == "es") ? "itemsEsPe" : "itemsEn";
+							let itemLanguageIds = dataPreLogin[0]?.fields[objLanguage].flatMap(x=>x.sys.id);
+
+							els = dataRootServer?.includes;
+							items = dataRootServer?.includes?.Entry?.filter(x=>itemLanguageIds.indexOf(x.sys.id) !== -1).map((entry, index) => {
+								let slide = {};
+								let fields = entry.fields;
+								slide.title = fields.title || fields.titulo;
+								let contentDesc = (fields.description || fields.descripcin)?.content[0]?.content ?? [];
+								slide.description = contentDesc.filter(x=>x.nodeType == "text").map(function(x) {
+									if (x.marks.length && x.marks[0].type == "bold") {
+										return "<strong>" + x.value + "</strong>";
+									} else {
+										return x.value;
+									}
+								}).join("");
+								slide.link = fields.link ?? "";
+								slide.icon = (fields.icon || fields.imagen).sys.id;
+								slide.file = {
+										desc: els.Asset.filter(x=>x.sys.id==slide.icon)[0].fields.title,
+										url: els.Asset.filter(x=>x.sys.id==slide.icon)[0].fields.file.url
+								};
+								slide.idPlantilla=(fields.template || fields.plantilla).sys.id;
+								slide.codPublicidad = slide.idPlantilla;
+								slide.idPlantilla = dataRootServer?.includes?.Entry?.filter(x=>slide.idPlantilla.indexOf(x.sys.id) !== -1).map(item=>item.fields.idPlantilla);
+								return slide;
+							});
+
+							const slideTemplate = document.querySelector('.carousel-container .slide');
+							const slidesContainer = document.querySelector('.carousel-container');
+							slidesContainer.innerHTML = "";
+
+							items?.forEach((data, index) => {
+								if (index < items.length) {
+									const curTemplate = slideTemplate.cloneNode(true);
+
+									curTemplate.querySelector('img').src = data.file.url;
+									curTemplate.querySelector('img').alt = data.file.desc;
+									curTemplate.querySelector('h2').textContent = data.title;
+									curTemplate.querySelector('p').innerHTML = data.description;
+									curTemplate.querySelector('.btn-c').textContent = data.link;
+
+									if (!data.title?.trim()) {
+										curTemplate.querySelector('h2').style.display = 'none';
+									}
+									if (!data.description?.trim()) {
+										curTemplate.querySelector('p').style.display = 'none';
+									}
+									if (!data.link?.trim()) {
+										curTemplate.querySelector('.btn-c').style.visibility = 'hidden';
+									}
+
+									curTemplate.querySelector('.idPlantilla').value = data.idPlantilla;
+									curTemplate.querySelector('.idPlantilla').dataset.titlePublicidad = data.title;
+									curTemplate.querySelector('.idPlantilla').dataset.codigoPublicidad = data.codPublicidad;
+									slidesContainer.appendChild(curTemplate);
+
+									if (items.length > 1) {
+										document.querySelector(".carousel-base .dot-pad").insertAdjacentHTML("beforeend",'<span class="dot" onclick="currentSlide(' + index +')"></span>');	
+									}
+								}
+							});
+
+							// popup para formulario
+							let botonesCarousel = document.querySelectorAll('.btn-content-contact');
+							botonesCarousel.forEach((boton,index)=>{
+								boton.addEventListener('click',()=>{
+									let selectorPlantilla = boton.nextElementSibling;
+									//let plantilla=selectorPlantilla.value;
+									let plantilla = sanitize(selectorPlantilla.value)
+									let modalId = `#webinarForm0${plantilla}`;
+									let modalElement =  document.querySelector(modalId);
+									modalElement.setAttribute('data-title-publicidad',selectorPlantilla.dataset.titlePublicidad);
+									modalElement.setAttribute('data-codigo-publicidad',selectorPlantilla.dataset.codigoPublicidad);
+									$(modalId).attr("z-index", "5");
+									$(modalId).modal("show"); 
+								})
+							})
+
+							if (items?.length > 0) {
+								document.querySelector('.carousel-container-preview').style.visibility = 'hidden';
+								document.querySelector('.carousel-container-preview').style.display = 'none';
+								document.querySelector('.carousel-container').style.visibility = 'visible';
+								document.querySelector('.carousel-container').style.display = 'flex';
+							}
+
+							loadPreloginPreview();
+
+						}
+					} catch (error) {
+						loadPreloginPreview();
+					}
+				})();
+
+				function sanitize(input) {
+					return input.replace(/[&<>"'`=\/]/g, function (s) {
+						return {
+							'&': '&amp;',
+							'<': '&lt;',
+							'>': '&gt;',
+							'"': '&quot;',
+							"'": '&#39;',
+							'/': '&#x2F;',
+							'`': '&#x60;',
+							'=': '&#x3D;'
+						}[s];
+					});
+				}
+				
+				/* Logica del carrusel */
+
+				//const carouselClass = '.carousel-container .slide';
+				//let dots = document.getElementsByClassName("dot");
+				//dots[0].className += " active"; // el primer slide es activo
+
+				function moveSlide(n) {
+					slideIndex += n;
+					showSlide(slideIndex);
+				}
+
+				// Autoplay
+				function startAutoplay() {
+					intervalId = setInterval(() => {
+						moveSlide(1);
+					}, SEC*MILISEC); // Change slide every 3 seconds (adjust as needed)
+				}
+
+				// Autoplay
+				function stopAutoplay() {
+					clearInterval(intervalId);
+				}
+
+				// Inicia autoplay al cargar la pagina
+				startAutoplay();
+
+				// Detiene autoplay al poner el cursor sobre el carrusel
+				document.querySelector('.carousel-base').addEventListener('mouseenter', stopAutoplay);
+
+				// Reinicia autoplay cuando se quita el cursor del carrusel
+				document.querySelector('.carousel-base').addEventListener('mouseleave', startAutoplay);
+
+				document.querySelector('.prev').addEventListener('click', () => {
+					moveSlide(-1);
+				});
+
+				document.querySelector('.next').addEventListener('click', () => {
+					moveSlide(1);
+				});
+
+			} else loadPreloginPreview();
+
+			function loadPreloginPreview() {
+				document.querySelector('.content-login-module').style.display = 'block';
+			}
+
+		},
+		currentSlide: currentSlide
+	}
+});

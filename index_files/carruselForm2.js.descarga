@@ -1,0 +1,189 @@
+define(function (require) {
+	
+	return {
+		compositionComplete : function(view) {
+			const inputs2 = document.querySelectorAll('#webinar-register2 .form-validate');
+			const botonEnviar2 = document.getElementById('btnRegisterConocer2');
+			const closeModalButton2 = document.getElementById('button-close2');
+			const alert2 = document.getElementById('successAlert2');
+			const alertError2 = document.getElementById('errorAlert2');
+			
+			closeModalButton2.addEventListener('click',()=>{
+				resetearFormulario2();
+			});
+			function resetearFormulario2(){
+				inputs2.forEach(input =>{
+					input.value='';
+					const errorSpan = document.getElementById(`${input.id}-error`);
+					if(errorSpan){
+						errorSpan.textContent='';
+					}
+				});
+				verificarFormulario2();
+
+			}
+			function validarCampo2(event){
+				const input2 = event.target;
+				const errorSpan2 = document.getElementById(`${input2.id}-error`);
+				const value2 = input2.value.trim();
+				
+				
+				let mensajeError2 = '';
+				
+				switch(input2.id){
+				case 'reg-company2':
+					if(value2 ==='') mensajeError2 = mensajes.campoRequerido;
+					break;
+				case 'reg-ruc22':
+					if(value2 ==='') mensajeError2 = mensajes.campoRequerido;
+					else if(!/^2\d{0,10}$/.test(value2)) mensajeError2 = mensajes.primerDigito2;
+					else if(!/^\d+$/.test(value2)) mensajeError2 = mensajes.soloNumeros;
+					else if(value2.length<11) mensajeError2 = mensajes.digitos11;
+					break;
+				case 'reg-full-name2':
+					if(value2 ==='') mensajeError2 = mensajes.campoRequerido;
+					else if(/\d/.test(value2)) mensajeError2 = mensajes.noNumeros;
+					break;
+				case 'reg-phone2':
+					if(value2!==''&&!/^\d+$/.test(value2)) mensajeError2 = mensajes.soloNumeros;
+					break;
+				case 'reg-email2':
+					if(value2 === '' ) mensajeError2 = mensajes.campoRequerido;
+					else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value2)) mensajeError2 = mensajes.campoCorreo;
+					break;
+				}
+				
+				if(mensajeError2){
+					errorSpan2.innerHTML = mensajeError2;
+				} else {
+					errorSpan2.innerHTML = '';
+				}
+				
+				verificarFormulario2();
+				
+			}
+			
+			function verificarFormulario2(){
+				let formularioValido = true;
+				
+				inputs2.forEach(input => {
+					const errorSpan = document.getElementById(`${input.id}-error`);
+					if(input.id!=='reg-phone2'&& (errorSpan.textContent !== '' || input.value.trim() === '')) {
+						formularioValido = false;
+					}
+					if(input.id === 'reg-phone2' && input.value.trim() !== '' && errorSpan.textContent !==''){
+						formularioValido = false;
+					}
+				});
+				
+				
+				if(formularioValido){
+					botonEnviar2.classList.remove('disabled');
+					botonEnviar2.style.pointerEvents='auto'; 
+				} else {
+					botonEnviar2.classList.add('disabled');
+					botonEnviar2.style.pointerEvents='none'; 
+				}
+			}
+			//Agregando evento blur a cada input
+			inputs2.forEach(input => {
+				input.addEventListener('blur',validarCampo2);
+			});
+			
+			
+			function cerrarAlerta2(){
+				alert2.classList.remove('show');
+				alert2.classList.add('hidden');
+			}
+			
+			function mostrarAlerta2(){	
+				alert2.classList.add('show')
+				alert2.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarAlerta2();
+				},5000);
+			}
+			
+			function cerrarErrorAlerta2(){
+				alertError2.classList.remove('show');
+				alertError2.classList.add('hidden');
+			}
+			function mostrarErrorAlerta2(){
+				$("#miSpanError2").text($("#span4292").text());
+				alertError2.classList.add('show')
+				alertError2.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarErrorAlerta2();
+				},5000);
+			}
+			function mostrarErrorAlertaOther2(){
+				$("#miSpanError2").text($("#span5002").text());
+				alertError2.classList.add('show');
+				alertError2.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarErrorAlerta2();
+				},5000);
+			}
+			
+			$("#alertbut2").click(function(){
+				cerrarAlerta2();
+			});
+			$("#alertbutError2").click(function(){
+				cerrarErrorAlerta2();
+			});
+			
+			$('#btnRegisterConocer2').click(function(e) {
+				
+				let descPublicidad =document.querySelector('#webinarForm02').dataset.titlePublicidad;
+				let codPublicidad =document.querySelector('#webinarForm02').dataset.codigoPublicidad;
+
+				e.preventDefault();
+				
+				let company = $('#reg-company2').val();
+				let ruc = $('#reg-ruc22').val();
+				let nameFull = $('#reg-full-name2').val();
+				let phone = $('#reg-phone2').val();
+				let email = $('#reg-email2').val();
+				let codFormulario = '02';
+					
+				
+				let datosView = {
+					company	:company,
+					ruc	:ruc,
+					nameFull:nameFull,
+					phone:phone,
+					email:email,
+					codFormulario:codFormulario,
+					codPublicidad:codPublicidad,
+					descPublicidad:descPublicidad
+				};
+
+				
+	        	$.ajax({
+				    url : URLRequests.REQUEST_PRE_LOGIN_REGISTER,
+				    type : 'POST',
+				    data: datosView,
+	                dataType : 'html',
+				    beforeSend: function(){
+				    	$("#webinarForm02 .modal-overlay").show();
+				    },
+				    success : function(dataServer) {
+				    	$("#webinarForm02").modal("hide");
+				    	mostrarAlerta2();
+				    },
+				    complete : function(xhr, status) {
+				    	resetearFormulario2();
+				    	$("#webinarForm02 .modal-overlay").hide();
+				    },
+				    error : function(xhr,status,error){
+				    	if(xhr.status===429){
+				    		mostrarErrorAlerta2();
+				    	} else {
+				    		mostrarErrorAlertaOther2();
+				    	}
+				    }
+				});		
+	    	});
+		}
+	}
+});

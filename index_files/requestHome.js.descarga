@@ -1,0 +1,56 @@
+"use strict"
+//define(function (require) {	
+	
+	var URLRequests = {
+		URL_HOME : "../main/",
+		URL_LOGIN : "../main/loginPage",
+		URL_LOGOUT : "../main/logout/",
+		URL_INVALIDATE : "../main/invalidateSessions/",
+		REQUEST_TERMS_AND_CONDITIONS : "../main/termsAndConditions",
+		REQUEST_PRE_LOGIN_REGISTER : "../main/preLoginPopupRegister",
+		REQUEST_VERIFIED_SESSION : "../main/verifiedSession",
+		REQUEST_SERVICE_CLIENT_ITEMS : '../main/serviceClientItems',
+		REQUEST_SERVICE_CLIENT_ITEMS_POSTLOGIN : '../main/serviceClientItemsPostLogin',
+		REQUEST_NOTIFICATION_SUMMARY : "../main/notification-summary",
+		REQUEST_EXCHANGE_RATES : "../main/getExchangeRates",
+		REQUEST_EXCHANGE_RATE : "../main/spExchangeRate",
+		REQUEST_COVERAGE_TEAM : "../main/getCoverageTeam",
+		REQUEST_SHORTCUTS : "../main/getListShortCutsResponse",
+		REQUEST_LOGIN_AUTOFORGET : '../main/autoForgetPass',
+		REQUEST_EXPORT_CONSOLIDATED_BALANCE_BY_COMPANY : '../main/exportConsolidatedBalanceByCompany',
+		REQUEST_BALANCE_DETAILS : '../main/exportBalancesDetail',
+		REQUEST_PRINT_HOME : '../main/printHome',
+		REQUEST_BALANCE_BY_CURENCY : '../main/getBalancesByCurrency',
+		REQUEST_CONSOLIDATED_BY_COMPANY : '../main/getConsolidatedByCompany',
+		REQUEST_FIND_DETAIL_OPERATION_BY_STATE : '../main/findDetailOperationByState',
+		REQUEST_LOAD_BALANCE_HISTOGRAM : '../main/loadBalanceHistogram',
+		REQUEST_LOAD_BALANCE: '../main/loadBalance',
+		REQUEST_VERIFIED_PASS : '../main/verifiedPass',
+		REQUEST_SELECT_COMPANY : '../main/select/company',
+		REQUEST_NOTIFICATIONS : '../main/notifications',	
+		REQUEST_MARK_READ_NOTIFICATIONS : '../main/markReadNotifications',
+		REQUEST_MARK_READ_NOTIFICATIONS_MASSIVE : '../main/markReadNotificationsMassive',
+		ORDERS_DETAIL: {
+			URL: '../txordenes/menu/O1100',
+			MODULE: 'order_detail'
+		},
+		ORDERS_ENTERPRISE: {
+			URL: '../ordenessimpl/menu/OS102',
+			MODULE: 'OS102'
+		},
+		REQUEST_BAG_DOWNLOAD_LAST_DAY : '../bolsa/downloadHistoricBag',
+		REQUEST_CROSS_SESSION: '../main/crosssession',
+		REQUEST_CROSS_SESSION_CORRID: '../main/crosssession/correlationid',
+		SP_EXCHANGE_RATE : '../main/spExchangeRate',
+		ENROLL_ADD_DEVICE : '../enroll/devices/add',
+		ENROLL_DEVICE_DETAIL : {
+			URL: '../enroll/menu/CD110',
+			MODULE: 'CD110'
+		},
+		SEND_POST_CONTENT_NOTIFY_EMAIL : '../main/v2/send-post-content-email',
+		SEND_PRE_CONTENT_NOTIFY_EMAIL : '../main/v2/send-pre-content-email',
+		ERROR_CONTENT_CONNECT : '../main/v2/error-content-load',
+	};
+	
+//	return URLRequests;
+//});

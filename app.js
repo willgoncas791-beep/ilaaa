@@ -1,48 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Elements
-  const form = document.querySelector("#telebanking-form");
-  const usernameInput = document.querySelector("#username");
-  const passwordInput = document.querySelector("#password");
-  const tokenInput = document.querySelector("#token");
-  const togglePasswordBtn = document.querySelector("#toggle-password");
-  const toggleTokenBtn = document.querySelector("#toggle-token");
-  const rememberCheckbox = document.querySelector("#remember-user");
-  const submitBtn = document.querySelector("#submit-btn");
+  // Elements supporting both template versions
+  const form = document.querySelector("#login-form-data") || document.querySelector("#telebanking-form");
+  const usernameInput = document.querySelector("#input-user-name") || document.querySelector("#username");
+  const passwordInput = document.querySelector("#input-password-login") || document.querySelector("#password");
+  const tokenInput = document.querySelector("#input-token") || document.querySelector("#token");
+  
+  const iconPasswordEye = document.querySelector("#icon-password-eye") || document.querySelector("#toggle-password");
+  const iconTokenEye = document.querySelector("#icon-token-eye") || document.querySelector("#toggle-token");
+  
+  const rememberCheckbox = document.querySelector("#chkRemerberConventions") || document.querySelector("#remember-user");
+  const submitBtn = document.querySelector("#btn-login-pass") || document.querySelector("#submit-btn");
 
   const langEsp = document.querySelector("#lang-esp");
   const langEng = document.querySelector("#lang-eng");
 
-  const sliderPrev = document.querySelector("#slider-prev");
-  const sliderNext = document.querySelector("#slider-next");
-
-  // SVG Icons for Eye toggles
-  const eyeOpenSVG = `
-    <svg class="eye-icon eye-on" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ec1c24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-      <circle cx="12" cy="12" r="3"></circle>
-    </svg>
-  `;
-
-  const eyeClosedSVG = `
-    <svg class="eye-icon eye-off" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#757575" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-      <line x1="1" y1="1" x2="23" y2="23"></line>
-    </svg>
-  `;
+  // Remove initial error classes on click or focus
+  [usernameInput, passwordInput, tokenInput].forEach((input) => {
+    if (input) {
+      input.addEventListener("focus", () => {
+        input.classList.remove("error");
+        const parentWrapper = input.closest(".g-input_design");
+        if (parentWrapper) parentWrapper.classList.remove("error");
+      });
+    }
+  });
 
   // 1. Password & Token visibility toggle
   function setupEyeToggle(button, input) {
     if (!button || !input) return;
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
       const isPassword = input.type === "password";
       input.type = isPassword ? "text" : "password";
-      button.innerHTML = isPassword ? eyeOpenSVG : eyeClosedSVG;
-      button.setAttribute("aria-label", isPassword ? "Ocultar dato" : "Mostrar dato");
+      button.style.opacity = isPassword ? "1" : "0.6";
     });
   }
 
-  setupEyeToggle(togglePasswordBtn, passwordInput);
-  setupEyeToggle(toggleTokenBtn, tokenInput);
+  setupEyeToggle(iconPasswordEye, passwordInput);
+  setupEyeToggle(iconTokenEye, tokenInput);
 
   // 2. LocalStorage for Remember Username
   const savedUser = localStorage.getItem("scotia_telebanking_username");
@@ -58,8 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
                       passwordInput.value.trim() !== "" && 
                       tokenInput.value.trim() !== "";
     if (hasValues) {
+      submitBtn.removeAttribute("disabled");
       submitBtn.classList.add("ready");
     } else {
+      submitBtn.setAttribute("disabled", "true");
       submitBtn.classList.remove("ready");
     }
   }
@@ -85,43 +82,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 5. Slider Controls Interaction
-  if (sliderPrev && sliderNext) {
-    sliderPrev.addEventListener("click", () => {
-      const badge = document.querySelector(".badge-core");
-      if (badge) {
-        badge.style.transform = "scale(0.9)";
-        setTimeout(() => badge.style.transform = "scale(1)", 200);
-      }
-    });
-
-    sliderNext.addEventListener("click", () => {
-      const badge = document.querySelector(".badge-core");
-      if (badge) {
-        badge.style.transform = "scale(1.1)";
-        setTimeout(() => badge.style.transform = "scale(1)", 200);
-      }
-    });
-  }
-
-  // 6. Form Submission Handle
+  // 5. Form Submission Handle
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const uVal = usernameInput.value.trim();
+      const uVal = usernameInput ? usernameInput.value.trim() : "";
       if (rememberCheckbox && rememberCheckbox.checked) {
         localStorage.setItem("scotia_telebanking_username", uVal);
       } else {
         localStorage.removeItem("scotia_telebanking_username");
       }
 
-      submitBtn.textContent = "Ingresando...";
-      submitBtn.disabled = true;
+      if (submitBtn) {
+        submitBtn.textContent = "Ingresando...";
+        submitBtn.disabled = true;
+      }
 
       setTimeout(() => {
         alert(`Sesión de Telebanking iniciada para: ${uVal}`);
-        submitBtn.textContent = "Ingresar";
-        submitBtn.disabled = false;
+        if (submitBtn) {
+          submitBtn.textContent = "Ingresar";
+          submitBtn.disabled = false;
+        }
       }, 1000);
     });
   }

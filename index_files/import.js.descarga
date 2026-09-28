@@ -1,0 +1,11 @@
+define(function(require) {
+	require('jquery');
+	require('bootstrap');
+	require('bootstrap-select');
+	require('forms');
+	require('globalMethods');
+	require('requestHome');
+	require('systemInf');
+	require('tbk');
+	require('utilities');
+})

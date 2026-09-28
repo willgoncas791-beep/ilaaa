@@ -1,0 +1,79 @@
+	define(function(require) {
+	
+	return {
+		attached : function(view) {
+		},
+		compositionComplete : function(view) {
+			// Buscar elementos dentro del componente usando jQuery
+			const $view = $(view);
+			const $input = $(".help-input", view);
+			const $clearIcon = $(".clear-icon", view);
+			// Evento para mostrar/ocultar la X
+			$input.on("input", function() {
+				$clearIcon.toggle($(this).val().length > 0);
+			});
+			// Evento para borrar el texto
+			$view.on("click",".clear-icon", function(e) {
+				e.stopPropagation();
+				$input.val("").focus();
+				$(this).hide();
+			});
+			$(view).find(".selectpicker").selectpicker({
+				style : "scotiabankselect"
+			});
+
+			$( ".helper-head" ).click(function() {
+				$( "#help1-hed").slideToggle();
+				$input.val("").focus();
+			});
+
+			$(document).bind('click', function(e) {
+				closeHelp(e);
+				closeNotif(e);
+			});
+			$(document).scroll(function(e){
+				closeHelp(e);
+				closeNotif(e);
+			});
+
+			function closeHelp(e){
+				var $clicked = $(e.target);
+				// Evitar cerrar si se hace clic en el ícono de limpiar
+				if ($clicked.hasClass("clear-icon") || $clicked.parents(".search-container").length > 0) {
+					return;
+				}
+
+				if (! $clicked.parents().hasClass("contservc")) {
+					$("#help1-hed").fadeOut('fast');
+				}
+				if (! $clicked.parents().hasClass("contservc2")) {
+					$("#help2-hed").fadeOut('fast');
+				}
+			}
+
+			function closeNotif(e){
+				var $clicked = $(e.target);
+				if (! $clicked.parents().hasClass("contnotif")) {
+					$("#notif1-hed").fadeOut('fast');
+				}
+				if (! $clicked.parents().hasClass("contnotif2")) {
+					$("#notif2-hed").fadeOut('fast');
+				}
+			}
+
+			// Cerrar ServicioCliente al cerrar Menu
+			$('#iconCloseLogin').click(function(){
+				if($('.mn-servicios-login').hasClass('in')){
+					$('.helper-responsive').removeClass('in');
+				}
+			});
+			
+			// TFRC 20240618 - popup dinamico - no se mostrara banner inicial
+			// Mostrar modal de seguridad
+			/*setTimeout(function(){
+				$('#modalMensajeSeguridad').modal('show');
+			},900);*/
+			// FIN Mostrar modal de seguridad
+		}
+	};
+});

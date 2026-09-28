@@ -1,0 +1,229 @@
+define(function (require) {
+	
+	return {
+		compositionComplete : function(view) {
+			const inputs = document.querySelectorAll('#webinar-register .form-validate');
+			const botonEnviar = document.getElementById('btnRegisterConocer');
+			const closeModalButton = document.getElementById('button-close');
+			const alert = document.getElementById('successAlert');
+			const alertError = document.getElementById('errorAlert');
+			
+	 		let captchaCorrecto = false;
+	 		let recaptchaToken = "";
+			function captchaCompleted(token){
+				recaptchaToken = token;
+				$.ajax({
+					url:'../main/verifyCaptcha',
+					type:'POST',
+					data:{'g-recaptcha-response':recaptchaToken},
+					dataType : 'text',
+					beforeSend: function(){
+				    	console.log("Enviando token de ajax");
+				    },
+					success:function(response){
+						if(response.success){
+							console.log("Se completo respuesta");
+							captchaCorrecto = true;
+						} else {
+							grecaptcha.reset();
+							captchaCorrecto = false;
+						}
+						console.log(response);
+						console.log(captchaCorrecto);
+					},
+					error:function(){
+						grecaptcha.reset();
+					}
+				});
+			}
+			function captchaExpired(){
+				recaptchaToken="";
+				captchaCorrecto = false;
+			}
+			
+			closeModalButton.addEventListener('click',()=>{
+				resetearFormulario();
+			});
+			function resetearFormulario(){
+				inputs.forEach(input =>{
+					input.value='';
+					const errorSpan = document.getElementById(`${input.id}-error`);
+					if(errorSpan){
+						errorSpan.textContent='';
+					}
+				});
+				verificarFormulario();
+			}
+
+			function validarCampo(event){
+				const input = event.target;
+				const errorSpan = document.getElementById(`${input.id}-error`);
+				const value = input.value.trim();
+				
+			
+				
+				let mensajeError = '';
+				
+				switch(input.id){
+				case 'reg-company':
+					if(value==='') mensajeError = mensajes.campoRequerido;
+					break;
+				case 'reg-ruc2':
+					if(value==='') mensajeError = mensajes.campoRequerido;
+					else if(!/^2\d{0,10}$/.test(value)) mensajeError = mensajes.primerDigito2;
+					else if(!/^\d+$/.test(value)) mensajeError = mensajes.soloNumeros;
+					else if(value.length<11) mensajeError = mensajes.digitos11;
+					break;
+				case 'reg-full-name':
+					if(value ==='') mensajeError = mensajes.campoRequerido;
+					else if(/\d/.test(value)) mensajeError = mensajes.noNumeros;
+					break;
+				case 'reg-phone':
+					if(value!==''&&!/^\d+$/.test(value)) mensajeError = mensajes.soloNumeros;
+					break;
+				case 'reg-email':
+					if(value === '' ) mensajeError = mensajes.campoRequerido;
+					else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) mensajeError = mensajes.campoCorreo;
+					break;
+				}
+				
+				if(mensajeError){
+					errorSpan.innerHTML = mensajeError;
+				} else {
+					errorSpan.innerHTML = '';
+				}
+				
+				verificarFormulario();
+				
+			}
+			
+			function verificarFormulario(){
+				let formularioValido = true;
+				
+				inputs.forEach(input => {
+					const errorSpan = document.getElementById(`${input.id}-error`);
+					if(input.id!=='reg-phone'&& (errorSpan.textContent !== '' || input.value.trim() === '')) {
+						formularioValido = false;
+					}
+					if(input.id === 'reg-phone' && input.value.trim() !== '' && errorSpan.textContent !==''){
+						formularioValido = false;
+					}
+				});
+						
+	 			//if(!captchaCorrecto){
+	 			//	formularioValido = false;
+	 			//}
+				
+				if(formularioValido){
+					botonEnviar.classList.remove('disabled');
+					botonEnviar.style.pointerEvents='auto'; 
+				} else {
+					botonEnviar.classList.add('disabled');
+					botonEnviar.style.pointerEvents='none'; 
+				}
+			}
+
+			inputs.forEach(input => {
+				input.addEventListener('blur',validarCampo);
+			});
+			
+			
+			function cerrarAlerta(){
+				alert.classList.remove('show');
+				alert.classList.add('hidden');
+			}
+			
+			function mostrarAlerta(){	
+				alert.classList.add('show');
+				alert.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarAlerta();
+				},5000);
+			}
+			
+			function cerrarErrorAlerta(){
+				alertError.classList.remove('show');
+				alertError.classList.add('hidden');
+			}
+			function mostrarErrorAlerta(){
+				$("#miSpanError").text($("#span429").text());
+				alertError.classList.add('show');
+				alertError.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarErrorAlerta();
+				},5000);
+			}
+			function mostrarErrorAlertaOther(){
+				$("#miSpanError").text($("#span500").text());
+				alertError.classList.add('show');
+				alertError.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarErrorAlerta();
+				},5000);
+			}
+			
+			$("#alertbut").click(function(){
+				cerrarAlerta();
+			});
+			$("#alertbutError").click(function(){
+				cerrarErrorAlerta();
+			});
+			
+			$('#btnRegisterConocer').click(function(e) {
+				
+				let descPublicidad =document.querySelector('#webinarForm01').dataset.titlePublicidad;
+				let codPublicidad =document.querySelector('#webinarForm01').dataset.codigoPublicidad;
+
+				e.preventDefault();
+				
+				let company = $('#reg-company').val();
+				let ruc = $('#reg-ruc2').val();
+				let nameFull = $('#reg-full-name').val();
+				let phone = $('#reg-phone').val();
+				let email = $('#reg-email').val();
+				let codFormulario = '01';
+				let termCondiciones = $('#acceptTerms').is(':checked').toString();
+					
+				
+				let datosView = {
+					company	:company,
+					ruc	:ruc,
+					nameFull:nameFull,
+					phone:phone,
+					email:email,
+					codFormulario:codFormulario,
+					codPublicidad:codPublicidad,
+					descPublicidad:descPublicidad
+				};
+	        	$.ajax({
+				    url: URLRequests.REQUEST_PRE_LOGIN_REGISTER,
+				    type : 'POST',
+				    xhrFields:{
+				    	withCredentials:true
+				    },
+				    data: datosView,
+	                dataType : 'html',
+				    beforeSend: function(){	
+				    	$("#webinarForm01 .modal-overlay").show();
+				    },
+				    success : function(dataServer) {
+				    	$("#webinarForm01").modal("hide");
+				    	mostrarAlerta();
+				    },
+				    complete : function(xhr, status) {
+				    	resetearFormulario();
+				    	$("#webinarForm01 .modal-overlay").hide();
+				    },
+				    error : function(xhr,status,error){
+				    	if(xhr.status===429){
+				    		mostrarErrorAlerta();
+				    	} else {
+				    		mostrarErrorAlertaOther();
+				    	}	    
+				    }
+				});		
+	    	});
+			
+		}
+	}
+});

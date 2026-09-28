@@ -1,0 +1,189 @@
+define(function (require) {
+	
+	return {
+		compositionComplete : function(view) {
+			const inputs3 = document.querySelectorAll('#webinar-register3 .form-validate');
+			const botonEnviar3 = document.getElementById('btnRegisterConocer3');
+			const closeModalButton3 = document.getElementById('button-close3');
+			const alert3 = document.getElementById('successAlert3');
+			const alertError3 = document.getElementById('errorAlert3');
+
+			
+			closeModalButton3.addEventListener('click',()=>{
+				resetearFormulario3();
+			});
+			function resetearFormulario3(){
+				inputs3.forEach(input =>{
+					input.value='';
+					const errorSpan = document.getElementById(`${input.id}-error`);
+					if(errorSpan){
+						errorSpan.textContent='';
+					}
+				});
+				verificarFormulario3();
+			}
+			
+			function validarCampo3(event){
+				const input3 = event.target;
+				const errorSpan3 = document.getElementById(`${input3.id}-error`);
+				const value3 = input3.value.trim();
+				
+				let mensajeError3 = '';
+				
+
+				switch(input3.id){
+				case 'reg-company3':
+					if(value3 ==='') mensajeError3 = mensajes.campoRequerido;
+					break;
+				case 'reg-ruc23':
+					if(value3 ==='') mensajeError3 = mensajes.campoRequerido;
+					else if(!/^2\d{0,10}$/.test(value3)) mensajeError3 = mensajes.primerDigito2;
+					else if(!/^\d+$/.test(value3)) mensajeError3 = mensajes.soloNumeros;
+					else if(value3.length<11) mensajeError3 = mensajes.digitos11;
+					break;
+				case 'reg-full-name3':
+					if(value3 ==='') mensajeError3 = mensajes.campoRequerido;
+					else if(/\d/.test(value3)) mensajeError3 = mensajes.noNumeros;
+					break;
+				case 'reg-phone3':
+					if(value3!==''&&!/^\d+$/.test(value3)) mensajeError3 = mensajes.soloNumeros;
+					break;
+				case 'reg-email3':
+					if(value3 === '' ) mensajeError3 = mensajes.campoRequerido;
+					else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value3)) mensajeError3 = mensajes.campoCorreo;
+					break;
+				}
+				
+				if(mensajeError3){
+					errorSpan3.innerHTML = mensajeError3;
+				} else {
+					errorSpan3.innerHTML = '';
+				}
+				
+				verificarFormulario3();
+				
+			}
+			
+			function verificarFormulario3(){
+				let formularioValido = true;
+				
+				inputs3.forEach(input => {
+					const errorSpan = document.getElementById(`${input.id}-error`);
+					if(input.id!=='reg-phone3'&& (errorSpan.textContent !== '' || input.value.trim() === '')) {
+						formularioValido = false;
+					}
+					if(input.id === 'reg-phone3' && input.value.trim() !== '' && errorSpan.textContent !==''){
+						formularioValido = false;
+					}
+				});
+				
+				
+				if(formularioValido){
+					botonEnviar3.classList.remove('disabled');
+					botonEnviar3.style.pointerEvents='auto'; 
+				} else {
+					botonEnviar3.classList.add('disabled');
+					botonEnviar3.style.pointerEvents='none'; 
+				}
+			}
+
+			inputs3.forEach(input => {
+				input.addEventListener('blur',validarCampo3);
+			});
+			
+			
+			function cerrarAlerta3(){
+				alert3.classList.remove('show');
+				alert3.classList.add('hidden');
+			}
+			
+			function mostrarAlerta3(){	
+				alert3.classList.add('show')
+				alert3.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarAlerta3();
+				},5000);
+			}
+			
+			function cerrarErrorAlerta3(){
+				alertError3.classList.remove('show');
+				alertError3.classList.add('hidden');
+			}
+			function mostrarErrorAlerta3(){
+				$("#miSpanError3").text($("#span4293").text());
+				alertError3.classList.add('show')
+				alertError3.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarErrorAlerta3();
+				},5000);
+			}
+			function mostrarErrorAlertaOther3(){
+				$("#miSpanError3").text($("#span5003").text());
+				alertError3.classList.add('show');
+				alertError3.classList.remove('hidden','fade');
+				setTimeout(()=>{
+					cerrarErrorAlerta3();
+				},5000);
+			}
+			
+			$("#alertbut3").click(function(){
+				cerrarAlerta3();
+			});
+			$("#alertbutError3").click(function(){
+				cerrarErrorAlerta3();
+			});
+			
+			$('#btnRegisterConocer3').click(function(e) {
+				
+				let descPublicidad =document.querySelector('#webinarForm03').dataset.titlePublicidad;
+				let codPublicidad =document.querySelector('#webinarForm03').dataset.codigoPublicidad;
+				
+				e.preventDefault();
+				
+				let company = $('#reg-company3').val();
+				let ruc = $('#reg-ruc23').val();
+				let nameFull = $('#reg-full-name3').val();
+				let phone = $('#reg-phone3').val();
+				let email = $('#reg-email3').val();
+				let codFormulario = '03';
+					
+				
+				let datosView = {
+					company	:company,
+					ruc	:ruc,
+					nameFull:nameFull,
+					phone:phone,
+					email:email,
+					codFormulario:codFormulario,
+					codPublicidad:codPublicidad,
+					descPublicidad:descPublicidad
+				};
+				
+	        	$.ajax({
+				    url : URLRequests.REQUEST_PRE_LOGIN_REGISTER,
+				    type : 'POST',
+				    data: datosView,
+	                dataType : 'html',
+				    beforeSend: function(){
+				    	$("#webinarForm03 .modal-overlay").show();
+				    },
+				    success : function(dataServer) {
+				    	$("#webinarForm03").modal("hide");
+				    	mostrarAlerta3();
+				    },
+				    complete : function(xhr, status) {
+				    	resetearFormulario3();
+				    	$("#webinarForm03 .modal-overlay").hide();
+				    },
+				    error : function(xhr,status,error){
+				    	if(xhr.status===429){
+				    		mostrarErrorAlerta3();
+				    	} else {
+				    		mostrarErrorAlertaOther3();
+				    	}
+				    }
+				});		
+	    	});
+		}
+	}
+});

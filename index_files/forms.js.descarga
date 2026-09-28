@@ -1,0 +1,79 @@
+// Script para animar los label en los input:text
+function animaLabel(i){
+  if ( i.length) {
+    
+    i.click(function(){
+      var tempLabel = $(this).next('label');
+      if (!tempLabel.hasClass('active')) {
+        tempLabel.toggleClass('active');
+      }
+    });
+
+    i.focus(function(){
+      $(this).click();
+    });
+
+    i.focusout(function(){
+      var tempLabel = $(this).next('label');
+      var vac = $(this).val(); 
+
+      if ( !$(this).val() ) {
+        if (tempLabel.hasClass('active')) {
+          tempLabel.toggleClass('active');
+        }
+      }
+
+      if(vac == ""){
+        $(this).addClass('error');
+        $(this).parent().addClass('error');
+      }else{
+        $(this).removeClass('error');
+        $(this).parent().removeClass('error');
+      }
+      
+    });
+
+  }
+}
+function activeRequired(form_name){
+	var tempForm = $(form_name + ' .required-val'),
+			tempButton = $(form_name + ' button.btn');
+	
+	isEmpty(tempForm, tempButton);
+
+	tempForm.blur(function () {
+		isEmpty(tempForm, tempButton);
+	});
+
+	tempForm.keyup(function() {
+		isEmpty(tempForm, tempButton);
+	});	
+
+	tempForm.change(function(){
+		isEmpty(tempForm, tempButton);
+	})
+}
+function isEmpty(form_input, button_name){
+	var empty = false,
+			ctrl = form_input;
+
+	if( ctrl.is('input') ) {
+		form_input.each(function() {
+		if ($(this).val() == '') {
+			empty = true;
+			}
+		});
+	} else {
+		form_input.each(function() {
+			console.log($(this));
+			var idx = this.selectedIndex;
+			if (idx == 0) { empty = true; }
+		});
+	}
+
+	if (empty) { button_name.attr('disabled', 'disabled').addClass('btn-inactive'); } 
+	else { button_name.removeAttr('disabled').removeClass('btn-inactive'); }
+}
+
+
+						

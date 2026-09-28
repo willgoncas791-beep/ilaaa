@@ -1,0 +1,3305 @@
+//Elvis Perez: Constantes en Space, alberga constantes de logica para el negocio.
+var tbk = (function(){
+
+	var ConstantsSpaceLocal = {}
+
+	ConstantsSpaceLocal.FORMAT_DATE_COMPLETE = 'DD/MM/YYYY hh:mm:ss';
+	ConstantsSpaceLocal.FORMAT_DATE_DDMMYY = 'DD/MM/YYYY';
+	ConstantsSpaceLocal.FORMAT_DATE_DDMMYY_MINUSC = 'dd/mm/yy';
+	ConstantsSpaceLocal.FORMAT_DATE_DD = 'DD';
+	ConstantsSpaceLocal.FORMAT_DATE_DDMMYYYY = 'dd/mm/yyyy';
+
+	ConstantsSpaceLocal.URL_EXPORT_CONSULTAS = '../consultas/exportar';
+
+	ConstantsSpaceLocal.INPUT_EMPTY = 'INPUT_EMPTY';
+	ConstantsSpaceLocal.INPUT_TYPED = 'INPUT_TYPED';
+	ConstantsSpaceLocal.INPUT_REQUIRED = 'INPUT_REQUIRED';
+	ConstantsSpaceLocal.INPUT_INVALID = 'INPUT_INVALID';
+	ConstantsSpaceLocal.INPUT_MORE = 'INPUT_MORE';
+	ConstantsSpaceLocal.INPUT_LEAST = 'INPUT_LEAST';
+	ConstantsSpaceLocal.INPUT_SUCCESS = 'INPUT_SUCCESS';
+	ConstantsSpaceLocal.INPUT_UNEXPECTED = 'INPUT_UNEXPECTED';
+	ConstantsSpaceLocal.INPUT_ACCOUNT_INVALID = 'INPUT_ACCOUNT_INVALID';
+
+	ConstantsSpaceLocal.SOLES_SYMBOL = 'S/';
+	ConstantsSpaceLocal.DOLAR_SYMBOL = '$';
+	ConstantsSpaceLocal.EURO_SYMBOL = '€';
+	ConstantsSpaceLocal.SOLES_CODE = '0000';
+	ConstantsSpaceLocal.DOLAR_CODE = '0001';
+	ConstantsSpaceLocal.EURO_CODE = '0080';
+
+	ConstantsSpaceLocal.STATE_WEB_SUCCESS = '200';
+	ConstantsSpaceLocal.STATE_WEB_ERROR = '400';
+	ConstantsSpaceLocal.STATE_WEB_FAIL = '500';
+
+	//Codigo Tipo de Ordenes
+	ConstantsSpaceLocal.ORDER_TYPE_PROVEEDORES = '01';
+	ConstantsSpaceLocal.ORDER_TYPE_HABERES = '02';
+	ConstantsSpaceLocal.ORDER_TYPE_CTS = '05';
+	ConstantsSpaceLocal.ORDER_TYPE_TRANSFERENCIA = '06';
+	ConstantsSpaceLocal.ORDER_TYPE_ENVIO_DOC = '07';
+	ConstantsSpaceLocal.ORDER_TYPE_FACTORING = '08';
+	ConstantsSpaceLocal.ORDER_TYPE_SERVICIOS = '11';
+	ConstantsSpaceLocal.ORDER_TYPE_PRESTAMOS = '12';
+	//Esta constante se utiliza para listar Ordenes Telebanking (TRTO)
+	ConstantsSpaceLocal.ORDER_TYPE_PAGOS_VARIOS_2 = '13'
+	//Esta constante se utiliza en el modulo de Pagos Varios - tx-pagos (TB95)
+	ConstantsSpaceLocal.ORDER_TYPE_PAGOS_VARIOS = '06';
+	ConstantsSpaceLocal.ORDER_TYPE_DOCUMENTOS_VIGENTES = '14';
+	ConstantsSpaceLocal.ORDER_TYPE_CRED_EMPRESARIAL = '15';
+	ConstantsSpaceLocal.ORDER_TYPE_SUNAT_NPS = '16';
+	ConstantsSpaceLocal.ORDER_TYPE_TARJETA_CRED = '18';
+	ConstantsSpaceLocal.ORDER_TYPE_CONFIG_POR_EMPRESA = '20';
+	ConstantsSpaceLocal.ORDER_TYPE_TRANS_AL_EXTERIOR = '21';
+	ConstantsSpaceLocal.ORDER_TYPE_TRANS_BETWEENACCOUNTSTHIRDPARTIES = '28';
+
+	//Codigos tipo de documento
+	ConstantsSpaceLocal.DOCUMENT_TYPE_DNI = '01';
+	ConstantsSpaceLocal.DOCUMENT_TYPE_FOREIGNERS_CARD = '02'; //Carnet de extranjeria
+	ConstantsSpaceLocal.DOCUMENT_TYPE_RUC = '05';
+	ConstantsSpaceLocal.DOCUMENT_TYPE_PASSPORT = '07'; //Pasaporte
+
+	//TODO: Se modifico estos valores, hacer el mismo cambio en los nuevos archivos donde se dividio tbk.js
+	//Codigos Tipo de Operaciones para Tipo Orden 06
+
+	ConstantsSpaceLocal.OPERATION_TYPE_TRANSFERBETWEENACCOUNT = '0';
+	ConstantsSpaceLocal.OPERATION_TYPE_INTELLIGENT = '1';
+	ConstantsSpaceLocal.OPERATION_TYPE_CCE = '2';
+	ConstantsSpaceLocal.OPERATION_TYPE_BCR = '3';
+	ConstantsSpaceLocal.OPERATION_TYPE_MATRIZ = '4';
+	ConstantsSpaceLocal.OPERATION_TYPE_MASSIVEINTERBANKING = '5';
+	ConstantsSpaceLocal.OPERATION_TYPE_CAVALI = '6';
+	//-- Integracion --
+	ConstantsSpaceLocal.OPERATION_TYPE_BETWEENACCOUNTSTHIRDPARTIES = '7';
+
+	//Tamanios de campos
+	ConstantsSpaceLocal.LENGTH_USER_NAME = 32
+	ConstantsSpaceLocal.LENGTH_AGREEMENT = 5;
+	ConstantsSpaceLocal.LENGTH_USER = 2;
+	ConstantsSpaceLocal.LENGTH_PASSWORD = 8;
+	ConstantsSpaceLocal.LENGTH_CAPTCHA = 5;
+	ConstantsSpaceLocal.LENGTH_ORDER = 4;
+
+	ConstantsSpaceLocal.NUMBER_ORDER_DEFAULT = '0000';
+
+	ConstantsSpaceLocal.LENGTH_MIN_SOCIAL_REASON = 1;
+	ConstantsSpaceLocal.LENGTH_MAX_SOCIAL_REASON = 30;// TODO Cambiar por valor
+														// correcto
+	ConstantsSpaceLocal.LENGTH_MIN_ACCOUNT_NUMBER = 20;// TODO Cambiar por valor
+														// correcto
+	ConstantsSpaceLocal.LENGTH_MAX_ACCOUNT_NUMBER = 20;// TODO Cambiar por valor
+														// correcto
+	ConstantsSpaceLocal.LENGTH_MIN_SAB_CODE = 4;// TODO Cambiar por valor correcto
+	ConstantsSpaceLocal.LENGTH_MAX_SAB_CODE = 4;// TODO Cambiar por valor correcto
+
+	//Documents
+	ConstantsSpaceLocal.LENGTH_DNI = 8;
+	ConstantsSpaceLocal.LENGTH_FOREIGNERS_CARD = 12; //Carnet de extranjeria
+	ConstantsSpaceLocal.LENGTH_PASSPORT = 12; //Pasaporte
+	ConstantsSpaceLocal.LENGTH_RUC = 11; //Ruc
+
+	ConstantsSpaceLocal.ORDER_ASC = 1;
+	ConstantsSpaceLocal.ORDER_DESC = -1;
+
+	ConstantsSpaceLocal.TYPE_STRING = 'STRING';
+	ConstantsSpaceLocal.TYPE_STRING_2 = 's';
+	ConstantsSpaceLocal.TYPE_FLOAT = 'FLOAT';
+	ConstantsSpaceLocal.TYPE_DATE = 'DATE';
+	ConstantsSpaceLocal.TYPE_FLOAT_2 = 'f';
+	ConstantsSpaceLocal.TYPE_DATE_2 = 'd';
+
+	//Codigos formas de pago
+	ConstantsSpaceLocal.CODE_METHOD_PAYMENT_MANAGEMENT_CHECK = '1'; //cheque de gerencia
+	ConstantsSpaceLocal.CODE_METHOD_PAYMENT_CURRENT_ACCOUNT = '2'; //cta. corriente
+	ConstantsSpaceLocal.CODE_METHOD_PAYMENT_SAVINGS_ACCOUNT = '3'; //cta. ahorro
+	ConstantsSpaceLocal.CODE_METHOD_PAYMENT_CCI = '4'; //cod. interbancario
+	ConstantsSpaceLocal.MONTHS = new Array(ConstantsThymeleaf.MONTH_01, ConstantsThymeleaf.MONTH_02, ConstantsThymeleaf.MONTH_03, ConstantsThymeleaf.MONTH_04,ConstantsThymeleaf.MONTH_05,ConstantsThymeleaf.MONTH_06,ConstantsThymeleaf.MONTH_07 , ConstantsThymeleaf.MONTH_08, ConstantsThymeleaf.MONTH_09,ConstantsThymeleaf.MONTH_10, ConstantsThymeleaf.MONTH_11,ConstantsThymeleaf.MONTH_12);
+	
+	ConstantsSpaceLocal.LENGTH_ACCOUNT_NUMBER = 10;
+	ConstantsSpaceLocal.LENGTH_CODE_BACKTRADER = 8;
+	ConstantsSpaceLocal.LENGTH_ORDER_NUMBER = 4;
+	ConstantsSpaceLocal.LENGTH_REFERENCE = 10;
+	ConstantsSpaceLocal.LENGTH_OPERATION_NUMBER = 15;
+	
+	ConstantsSpaceLocal.SEC_CORRELATION_ID_HEADER = "x-correlation-id";
+
+	function generateUUID() { // Public Domain/MIT
+	    var d = new Date().getTime();//Timestamp
+	    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+	    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	        var r = Math.random() * 16;//random number between 0 and 16
+	        if(d > 0){//Use timestamp until depleted
+	            r = (d + r)%16 | 0;
+	            d = Math.floor(d/16);
+	        } else {//Use microseconds since page-load if supported
+	            r = (d2 + r)%16 | 0;
+	            d2 = Math.floor(d2/16);
+	        }
+	        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	    });
+	}
+	
+	function uuidv4() {
+		var methodRandom;
+		if (window.crypto && window.crypto.getRandomValues) {
+			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+				(c ^ window.crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			);
+		} else if (window.msCrypto && window.msCrypto.getRandomValues) {
+			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+			(c ^ window.msCrypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+		);
+		} else {
+			return generateUUID();
+		}
+	}
+
+	function sanitizeUUID(uuid){
+		return uuid.replace(/[^a-zA-Z0-9\-]/g,'');
+	}
+
+	function sanitizeUrl(url) {
+		const sanitizedUrl = url.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+		const entityMap = {
+		  '&': '\u0026',
+		  '<': '\u003c',
+		  '>': '\u003e',
+		  '"': '\u0022',
+		  "'": '\u0027',
+		  '/': '\u002f'
+		};
+		return sanitizedUrl.replace(/[&<>"'/]/g, match => entityMap[match]);
+	}
+	
+	const TbkPlanEnum = (function(){
+		function createPlan(plan){
+			var plan = Object.freeze({
+				code: plan
+			});
+			return {
+				code: function(){
+					return plan.code;
+				}
+			}
+		}
+		const Plans = Object.freeze({
+			BUSINESS: createPlan('enterprise'),
+			INQUIRY: createPlan('queries'),
+			CORPORATE: createPlan('corporate')
+		});
+		function findByCode(code){
+			for(var prop in Plans){
+				if(Plans[prop].code() == code) {
+					return Plans[prop];
+				}
+			}
+		}
+		return Object.freeze({
+			BUSINESS: Plans.BUSINESS,
+			INQUIRY: Plans.INQUIRY,
+			CORPORATE: Plans.CORPORATE,
+			current: findByCode(ConstantsThymeleaf.tbkPlan)
+		})
+	})();
+	
+	var LoaderComponent = (function(){
+		return {
+			STATE_ONLY_SHOW: 'onlyShow',
+			STATE_ONLY_HIDE: 'onlyHide',
+			STATE_DEFAULT: ''
+		}
+	})();
+	
+	var SecurityContext = (function(){
+
+		const SEC_CORRELATION_ID = "correlationId";
+		const SEC_CORRELATION_ID_HEADER = ConstantsSpaceLocal.SEC_CORRELATION_ID_HEADER;
+		
+		function isLoaded(){
+			return !!localStorage.getItem(SEC_CORRELATION_ID);
+		}
+		
+		function value(){
+			return localStorage.getItem(SEC_CORRELATION_ID) || "";
+		}
+		
+		function init() {
+			localStorage.removeItem(SEC_CORRELATION_ID);
+			if(!!LoginConstants.correlationid) {
+				localStorage.setItem(SEC_CORRELATION_ID, LoginConstants.correlationid);
+			}
+		}
+		
+		function isValid(corridserver) {
+			return value() === corridserver;
+		}
+		
+		function SecurityException(message) {
+			this.message = message;
+			this.name = "SecurityException";
+		}
+		
+		function submitAudit(corridserver) {
+			var attr = {};
+			attr['CORRID_RESPONSE'] = corridserver;
+			attr['CORRID_STORAGE'] = value();
+			var elPageHost = $("#page-host");
+			var jsConv = elPageHost.data("agreement");
+			var jsUser = elPageHost.data("user-code");
+			attr['WEB_USERCODE'] = jsUser;
+			attr['WEB_CONTRACT'] = jsConv;
+			// TFRC 20240903 - vulnerabilidades de redireccion abierta
+			var params = $.param( attr ) || "";
+			var qParams = "?" + params;
+			var finalLink = "";
+			if(qParams.length <= 1){
+				finalLink = window.location.origin + "/main/LoginPage";
+			}
+			else{
+				var fullLink = URLRequests.REQUEST_CROSS_SESSION_CORRID + qParams;
+				finalLink = window.location.origin + fullLink.substring(2);
+			}
+			//window.location = URLRequests.REQUEST_CROSS_SESSION_CORRID + "?" + $.param( attr );
+			window.open(sanitizeUrl(finalLink), '_self');
+			$.fn.modalLoad("show");
+			throw new SecurityException("CORRID: Redireccionando a login.");
+		}
+		
+		function handleAuditGen(corridserver) {
+			if(!isValid(corridserver)){
+				submitAudit(corridserver);
+			}
+		}
+		
+		function handleAudit() {
+			var corridserver = ConstantsThymeleaf.correlationid;
+			handleAuditGen(corridserver);
+		}
+		
+		function handleAuditAjax(xhr) {
+			var corridserver = xhr.getResponseHeader(SEC_CORRELATION_ID_HEADER);
+			if(corridserver !== "") {
+				handleAuditGen(ConstantsThymeleaf.correlationid);
+			}
+		}
+	
+		return {
+			init: init,
+			getName: function(){return SEC_CORRELATION_ID;},
+			value: value,
+			clear: function(){return localStorage.remove(SEC_CORRELATION_ID);},
+			isLoaded: isLoaded,
+			isValid: isValid,
+			handleAudit: handleAudit,
+			handleAuditAjax: handleAuditAjax,
+			SecurityException: SecurityException
+		}
+	
+	})();
+	
+	return {
+		uuidv4: uuidv4,
+		ConstantsSpaceLocal: ConstantsSpaceLocal,
+		TbkPlanEnum: TbkPlanEnum,
+		LoaderComponent: LoaderComponent,
+		SecurityContext: SecurityContext
+	}
+	
+})();
+
+var ConstantsSpaceLocal = tbk.ConstantsSpaceLocal;
+const TbkPlanEnum = tbk.TbkPlanEnum;
+var LoaderComponent = tbk.LoaderComponent;
+
+//CONSTANTES ---------------------------------
+var INPUT_EMPTY = ConstantsSpaceLocal.INPUT_EMPTY;
+var INPUT_TYPED = ConstantsSpaceLocal.INPUT_TYPED;
+var INPUT_REQUIRED = ConstantsSpaceLocal.INPUT_REQUIRED;
+var INPUT_INVALID = ConstantsSpaceLocal.INPUT_INVALID;
+var INPUT_MORE = ConstantsSpaceLocal.INPUT_MORE;
+var INPUT_LEAST = ConstantsSpaceLocal.INPUT_LEAST;
+var INPUT_SUCCESS = ConstantsSpaceLocal.INPUT_SUCCESS;
+var INPUT_UNEXPECTED = ConstantsSpaceLocal.INPUT_UNEXPECTED;
+var INPUT_ACCOUNT_INVALID = ConstantsSpaceLocal.INPUT_ACCOUNT_INVALID;
+
+var LENGTH_USER_NAME= ConstantsSpaceLocal.LENGTH_USER_NAME;
+var LENGTH_AGREEMENT = ConstantsSpaceLocal.LENGTH_AGREEMENT;
+var LENGTH_USER = ConstantsSpaceLocal.LENGTH_USER;
+var LENGTH_PASSWORD = ConstantsSpaceLocal.LENGTH_PASSWORD;
+var LENGTH_CAPTCHA = ConstantsSpaceLocal.LENGTH_CAPTCHA;
+
+var TYPE_SEND_AJAX_POST = 'POST';
+var TYPE_SEND_AJAX_GET = 'GET';
+var DATA_TYPE_AJAX_HTML = 'html';
+var DATA_TYPE_AJAX_JSON = 'json';
+
+//CONSTANTES DE ORDENAMIENTO
+var SORT_ASC = 1;
+var SORT_DESC = 2;
+
+//EXPRESIONES REGULARES PARA VALIDACIONES
+
+var REG_EXP_DECIMAL_COMPLETO_CHANGE_RATE = "^([0-9]{1,3})(\.[0-9]{4})$";
+var REG_EXP_DECIMAL_COMPLETO_AMOUNT_CHARGE = "^([0-9]{1,9})(\.[0-9]{2})$";
+var REG_EXPR_ALPHANUMERIC_NO_SPACE = /^[a-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1]+$/i;
+var REG_EXPR_ALPHANUMERIC_WITH_SPACE = /^[a-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1\s]+$/i;
+var REG_EXPR_ALPHANUMERIC_WITH_SPACE_LINE = /^[a-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1\s-]+$/i;
+var REG_EXPR_ALPHANUMERIC_NO_SPACE_SCRIPT = /^[a-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1\u002D]+$/i;
+var REG_EXPR_ALPHANUMERIC_WITH_SPACE_SCRIPT = /^[a-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1\u002D\s]+$/i;
+var REG_EXPR_ONLY_NUMERIC = /^[0-9]+$/;
+var REG_EXP_DECIMAL_COMPLETO_AMOUNT_TWELVE_RATE = /^([0-9]{0,13})(\.[0-9]{2})$/;
+var REG_EXP_DECIMAL_COMPLETO = /^[0-9\u002E]+$/;
+var REG_EXP_DECIMAL_EN_FORMACION = /^[0-9]+(\.[0-9]{0,2})?$/;
+var REG_EXP_EMAIL = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+var REG_EXP_DECIMAL_CON_SIGNO_EN_FORMACION = /^(-)?[0-9]+(\.[0-9]{0,2})?$/;
+
+// TFRC 20260604 - extensión de caracteres permitidos
+/*var REG_EXPR_SPECIAL_ALPHANUMERIC_NO_SPACE = /^[a-zA-Z\d!@#$%^&*()]+$/i;
+var REG_EXPR_SPECIAL_ALPHANUMERIC_WITH_SPACE = /^[a-zA-Z\d!@#$%^&*()\s]+$/i;*/
+var REG_EXPR_SPECIAL_ALPHANUMERIC_NO_SPACE = /^\S+$/;
+var REG_EXPR_SPECIAL_ALPHANUMERIC_WITH_SPACE = /^(?=.*\S).+$/;
+
+var REG_EXPR_ALPHANUMERIC_NO_SPACE_POINT = /^[a-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1\.-]+$/i;
+var REG_EXPR_ALPHANUMERIC_WITH_SPACE_POINT = /^[a-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1\s\.-]+$/i;
+const REG_EXPR_CAMS_WORD_VALUE = /^\S+$/;
+
+var CODE_NUMERIC_VALIDATION_ZERO = "0";
+var CODE_NUMERIC_VALIDATION_ZERO_2 = "00";
+
+//For number invoice
+var REG_EXPR_NUMBER_INVOICE_NO_SPACE = /^[-|.A-Za-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1]+$/i;
+var REG_EXPR_NUMBER_INVOICE_WITH_SPACE = /^[-|.A-Za-z0-9\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1\s]+$/i;
+
+//var REG_EXPR_ALPHANUMERIC_NO_SPACE = "^[A-Za-z0-9]+$";
+//var REG_EXPR_ALPHANUMERIC_WITH_SPACE = "^[A-Za-z0-9\\s]+$";
+//var REG_EXPR_ONLY_NUMERIC = "^[0-9]+$";
+
+//CODIGO PARA VALIDAR LETRAS, NUMEROS, FECHAS Y CARACTERES ALFANUMERICOS
+var CODE_NUMERIC_VALIDATION = "1";
+var CODE_LETTERS_VALIDATION = "2";
+var CODE_ALPHANUMERIC_VALIDATION = "3";
+var CODE_DATE_VALIDATION = "4";
+var POINT = ".";
+var CONST_EMPTY = "";
+
+var CONST_ZOOM = ".6";
+
+//Funcion extraida de multiplica.
+function scrollto (hash) {
+	$('html, body').animate({
+		scrollTop: $(hash).offset().top - 100
+	}, 1000);
+}
+
+// Funciones para habilitacion de ordenamiento
+function sortInView(divColumn, flagLoadMore) {
+	var $divSort = divColumn.find('.sort-icons');
+	var $tableContainer = $divSort.parents('.table__wrapper');
+	var sortColumn = $divSort.data("column");
+	var typeColumn = $divSort.data("type");
+	var $i = $divSort.find(".glyphicon");
+	var $divs = $tableContainer.find(".table__row")
+
+	var query = "[data-column='" + sortColumn + "']";
+	$divs.each(function() {
+		$(this).data('orderby', $(this).find(query).text().toLowerCase().trim());
+	})
+
+	if (!flagLoadMore) {
+		var clases = $i.attr("class");
+		$tableContainer.find("div.sort-icons i").removeClass(
+				"glyphicon-menu-up glyphicon-menu-down glyphicon-order");
+		$i.addClass(clases);
+
+		if ((!$i.hasClass("glyphicon-menu-up") && !$i
+				.hasClass("glyphicon-menu-down"))
+				|| $i.hasClass("glyphicon-menu-down")) {
+			sortType = SORT_ASC;
+			$i.removeClass("glyphicon-menu-down").addClass(
+					"glyphicon-menu-up glyphicon-order");
+		} else {
+			sortType = SORT_DESC;
+			$i.removeClass("glyphicon-menu-up").addClass(
+					"glyphicon-menu-down glyphicon-order");
+		}
+
+		var htmlOrdered = ordenar($divs, sortColumn, sortType, typeColumn);
+		$tableContainer.find(".table__body tbody").html(htmlOrdered);
+	} else {
+		if ($i.hasClass("glyphicon-menu-up")) {
+			sortType = SORT_ASC;
+		} else {
+			sortType = SORT_DESC;
+		}
+		$tableContainer.find(".table__body tbody").html(
+				ordenar($divs, sortColumn, sortType, typeColumn));
+
+	}
+}
+
+/*
+ * Funcio'n para ordenar en funcion a una columna y tipo de dato asc o desc
+ */
+function ordenar($divs, sortColumn, sortType, typeColumn) {
+	var $divsOrdenados;
+
+	if (sortType === SORT_ASC) {
+		valOrder = -1
+	} else {
+		valOrder = 1
+	}
+
+	$divsOrdenados = $divs
+			.sort(function(a, b) {
+				var valA = formatSort(typeColumn, $(a).data("orderby"));
+				var valB = formatSort(typeColumn, $(b).data("orderby"));
+				return (valA > valB) ? -1 * valOrder
+						: (valA < valB) ? 1 * valOrder : 0;
+			});
+
+	return $divsOrdenados;
+}
+
+function formatSort(typeColumn, value) {
+	if (typeColumn == "d")// Date
+	{
+		return parseDate(value);
+	}
+	if (typeColumn == "f")// Float
+	{
+		return parseFloat(value);
+	}
+	return value;// Otros
+}
+
+/*
+ * Parsea del formato dd/mm/yyy a yyyymmdd eperez: Reemplaza a tbkParseDate
+ */
+function parseDate(fecha) {
+	try {
+		var date = fecha.split("/");
+		var date = date[2] + date[1] + date[0];
+		return date;
+	} catch (e) {
+		return "";
+	}
+}
+
+/*
+ * Parsea un string en formato #,#.## a number #.## eperez: Reemplaza a
+ * tbkParseFloat
+ */
+function parseFloat(numero) {
+	// Esta expresion regular se llevara a una constante al inicio de este
+	// archivo par su reutilizacion
+	var number = Number(numero.toString().replace(/[^-0-9\.]+/g, ""));
+	return number;
+}
+
+// Elvis Perez: Funcion para conversion de string a otros tipos.
+function convertType(val, type) {
+	if (type === ConstantsSpaceLocal.TYPE_FLOAT
+			|| type === ConstantsSpaceLocal.TYPE_FLOAT_2) {
+		return parseFloat(val);
+	} else if (type === ConstantsSpaceLocal.TYPE_DATE
+			|| type === ConstantsSpaceLocal.TYPE_DATE_2) {
+		return parseDate(val);
+	} else if (type === ConstantsSpaceLocal.TYPE_STRING
+			|| type === ConstantsSpaceLocal.TYPE_STRING_2)
+		return val.toLowerCase();
+	return val;
+}
+
+function compareType(valA, valB, type, typeOrder){
+	valA = convertType(valA,type);
+	valB = convertType(valB,type);
+	return ( valA > valB ? 1 : valA < valB ? -1 : 0 ) * typeOrder;
+}
+
+// Validacion de inputs
+function validateInput(input, flag, lenght, validate_function_pattern,
+		validateFunction) {
+	return validateInputMinMaxLength(input, flag, lenght, lenght,
+			validate_function_pattern, validateFunction);
+}
+function validateInputMinMaxLength(input, flag, minLenght, maxLength,
+		validate_function_pattern, validateFunction) {
+	if (input.length == 0) {
+		if (flag != INPUT_EMPTY) {
+			flag = INPUT_REQUIRED;
+		}
+	} else {
+		flag = INPUT_TYPED;
+		if (input.length < minLenght) {
+			flag = INPUT_LEAST;
+		} else if (input.length > maxLength) {
+			flag = INPUT_MORE;
+		} else if (validate_function_pattern !== undefined) {
+			if (!validate_function_pattern(input)) {
+				flag = INPUT_INVALID;
+			} else {
+				if (validateFunction !== undefined) {
+					flag = validateFunction();
+				} else {
+					flag = INPUT_SUCCESS;
+				}
+			}
+		} else {
+			flag = INPUT_SUCCESS;
+		}
+	}
+	return flag;
+}
+
+// Validar flag y mostrar msg de error
+function displayError(div, flag, msg_least, msg_more, msg_invalid,
+		msg_required, msgFunction) {
+	div.addClass("hidden");
+	if (flag != INPUT_SUCCESS && flag != INPUT_EMPTY) {
+		div.removeClass("hidden");
+		if (flag == INPUT_LEAST) {
+			div.html(msg_least);
+		} else if (flag == INPUT_MORE) {
+			div.html(msg_more);
+		} else if (flag == INPUT_INVALID) {
+			div.html(msg_invalid);
+		} else if (flag == INPUT_REQUIRED) {
+			div.html(msg_required);
+		} else if (msgFunction !== undefined) {
+			div.html(msgFunction(flag));
+		}
+	}
+}
+
+// --- PARSEADOR DE NUMEROS
+var parsearNumberToDecimal = function(number, ndecimals) {
+	var numberSE = number + '';
+	var arrayCharts = numberSE.split('');
+	var cZeros = 0
+
+	for (var c = 0; c < arrayCharts.length; c++) {
+		if ('0' != arrayCharts[c]) {
+			break;
+		}
+		cZeros++;
+	}
+	if (cZeros > 0) {
+		numberSE = numberSE.substring(cZeros, numberSE.length);
+	}
+
+	if (numberSE == null || numberSE.trim() == "") {
+		numberSE = "0.00";
+	} else {
+
+		if (numberSE.length == 1) {
+			return "0.0" + numberSE;
+		} else if (numberSE.length == 2) {
+			return "0." + numberSE;
+		} else if (numberSE.length == 3 && numberSE.indexOf(".") != -1) {
+			return "0" + numberSE;
+		} else {
+			numberSE = addDecimalCustomized(numberSE, ndecimals);
+		}
+	}
+
+	numberSE = setFormatSpacing(numberSE);
+	return numberSE;
+}
+
+function addDecimalCustomized(snumber, c) {
+	var suBSequence;
+	var number;
+	if (snumber.indexOf(".") != -1) {
+		number = snumber;
+	} else {
+		suBSequence = snumber.length - c;
+		number = snumber.substring(0, suBSequence) + '.'
+				+ snumber.substring(suBSequence, snumber.length);
+	}
+
+	return number;
+}
+
+function setFormatSpacing(number) {
+
+	var start = 0;
+	var length = number.length;
+	var formattedNumber = '';
+
+	var decimals;
+	if (number != null && length > 6) {
+		decimals = number.substring(length - 3, length);
+		number = number.substring(0, length - 3);
+
+		length = number.length;
+
+		var cycle = parseInt(length / 3);
+		var res = length % 3;
+		var i;
+		for (i = 0; i < cycle; i++) {
+			if (i > 0) {
+				formattedNumber = formattedNumber
+						+ number.substring(start, res) + ",";
+			} else if (res != 0) {
+				formattedNumber = formattedNumber
+						+ number.substring(start, res) + ",";
+			}
+
+			start = res;
+			res += 3;
+
+			if (i == cycle - 1) {
+
+				formattedNumber = formattedNumber
+						+ number.substring(start, res);
+				formattedNumber = formattedNumber.concat(decimals);
+			}
+		}
+	}
+	if (formattedNumber == null || formattedNumber.trim() == "") {
+		return number;
+	}
+
+	return formattedNumber;
+}
+
+function getTextDecimalFormat(numDecimal) {
+	return numDecimal != 0 ? setFormatSpacing("" + numDecimal) : "0.00";
+}
+
+function roundDecimal(numDecimal, numDecimales) {
+	var factor = Math.pow(10, numDecimales);
+	var roundNumDecimal = Math.round(numDecimal * factor) / factor;
+	return parseFloat("" + roundNumDecimal).toFixed(numDecimales);
+}
+
+function normalizarJson(dataStr) {
+	var regex = new RegExp("\"", "g");
+	var regex2 = new RegExp("\'", "g");
+
+	var $newDataStr = dataStr.replace(regex2, "\\'");// pasa de ' a \'
+	newDataStr = $newDataStr.replace(regex, "'");// pasa de " a '
+	return newDataStr;
+}
+
+// ------- PRINT GENERICO
+
+function getParamsGlobal(){
+	var pageHost = document.getElementById("page-host");
+	return [
+        pageHost.getAttribute("data-user-code"),
+        pageHost.getAttribute("data-user-name")
+    ];
+}
+
+function getResource(context, resourcePath){
+	return context + resourcePath;
+}
+
+function printDiv(_paramsPrint){
+	
+	paramsPrint = {
+		title : 'Scotiabank',
+		width : 800,
+		heigth : 600,
+		cssLinks : [
+	        "../nuevotbk/resources/css/bootstrap.min.css",
+	        "../nuevotbk/resources/css/bootstrap-theme.min.css",
+	        "../nuevotbk/resources/css/main.css",
+	        "../nuevotbk/resources/css/tbk.css",
+	        "../nuevotbk/resources/css/print.css"
+    	],
+		jsLinks : [],
+		printMethod : function(callback) {
+			callback("HTML POR DEFECTO");
+		},
+		styleRules : '',
+		msgLoader : ConstantsThymeleaf.loading_points,
+		msgPrint : ConstantsThymeleaf.printing_points,
+		delay : 750,
+		delayPrint : 200,
+		mode : 'print', // mode [ print | debug ]
+		showLoader: true,
+		onSuccess: function(){}
+	}
+
+	globalMethod.MergeRecursive(paramsPrint,_paramsPrint);
+	
+	var mywindow = window.open('', paramsPrint.title, 'width='
+			+ paramsPrint.width + ',height=' + paramsPrint.heigth);
+	if (!mywindow || !mywindow.window || !mywindow.document || !mywindow.document.body) {
+		if(mywindow){
+			mywindow.close();
+		}
+		setTimeout(function() {
+			printDiv(_paramsPrint);
+		}, 750);
+	} else {
+		mywindow.document.head.innerHTML = '';
+		mywindow.document.body.innerHTML = '';
+		mywindow.document.title = paramsPrint.title;
+		mywindow.document.open();
+		
+		mywindow.document.writeln('<!doctype html>');
+		mywindow.document.writeln('<html>');
+		mywindow.document.writeln('  <head>');
+		mywindow.document.writeln('    <title>');
+		mywindow.document.writeln(paramsPrint.title);
+		mywindow.document.writeln('    </title>');
+		mywindow.document.writeln('<meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7" />');
+		for (i in paramsPrint.cssLinks) {
+			mywindow.document.writeln('      <link rel="stylesheet" href="'
+					+ paramsPrint.cssLinks[i] + '" type="text/css" />');
+		}
+		for (i in paramsPrint.jsLinks) {
+			mywindow.document.writeln('      <script src="'
+					+ paramsPrint.jsLinks[i] + '" />');
+		}
+		mywindow.document.writeln('    <style>');
+		mywindow.document.writeln(paramsPrint.styleRules);
+		mywindow.document.writeln('    </style>');
+		mywindow.document.writeln('    <script>');
+		mywindow.document.writeln('       var interval = setInterval(function(){');
+		mywindow.document.writeln('          if(document.getElementById("content-complete")){');
+		mywindow.document.writeln('             setTimeout(function(){');
+		mywindow.document.writeln('                if("'+paramsPrint.mode+'" === "print"){');
+		mywindow.document.writeln('             	   window.print();window.document.close();'+((getMobileOperatingSystem()==='iOS')?'':'window.close();'));
+		mywindow.document.writeln('                }');
+		mywindow.document.writeln('                clearInterval(interval)');
+		mywindow.document.writeln('             },'+paramsPrint.delayPrint+')');
+		mywindow.document.writeln('          }');
+		mywindow.document.writeln('       },' + paramsPrint.delay + ')');
+		mywindow.document.writeln('    </script>');
+		mywindow.document.writeln('  </head>');
+		mywindow.document.writeln('  <body style="zoom:'+CONST_ZOOM+';">');
+		mywindow.document.writeln('    <div id="ajax_loader">');
+		mywindow.document.writeln('      <div class="text-center">');
+		mywindow.document.writeln('        <img src="../nuevotbk/resources/img/load.gif"></img><br/>');
+		mywindow.document.writeln('        <span id="ajax_loader-msg">'+paramsPrint.msgLoader+'</span>');
+		mywindow.document.writeln('      </div>');
+		mywindow.document.writeln('    </div>');
+		mywindow.document.writeln('  </body>');
+		mywindow.document.writeln('</html>');
+
+		var intervalClose = setInterval(function() {
+			if (mywindow.closed) {
+				$.fn.modalLoad('hide');
+				paramsPrint.onSuccess();
+				clearInterval(intervalClose);
+			}else if(paramsPrint.showLoader){
+				$.fn.modalLoad('show',paramsPrint.msgPrint);
+			}
+		}, 1000);
+
+		var intervalInject = setInterval(function() {
+			if (mywindow.document.getElementById("ajax_loader") !== null) {
+				paramsPrint.printMethod(function(html) {
+					mywindow.document.body.innerHTML = "<div id='content-complete'>"
+							+ html + "</div>";
+				});
+				paramsPrint.onSuccess();
+				clearInterval(intervalInject);
+			} else if (mywindow.closed) {
+				paramsPrint.onSuccess();
+				clearInterval(intervalInject);
+			}
+		}, 1000);
+	}
+}
+
+/*
+ * Metodos validacion Cesar GM
+ */
+function validarAlfanumericos(event, longitud, space_accept) {
+
+	var tecla = (document.all) ? event.keyCode : event.which;
+	var te = String.fromCharCode(tecla);
+	if (tecla == 127 | tecla == 8 | tecla == 0)
+		return true;
+	var expr = REG_EXPR_ALPHANUMERIC_NO_SPACE;
+	if (space_accept !== undefined && space_accept) {
+		expr = REG_EXPR_ALPHANUMERIC_WITH_SPACE;
+	}
+	var te = String.fromCharCode(tecla);
+	var testExpr = expr.test(te);
+
+	var comp = event.target;
+	valTexto = comp.value;
+
+	if (longitud !== undefined) {
+		if (testExpr) {
+			if (valTexto.length < longitud)
+				testExpr = true;
+			else
+				testExpr = false;
+		}
+	}
+	return testExpr;
+}
+
+function validarDecimalKeyPress(event, element) {
+	var key = String.fromCharCode(!event.charCode ? event.which
+			: event.charCode);
+	var nuevoValorMostrar = $(element).val() + key;
+
+	var esDecimalFormadoValidoPorPattern = RegExp(REG_EXP_DECIMAL_EN_FORMACION)
+			.test(nuevoValorMostrar)
+	if (!esDecimalFormadoValidoPorPattern) {
+		event.preventDefault();
+		return false;
+	}
+	return true;
+}
+
+function validarDecimalKeyPressAfterInsert(event, element) {
+	var key = String.fromCharCode(!event.charCode ? event.which
+			: event.charCode);
+	var nuevoValorMostrar = insertString($(element).val(), key, doGetCaretPosition($(element).prop('id')));
+
+	var esDecimalFormadoValidoPorPattern = RegExp(REG_EXP_DECIMAL_EN_FORMACION)
+			.test(nuevoValorMostrar)
+	if (!esDecimalFormadoValidoPorPattern) {
+		event.preventDefault();
+		return false;
+	}
+	return true;
+}
+
+function validarDecimalAmountChargeKeyPress(event, element) {
+	var regex = /^[0-9]{1,9}(\.([0-9]{1,2})?)?$/g;
+	var tecla = event.keyCode;
+	if (tecla == 46 | tecla == 8) {
+		return true;
+	}
+	var key = String.fromCharCode(!event.charCode ? event.which
+			: event.charCode);
+	var nuevoValorMostrar = $(element).val() + key;
+	return regex.test(nuevoValorMostrar);
+}
+
+function validarDecimalChangeRateKeyPress(event, element){
+	var regex = /^[0-9]{1,3}(\.([0-9]{1,4})?)?$/g;
+	var tecla = event.keyCode;
+	if (tecla == 46 | tecla == 8) {
+		return true;
+	}
+	var key = String.fromCharCode(!event.charCode ? event.which
+			: event.charCode);
+	var nuevoValorMostrar = $(element).val() + key;
+	return regex.test(nuevoValorMostrar);
+}
+
+function isSpanishLanguage() {
+	var cssLanguage = $('.language-container a:first').prop('class');
+	var posSelectES = cssLanguage.indexOf('select');
+
+	if (posSelectES > 0)
+		return true;
+
+	else
+		return false;
+}
+
+function convertCalendarSpanish(dateInput) {
+
+	$.datepicker.regional['ES'] = {
+		closeText : 'Cerrar',
+		prevText : '< Ant',
+		nextText : 'Sig >',
+		currentText : 'Hoy',
+			 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+			 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+		dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb' ],
+		dayNamesMin : [ 'Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá' ],
+		weekHeader : 'Sm',
+		dateFormat : 'dd/mm/yy',
+		firstDay : 1,
+		isRTL : false,
+		showMonthAfterYear : false,
+		yearSuffix : ''
+	};
+
+	setLanguageDefault(dateInput, 'ES');
+
+}
+
+function getTypeOperationByCode(code) {
+	if (code == '0')
+		return $('#container-print-home').data('toconfirm');
+
+	else if (code == '1')
+		return $('#container-print-home').data('toexecuting');
+
+	else if (code == '2')
+		return $('#container-print-home').data('toprocessing');
+
+	else if (code == '3')
+		return $('#container-print-home').data('toauthorize');
+}
+
+function setLanguageDefault(idComponent, language) {
+
+	if ($.datepicker.regional[language] != undefined)
+		$.datepicker.setDefaults($.datepicker.regional[language]);
+	else if ($.datepicker.regional[language.substring(0, 2)] != undefined)
+		$.datepicker.setDefaults($.datepicker.regional[language.substring(0, 2)
+				.toLowerCase()]);
+	else
+		$.datepicker.setDefaults($.datepicker.regional['']);
+	$(idComponent).datepicker({
+		clickInput : true
+	});
+}
+
+function validarNumerico(event, longitud) {
+	var tecla = (document.all) ? event.keyCode : event.which;
+	var te = String.fromCharCode(tecla);
+	if (tecla == 127 | tecla == 8 | tecla == 0)
+		return true;
+
+	var expr = REG_EXPR_ONLY_NUMERIC;
+	var testExpr = expr.test(te);
+
+	var comp = event.target;
+	valTexto = comp.value;
+
+	if (longitud !== undefined) {
+		if (testExpr) {
+			if (valTexto.length < longitud)
+				testExpr = true;
+			else
+				testExpr = false;
+		}
+	}
+	return testExpr;
+
+}
+
+function validarNumerico_(tecla, longitud) {
+	if (tecla == 127 | tecla == 8 | tecla == 0)
+		return true;
+
+	var expr = REG_EXPR_ONLY_NUMERIC;
+	var testExpr = expr.test(tecla);
+
+//	var comp = event.target;
+//	valTexto = comp.value;
+
+	if (longitud !== undefined) {
+		if (testExpr) {
+			if (tecla.length < longitud)
+				testExpr = true;
+			else
+				testExpr = false;
+		}
+	}
+	return testExpr;
+
+}
+
+function concatArrays(arrayInit, arrayData) {
+	var arrayInitTmp = arrayInit.concat(arrayData);
+	return arrayInitTmp;
+
+}
+
+/*
+ * Fin Metodos validacion Cesar GM
+ */
+
+/*
+ * Mijail Aymara: Metodo utilitario para validacion de 2 fechas : Los parametros
+ * son Id Fecha de inicio y Id Fin
+ */
+function validarRangoFechasGeneral(idFechaInicio, idFechaFin) {
+	var actualDate = new Date();
+	var actualYear = actualDate.getFullYear();
+	var actualMonth = actualDate.getMonth();
+	var actualDay = actualDate.getDate();
+
+	$(idFechaInicio).datepicker({
+		dateFormat : 'dd/mm/yy',
+		maxDate : new Date(actualYear, actualMonth, actualDay),
+		onSelect : function(arg) {
+
+			$(this).removeAttr("placeholder");
+			try{
+				var fechaInicioMaximo = $(idFechaFin).datepicker('getDate');
+				if(fechaInicioMaximo != null){
+					fechaInicioMaximo.setDate(fechaInicioMaximo.getDate());
+					$(idFechaInicio).datepicker('option', 'maxDate', fechaInicioMaximo);
+	
+					/** Fix: Para cuando se ingresa una fecha con formato incorrecto en input "fecha desde" **/
+					var tmpFechaInicio = $(idFechaInicio).val();
+	
+					if(tmpFechaInicio == null || tmpFechaInicio.trim() == ""){
+						$(idFechaInicio).val($(idFechaFin).val());
+					}
+					else{
+	
+						var splitFechaInicio = ($(idFechaInicio).val()).split('/');
+						var dayFechaInicio = splitFechaInicio[0];
+						var monthFechaInicio = splitFechaInicio[1];
+						var yearFechaInicio = splitFechaInicio[2];
+	
+						if(dayFechaInicio > 31 || monthFechaInicio > 12 || yearFechaInicio > 2027){
+							$(idFechaInicio).val($(idFechaFin).val());
+						}            	
+					}
+				}
+			}catch(e){
+				console.error(e)
+			}
+            /** Para cuando se ingresa una fecha con formato incorrecto en fecha desde **/
+
+		}
+	});
+
+	$(idFechaFin)
+			.datepicker(
+					{
+						dateFormat : 'dd/mm/yy',
+						maxDate : new Date(actualYear, actualMonth, actualDay),
+						onSelect : function(arg) {
+
+							$(this).removeAttr("placeholder");
+							var fechaInicioMaximo = $(idFechaFin).datepicker(
+									'getDate');
+							fechaInicioMaximo.setDate(fechaInicioMaximo
+									.getDate());
+							$(idFechaInicio).datepicker('option', 'maxDate',
+									fechaInicioMaximo);
+
+							/**
+							 * Fix: Para cuando se ingresa una fecha con formato
+							 * incorrecto en input "fecha desde" *
+							 */
+							var tmpFechaInicio = $(idFechaInicio).val();
+
+							if (tmpFechaInicio == null
+									|| tmpFechaInicio.trim() == "") {
+								$(idFechaInicio).val($(idFechaFin).val());
+							} else {
+
+								var splitFechaInicio = ($(idFechaInicio).val())
+										.split('/');
+								var dayFechaInicio = splitFechaInicio[0];
+								var monthFechaInicio = splitFechaInicio[1];
+								var yearFechaInicio = splitFechaInicio[2];
+
+								if (dayFechaInicio > 31
+										|| monthFechaInicio > 12
+										|| yearFechaInicio > 2027) {
+									$(idFechaInicio).val($(idFechaFin).val());
+								}
+
+							}
+							/**
+							 * Para cuando se ingresa una fecha con formato
+							 * incorrecto en fecha desde *
+							 */
+
+						}
+					});
+
+}
+
+/* Mijail Aymara: Metodo para asignar fechas por defecto (hoy dia) */
+function getTodayDDMMYYYY() {
+
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1;
+
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+		dd = '0' + dd
+	}
+	if (mm < 10) {
+		mm = '0' + mm
+	}
+	today = dd + '/' + mm + '/' + yyyy;
+
+	return today;
+
+}
+
+function setDefaultsDates(idFechaInicio, idFechaFin) {
+
+	$(idFechaInicio).attr('value', getTodayDDMMYYYY());
+	$(idFechaFin).attr('value', getTodayDDMMYYYY());
+
+	var isLangSpanish = isSpanishLanguage();
+
+	if (isLangSpanish) {
+		convertCalendarSpanish(idFechaInicio);
+		convertCalendarSpanish(idFechaFin);
+	}
+
+}
+
+/*
+ * Cesar GM
+ */
+function initDatePicker(idDatePickerView, formatDatePicker, dateView) {
+
+	$(idDatePickerView).datepicker({
+		dateFormat : formatDatePicker
+	});
+
+	$(idDatePickerView).prop('value', dateView);
+
+	var isLangSpanish = isSpanishLanguage();
+
+	if (isLangSpanish)
+		convertCalendarSpanish(idDatePickerView);
+
+}
+
+function validateDateFormat(dateView, formatDate) {
+
+	if (formatDate == ConstantsSpaceLocal.FORMAT_DATE_DDMMYYYY) {
+		var expReg = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/g;
+		return expReg.test(dateView);
+	}
+
+	return false;
+
+}
+
+function validateNumeric(valueInput) {
+	var expReg = REG_EXPR_ONLY_NUMERIC;
+	return expReg.test(valueInput);
+}
+function validateDecimal(val)
+{
+	var array = val.split(POINT);
+	if(array.length == 1 || array.length == 2){
+		if((array[0]!=CONST_EMPTY) && val.substring(0,1) == CODE_NUMERIC_VALIDATION_ZERO)
+			return false
+			
+		if(array.length == 2){
+			if(array[1].length == 2 || array[1].length == 1 || array[1].length == 0)
+				return true;
+			else
+				return false;
+		}else
+		{
+			return true;
+		}
+	}
+	else
+		return false;
+	//return valueOk;
+}
+function completarDecimalImporte(val)
+{
+	var valueComplete = CONST_EMPTY;
+	var array = val.split(POINT);
+	var valueInt = 0;
+	var valueDec = 0;
+	if(val.indexOf(POINT) == -1)
+		valueDec = CODE_NUMERIC_VALIDATION_ZERO_2;
+	else
+	{
+		if(array[1] == CONST_EMPTY)
+			valueDec = CODE_NUMERIC_VALIDATION_ZERO_2;
+		else
+		{
+			if(array[1].length == 1)
+				valueDec = array[1].concat(CODE_NUMERIC_VALIDATION_ZERO);
+			else
+				valueDec = array[1];
+		}
+	}
+	valueInt = parseInt(array[0]).toString();
+	valueComplete = valueInt.concat(POINT).concat(valueDec);
+	return valueComplete;
+}
+function validateDecimal_rate(value)
+{
+	var valueOk = false;
+	var regexNumber = /^[0-9]+(\.[0-9]{3,3})?$/;
+	if(value!=""){
+		if(regexNumber.test(value)){
+			if(value.indexOf(POINT)==-1)
+			{
+				valueOk = false;
+			}
+			else
+				valueOk = true
+		}
+	}
+	else
+	{
+		valueOk = true;
+	}
+	return valueOk;
+}
+function validateFormattZipTxt(value)
+{
+	var valueOk = false;
+	var regexNumber = /(\.rar|\.zip|\.txt)$/i;
+	if(value!=""){
+		if(regexNumber.test(value)){
+			valueOk = true;
+		}
+		else
+			valueOk = false;
+	}	
+	return valueOk;
+}
+function fileSinExtension(value)
+{
+	var position = value.lastIndexOf('.');
+	var str = value.substr(0, position);
+	return str;
+}
+function validarDateKeyDown(idInput, format_date) {
+	var valueBefore = $(idInput).val();
+	var valueBeforeLength = valueBefore.length;
+
+	setTimeout(function() {
+		var valueAfter = $(idInput).val();
+		var valueAfterLength = valueAfter.length;
+
+		if (valueAfterLength > valueBeforeLength) {
+
+			if (valueAfterLength < 2) {
+
+				var isNumeric = validateNumeric(valueAfter);
+
+				if (isNumeric) {
+					var valueAfterToInt = parseInt(valueAfter);
+					if (valueAfterToInt <= 31)
+						$(idInput).val(valueAfter);
+
+					else
+						$(idInput).val(valueBefore);
+				} else
+					$(idInput).val(valueBefore);
+			}
+
+			else if (valueAfterLength == 2) {
+				var isNumeric = validateNumeric(valueAfter);
+				if (isNumeric) {
+					var valueAfterToInt = parseInt(valueAfter);
+					if (valueAfterToInt > 0 && valueAfterToInt <= 31)
+						$(idInput).val(valueAfter + '/');
+
+					else
+						$(idInput).val(valueBefore);
+				}
+
+				else
+					$(idInput).val(valueBefore);
+			}
+
+			else if (valueAfterLength == 3) {
+				var day = valueAfter.substring(0, 2);
+				var month = valueAfter.substring(2);
+
+				if (month != '/')
+					$(idInput).val(day + '/' + month);
+
+				else
+					$(idInput).val(day + '/');
+
+			}
+
+			else if (valueAfterLength >= 4 && valueAfterLength < 5) {
+				var day = valueAfter.substring(0, 2);
+				var month = valueAfter.substring(3);
+				var isNumeric = validateNumeric(month);
+
+				if (isNumeric) {
+					var valueAfterToInt = parseInt(month);
+					if (valueAfterToInt <= 12)
+						$(idInput).val(day + '/' + month);
+
+					else
+						$(idInput).val(valueBefore);
+				} else
+					$(idInput).val(valueBefore);
+			}
+
+			else if (valueAfterLength == 5) {
+
+				var day = valueAfter.substring(0, 2);
+				var month = valueAfter.substring(3);
+				var isNumeric = validateNumeric(month);
+
+				if (isNumeric) {
+					var valueAfterToInt = parseInt(month);
+					if (valueAfterToInt > 0 && valueAfterToInt <= 12)
+						$(idInput).val(day + '/' + month + '/');
+
+					else
+						$(idInput).val(valueBefore);
+				} else
+					$(idInput).val(valueBefore);
+
+			}
+
+			else if (valueAfterLength == 6) {
+				var day = valueAfter.substring(0, 2);
+				var month = valueAfter.substring(3, 5);
+				var year = valueAfter.substring(5);
+
+				if (year != '/') {
+					var isNumeric = validateNumeric(year);
+
+					if (isNumeric)
+						$(idInput).val(day + '/' + month + '/' + year);
+					else
+						$(idInput).val(valueBefore);
+				}
+
+			}
+
+			else if (valueAfterLength >= 7 && valueAfterLength <= 10) {
+
+				if (valueAfterLength == 10) {
+
+					var tmpDateInput = valueAfter;
+					var isDateValid = validateDateFormat(tmpDateInput,
+							'dd/mm/yyyy');
+
+					if (!isDateValid)
+						$(idInput).val('');
+				}
+
+				else {
+
+					var day = valueAfter.substring(0, 2);
+					var month = valueAfter.substring(3, 5);
+					var year = valueAfter.substring(6);
+
+					var isNumeric = validateNumeric(year);
+
+					if (isNumeric)
+						$(idInput).val(day + '/' + month + '/' + year);
+
+					else
+						$(idInput).val(valueBefore);
+
+				}
+
+			}
+		}
+
+		else {
+
+			if (valueAfterLength == 3) {
+				var day = valueAfter.substring(0, 2);
+				$(idInput).val(day);
+			}
+
+			else if (valueAfterLength == 6) {
+				var day = valueAfter.substring(0, 2);
+				var month = valueAfter.substring(3, 5);
+				$(idInput).val(day + '/' + month);
+			}
+
+		}
+
+	}, 40);
+
+}
+
+function validarDecimalWithNegativeSignKeyDown(idInput) {
+	
+	var valueBefore = $(idInput).val();
+	
+	setTimeout(function() {
+		
+		var data = $(idInput).val();		
+		
+		if(data.length == 1){
+			
+			if(data == '-')
+				return true;
+		
+			else{
+				
+				var isOk = validateDecimalWithNegativeSignText(data);
+				
+				if(isOk)
+					$(idInput).val(data);
+				
+				else
+					$(idInput).val(valueBefore);
+			
+			}
+			
+		}
+		
+        else{
+        	var isOk = validateDecimalWithNegativeSignText(data);
+        	
+    		if (!isOk) {
+    			var valueEval = valueBefore;
+    			
+    			if(valueEval.charAt(0) == '-'){
+        			valueEval = valueBefore.substring(1); 
+    			}
+    			
+    			var isOk2 = validateDecimalWithNegativeSignText(valueEval);    		
+    			
+    			if(isOk2)
+    				$(idInput).val(valueBefore);
+    		}
+		}
+		
+	}, 20);
+	
+}
+
+function validateDecimalWithNegativeSignText(valTexto) {
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(valTexto)) {
+		return false;
+	}
+	if (valTexto == 127 | valTexto == 8 | valTexto == 0) {
+		if (!valTexto.includes(".") && !valTexto.includes(" ")) {
+			return true;
+		}
+	}
+
+	var expr = REG_EXP_DECIMAL_CON_SIGNO_EN_FORMACION;
+	return expr.test(valTexto);
+
+}
+
+function validateDecimalAmountWithoutSignKeyDown(idInput){
+	
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validateDecimalAmountWithoutSignText(data);
+
+		if (!isOk) {
+			if (validateDecimalAmountWithoutSignText(valueBefore)) {
+				$(idInput).val(valueBefore);
+			}
+		}
+	}, 20);
+	
+}
+
+function validateDecimalAmountWithoutSignText(valTexto) {
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(valTexto)) {
+		return false;
+	}
+	if (valTexto == 127 | valTexto == 8 | valTexto == 0) {
+		if (!valTexto.includes(".") && !valTexto.includes(" ")) {
+			return true;
+		}
+	}
+
+	var expr = REG_EXP_DECIMAL_EN_FORMACION;
+	return expr.test(valTexto);
+
+}
+
+function setValidationTextInView(componente, txt) {
+
+	$(componente).removeClass("hidden");
+	var color = $(componente).css('color');
+	var txtDefault = $(componente).text();
+
+	$(componente).text(txt);
+	$(componente).css("color", "#d81e05");
+
+}
+
+function hideValidationTextInView(idInputValidator){
+	$(idInputValidator).addClass('hidden');
+	$(idInputValidator).text('');
+}
+
+/* Cesar GM */
+
+// funcion para validar el tamano minimo de un entrada
+function esMinimo(value, minLen) {
+	if (value != null && value.length < minLen) {
+		return false;
+	}
+	return true;
+}
+
+// Counters Type Caracters
+function countCaseChars(str) {
+	var count = 0, len = str.length;
+	for (var i = 0; i < len; i++) {
+		if (/[A-Za-z]/.test(str.charAt(i)))
+			count++;
+	}
+	return count;
+}
+
+function countCaseNumber(str) {
+	var count = 0, len = str.length;
+	for (var i = 0; i < len; i++) {
+		if (/[0-9]/.test(str.charAt(i)))
+			count++;
+	}
+	return count;
+}
+
+/* Mijail Aymara: Metodo generico de impresion */
+function printDynamicDivs(cssDependencies, scriptsDependencies, dataToAppend) {
+
+	var mywindow = window.open('', 'Home', 'height=1000,width=1200');
+
+	mywindow.document.head.innerHTML = '';
+	mywindow.document.body.innerHTML = '';
+
+	mywindow.document.write('<html><head>');
+
+	// Seteo de dependencias js
+	for ( var i in scriptsDependencies) {
+
+		var scriptDep = scriptsDependencies[i];
+
+		mywindow.document.write('<script ');
+		mywindow.document.write('src="' + scriptDep + '"/>');
+		mywindow.document.write('</' + 'script' + '>');
+	}
+
+	// Seteo de dependencias css
+	for ( var i in cssDependencies) {
+		var cssDep = cssDependencies[i];
+		mywindow.document.write('<link rel="stylesheet" href="' + cssDep
+				+ '" type="text/css" />');
+	}
+
+	mywindow.document
+			.write('<style type="text/css" media="print">@page{ margin: 0; } @media print{}</style>');
+
+	mywindow.document.write('<script> ');
+	mywindow.document.write('setTimeout(function(){window.print();},1000)');
+	mywindow.document.write('</' + 'script' + '>');
+	mywindow.document.write('</head><body style="padding:20px;zoom:'+CONST_ZOOM+';">');
+
+	for ( var i in dataToAppend) {
+		var dataDiv = dataToAppend[i];
+		var data = $('<div/>').append($('' + dataDiv + '').clone()).html();
+		mywindow.document.write('<div class="row">');
+		if (dataDiv === "#dataUser") {
+			mywindow.document
+					.write('<div class="col-xs-6 col-md-6" style="font-weight:bold;font-size:17px;"><img src="../nuevotbk/resources/img/scotia.png" alt="Image scotiabank."></div>');
+			data = data.replace("hidden-xs", "pull-right");
+		} else {
+			data = data.replace(/hidden-xs/g, " ");
+		}
+
+		data = data.replace(/hidden-sm/g, " ");
+		data = data.replace(/col-md/g, "col-xs");
+		data = data.replace(/money-containers-flyout/g, " ");
+
+		mywindow.document.write(data);
+		mywindow.document.write("<br>");
+		mywindow.document.write('</div>');
+	}
+	mywindow.document.write('</body></html>');
+}
+
+/* Mijail Aymara: Metodo gene'rico de impresio'n */
+function printDynamicDivs(cssDependencies, scriptsDependencies, dataToAppend) {
+
+	var mywindow = window.open('', 'Home', 'height=1000,width=1200');
+
+	mywindow.document.head.innerHTML = '';
+	mywindow.document.body.innerHTML = '';
+
+	mywindow.document.write('<html><head>');
+
+	// Seteo de dependencias js
+	for ( var i in scriptsDependencies) {
+
+		var scriptDep = scriptsDependencies[i];
+
+		mywindow.document.write('<script ');
+		mywindow.document.write('src="' + scriptDep + '"/>');
+		mywindow.document.write('</' + 'script' + '>');
+	}
+
+	// Seteo de dependencias css
+	for ( var i in cssDependencies) {
+		var cssDep = cssDependencies[i];
+		mywindow.document.write('<link rel="stylesheet" href="' + cssDep
+				+ '" type="text/css" />');
+	}
+
+	mywindow.document
+			.write('<style type="text/css" media="print">@page{ margin: 0; } @media print{}</style>');
+
+	mywindow.document.write('<script> ');
+	mywindow.document.write('setTimeout(function(){window.print();},1000)');
+	mywindow.document.write('</' + 'script' + '>');
+	mywindow.document.write('</head><body style="padding:20px;zoom:'+CONST_ZOOM+';">');
+
+	for ( var i in dataToAppend) {
+		var dataDiv = dataToAppend[i];
+		var data = $('<div/>').append($('' + dataDiv + '').clone()).html();
+		mywindow.document.write('<div class="row">');
+		if (dataDiv === "#dataUser") {
+			mywindow.document
+					.write('<div class="col-xs-6 col-md-6" style="font-weight:bold;font-size:17px;"><img src="../nuevotbk/resources/img/scotia.png" alt="Image scotiabank."></div>');
+			data = data.replace("hidden-xs", "pull-right");
+		} else {
+			data = data.replace(/hidden-xs/g, " ");
+		}
+
+		data = data.replace(/hidden-sm/g, " ");
+		data = data.replace(/col-md/g, "col-xs");
+		data = data.replace(/money-containers-flyout/g, " ");
+
+		mywindow.document.write(data);
+		mywindow.document.write("<br>");
+		mywindow.document.write('</div>');
+	}
+	mywindow.document.write('</body></html>');
+}
+
+/* Mijail Aymara: Impresor de grillas */
+function printGrids(dataToAppend, stylesForHead, stylesForData, business, filter, title){
+	var containTitleEs = title.includes("Cheques de Gerencia");
+	var containTitleEn = title.includes("Management Checks");
+
+//	var meses = new Array 	    ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+//	var f = new Date();
+	var dateOutput= getDateTimeForReport();//f.getDate()+' ' + meses[f.getMonth()]+' ' +f.getFullYear() + ' '+f.getHours()+':'+f.getMinutes();
+	var cssDependencies = [ "../nuevotbk/resources/css/jquery-ui.min.css",
+			"../nuevotbk/resources/css/bootstrap.min.css",
+			"../nuevotbk/resources/css/bootstrap-select.min.css",
+			"../nuevotbk/resources/css/bootstrap-theme.min.css",
+			"../nuevotbk/resources/css/durandal.css",
+   	                    "../nuevotbk/resources/css/c3.min.css",
+   	                    "../nuevotbk/resources/css../nuevotbk/.css",
+			"../nuevotbk/resources/css/tbk.css" ];
+
+	var scriptsDependencies = [ "../nuevotbk/resources/js/data/forms.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/jquery-3.1.1.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/handlebars-latest.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/bootstrap.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/jquery.printarea.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/utilities.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/bootstrap-select.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/d3.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/c3.min.js?v=1.0.0.0" ];
+
+	var mywindow = window.open('', 'Home', 'height=700,width=1000');
+
+	mywindow.document.head.innerHTML = '';
+	mywindow.document.body.innerHTML = '';
+
+	mywindow.document.write('<!doctype html><html><head><title>'+title+'</title>');
+
+	// Seteo de dependencias js
+	for ( var i in scriptsDependencies) {
+
+		var scriptDep = scriptsDependencies[i];
+
+		mywindow.document.write('<script ');
+		mywindow.document.write('src="' + scriptDep + '"/>');
+		mywindow.document.write('</' + 'script' + '>');
+	}
+
+	// Seteo de dependencias css
+	for ( var i in cssDependencies) {
+		var cssDep = cssDependencies[i];
+	    mywindow.document.write('<link rel="stylesheet" href="'+cssDep+'" type="text/css" />');
+	}
+
+	    if((title == 'del exterior' || title == 'al exterior') || (title == 'from abroad' || title == 'from abroad'))
+			mywindow.document.write('<style type="text/css" media="print">@media print { html, body {height: 100%;width:100%; background-color: #fff; !important;-webkit-print-color-adjust: exact !important; }.text{text-align:left !important; -webkit-print-color-adjust: exact !important;} .padi5r {padding: 10px 0px 5px 0px !important;   -webkit-print-color-adjust: exact !important;} .text-center-sm, .list-tabl-row .item-col.info-refe.text-center-sm {text-align: center !important;-webkit-print-color-adjust: exact !important; }.telebanking-cuenta .cuenta-list .head-tabl {text-align: center !important;margin: 0px;background: #F5f5f5;border-top: 1px solid #e2e2e2;-webkit-print-color-adjust: exact !important;}}');
+	else if (containTitleEs || containTitleEn) {
+			mywindow.document.write('<style type="text/css" media="print">@media print { html, body {height: 100%;width:100%; background-color: #fff; !important;-webkit-print-color-adjust: exact !important; }.text{text-align:left !important; -webkit-print-color-adjust: exact !important;} .padi5r {padding: 10px 0px 5px 0px !important;   -webkit-print-color-adjust: exact !important;} p{margin: 0px !important; -webkit-print-color-adjust: exact !important;}.row-cont{padding: 0px 0px 0px 0px !important; -webkit-print-color-adjust: exact !important;}.text-center-sm, .list-tabl-row .item-col.info-refe.text-center-sm {text-align: center !important;-webkit-print-color-adjust: exact !important; }.telebanking-cuenta .cuenta-list .head-tabl {text-align: center !important;margin: 0px;background: #F5f5f5;border-top: 1px solid #e2e2e2;-webkit-print-color-adjust: exact !important;}}');
+	} else {
+			mywindow.document.write('<style type="text/css" media="print">@media print { html, body {height: 100%;width:100%; background-color: #fff; !important;-webkit-print-color-adjust: exact !important; }.text{text-align:left !important; -webkit-print-color-adjust: exact !important;} .padi5r {padding: 10px 0px 5px 0px !important;   -webkit-print-color-adjust: exact !important;} .text-center-sm, .list-tabl-row .item-col.info-refe.text-center-sm {text-align: center !important;-webkit-print-color-adjust: exact !important; }.telebanking-cuenta .cuenta-list .head-tabl {text-align: center !important;margin: 0px;background: #F5f5f5;border-top: 1px solid #e2e2e2;-webkit-print-color-adjust: exact !important;} .margin-15-sm {margin-right: 0px !important;-webkit-print-color-adjust: exact !important;}}');
+	}
+
+
+	mywindow.document.write('.list-desktop {background: #fff !important;-webkit-print-color-adjust: exact !important;}.row-cont:nth-child(even) {background: #f5f5f5 !important;-webkit-print-color-adjust: exact !important;}}</style>');
+	mywindow.document.write('<style type="text/css" media="print">@page{ margin: 0; } @media print{}</style>'); 
+
+	var stylesHeadParsed = JSON.stringify(stylesForHead);
+	var stylesParsed = JSON.stringify(stylesForData);
+
+
+	var sizeHead = stylesHeadParsed.length;
+	var size = stylesForData.length;
+
+	mywindow.document.write('<script> ');
+
+	mywindow.document.write('setTimeout(function(){'+
+	'var styles ='+stylesHeadParsed+'; $(".tab-head .head-col").each(function(index){var style=styles[index%'+sizeHead+'];$(this).attr("class",""+style);})'+
+	'},500);');
+
+	mywindow.document.write('setTimeout(function(){'+
+	'var styles ='+stylesParsed+'; $(".row-cont .item-col").each(function(index){var style=styles[index%'+size+'];$(this).attr("class",""+style);})'+
+	'},800);');
+
+	// mywindow.document.write('setTimeout(function(){window.print();window.close();},1000)');
+	mywindow.document.write('</' + 'script' + '>');
+	if (containTitleEs || containTitleEn) {
+		mywindow.document.write('</head><body style="padding:20px; font-size:9px;zoom:'+CONST_ZOOM+';">');
+		mywindow.document.write('<div style="font-weight:bold;font-size:9px;"><img src="../nuevotbk/resources/img/scotia.png" alt="Image scotiabank.">&nbsp;'+business+'</div>');
+		mywindow.document.write('<br/><br/>');
+		mywindow.document.write('<div style="font-weight:bold;font-size:9px;">'+filter+'</div>');
+	} else {
+		mywindow.document.write('</head><body style="padding:20px;zoom:'+CONST_ZOOM+';">');
+		mywindow.document.write('<div style="font-weight:bold;font-size:17px;">'+dateOutput+'</div>');
+		mywindow.document.write('<br/><br/>');
+		mywindow.document.write('<div style="font-weight:bold;font-size:17px;"><img src="../nuevotbk/resources/img/scotia.png" alt="Image scotiabank.">&nbsp;'+business+'</div>');
+		if(filter != '')
+		{	 
+			mywindow.document.write('<br/><br/>');
+			mywindow.document.write('<div style="font-weight:bold;font-size:17px;">'+filter+'</div>');	
+		}
+	}
+
+	mywindow.document.write('<br/><br/>');
+	for ( var i in dataToAppend) {
+		var dataDiv = dataToAppend[i];
+		var data = $('<div/>').append($('' + dataDiv + '').clone()).html();
+
+		mywindow.document.write('<div class="row">');
+
+		data = data.replace(/hidden-xs/g, " ");
+		data = data.replace(/hidden-sm/g, " ");
+		data = data.replace(/sort-icons/g, "sort-icons hidden");
+		data = data.replace(/href/g, "data-href");
+
+		mywindow.document.write(data);
+		mywindow.document.write('</div>');
+	}
+	mywindow.document.write('</body></html>');
+
+	setTimeout(function(){mywindow.print(); mywindow.document.close(); mywindow.close();},2000);
+
+}
+
+/** 
+ * Cesar GM
+ * **/
+function printGridsInquiries(div, title) {
+	var isOSSystem = getMobileOperatingSystem() === 'iOS';
+	var isSafariBrowser = isSafari;
+	var isAndroid = isAnroidOS;
+
+	var htmlContent = div.html();
+	var stylesCssForPrint = $('#stylesTemplate').html();
+
+	var cssDependencies = [ "../nuevotbk/resources/css/jquery-ui.min.css",
+			"../nuevotbk/resources/css/bootstrap.min.css",
+			"../nuevotbk/resources/css/bootstrap-select.min.css",
+			"../nuevotbk/resources/css/bootstrap-theme.min.css",
+			"../nuevotbk/resources/css/durandal.css",
+   	                    "../nuevotbk/resources/css/c3.min.css",
+   	                    "../nuevotbk/resources/css/main.css",
+			"../nuevotbk/resources/css/tbk.css" ];
+
+	var scriptsDependencies = [ "../nuevotbk/resources/js/data/forms.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/jquery-3.1.1.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/handlebars-latest.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/bootstrap.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/jquery.printarea.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/utilities.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/bootstrap-select.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/d3.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/c3.min.js?v=1.0.0.0" ];
+
+	var mywindow = window.open('', 'Home', 'height=700,width=900');
+
+	mywindow.document.head.innerHTML = '';
+	mywindow.document.body.innerHTML = '';
+
+	mywindow.document.write('<!doctype html><html><head><title>'+title+'</title>');
+
+	// Seteo de dependencias js
+	for ( var i in scriptsDependencies) {
+
+		var scriptDep = scriptsDependencies[i];
+
+		mywindow.document.write('<script ');
+		mywindow.document.write('src="' + scriptDep + '"/>');
+		mywindow.document.write('</' + 'script' + '>');
+	}
+
+	// Seteo de dependencias css
+	for ( var i in cssDependencies) {
+		var cssDep = cssDependencies[i];
+	    mywindow.document.write('<link rel="stylesheet" href="'+cssDep+'" type="text/css" />');
+	}
+
+	mywindow.document.write('<style type="text/css" media="screen,print">');
+	mywindow.document.write(stylesCssForPrint);
+	mywindow.document.write('</style>');
+
+	// changes 4MJ
+
+	// metodo interval
+	mywindow.document.writeln('    <script>');
+	mywindow.document.writeln('       var interval = setInterval(function(){');
+	mywindow.document.writeln('          if(document.getElementById("grid-body-print")){');
+	mywindow.document.writeln('          if(' + isOSSystem + '){');
+	mywindow.document.writeln('          	window.focus(); window.print();');
+	mywindow.document.writeln('          } else if('+isSafariBrowser+' || '+isAndroid+'){');
+	mywindow.document.writeln('				window.focus(); window.print(); window.close()');	
+	mywindow.document.writeln('			 } else { ');
+	mywindow.document.writeln('			 	window.focus(); window.print(); window.close()');
+	mywindow.document.writeln(' 		 } ');
+	mywindow.document.writeln('             clearInterval(interval)');
+	mywindow.document.writeln('          }');
+	mywindow.document.writeln('       },750)');
+	mywindow.document.writeln('    </script>');
+	// fin metodo interval
+
+	mywindow.document.write('</head><body style="padding:20px;zoom:'+CONST_ZOOM+';" >');
+	mywindow.document.write(htmlContent);
+	mywindow.document.write('</body></html>');
+	mywindow.document.close();
+}
+
+
+function printGridsInquiriesCustomized(div, title) {
+
+	var isOSSystem = getMobileOperatingSystem() === 'iOS';
+	var isSafariBrowser = isSafari;
+	var isAndroid = isAnroidOS;
+
+	var htmlContent = div.html();
+	var stylesCssForPrint = $('#stylesTemplate').html();
+
+	var cssDependencies = [ "../nuevotbk/resources/css/jquery-ui.min.css",
+			"../nuevotbk/resources/css/bootstrap.min.css",
+			"../nuevotbk/resources/css/bootstrap-select.min.css",
+			"../nuevotbk/resources/css/bootstrap-theme.min.css",
+			"../nuevotbk/resources/css/durandal.css",
+   	                    "../nuevotbk/resources/css/c3.min.css",
+   	                    "../nuevotbk/resources/css/main.css",
+			"../nuevotbk/resources/css/tbk.css" ];
+
+	var scriptsDependencies = [ "../nuevotbk/resources/js/data/forms.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/jquery-3.1.1.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/handlebars-latest.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/bootstrap.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/jquery.printarea.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/utilities.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/bootstrap-select.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/d3.min.js?v=1.0.0.0",
+			"../nuevotbk/resources/js/lib/c3.min.js?v=1.0.0.0" ];
+
+	var mywindow = window.open('', 'Home', 'height=700,width=900');
+
+	mywindow.document.head.innerHTML = '';
+	mywindow.document.body.innerHTML = '';
+
+	mywindow.document.write('<!doctype html><html><head><title>'+title+'</title>');
+	    
+	    // Seteo de dependencias js
+	    for (var i in scriptsDependencies) {
+	    
+	    var scriptDep = scriptsDependencies[i];
+	        
+	    mywindow.document.write('<script ');
+	    mywindow.document.write('src="' + scriptDep + '"/>');
+	    mywindow.document.write('</'+'script'+'>');
+	  }
+	    
+	     // Seteo de dependencias css
+	    for (var i in cssDependencies) {
+	    var cssDep = cssDependencies[i];  
+	    mywindow.document.write('<link rel="stylesheet" href="'+ cssDep+'" type="text/css" />');
+	  }
+
+	mywindow.document.write('<style type="text/css" media="screen,print">');
+	mywindow.document.write(stylesCssForPrint);
+	mywindow.document.write('</style>');
+
+	// metodo interval
+	mywindow.document.writeln('    <script>');
+	mywindow.document.writeln('       var interval = setInterval(function(){');
+	mywindow.document.writeln('          if(document.getElementById("grid-body-print")){');
+	mywindow.document.writeln('          if('+isOSSystem+'){');
+	mywindow.document.writeln('          		var d = document.getElementById(\'headerColDynamic\'); if(d.className != null && d.className!=undefined){d.className = \'head-tabl\'}; setTimeout(function(){window.focus();window.print() ,1000});');
+	mywindow.document.writeln('          } else if('+isSafariBrowser+' || '+isAndroid+'){');
+	mywindow.document.writeln('					var d = document.getElementById(\'headerColDynamic\'); if(d.className != null && d.className!=undefined){d.className = \'head-tabl\'}; window.focus(); setTimeout(function(){window.print(), window.close(),1000});');
+	mywindow.document.writeln('			 } else { ');
+	mywindow.document.writeln('			 	var d = document.getElementById(\'headerColDynamic\'); if(d.className != null && d.className!=undefined){d.className = \'head-tabl\'}; setTimeout(function(){window.focus();window.print(); window.close(),1000});');
+	mywindow.document.writeln(' 		 } ');
+	mywindow.document.writeln('             clearInterval(interval)');
+	mywindow.document.writeln('          }');
+	mywindow.document.writeln('       },750)');
+	mywindow.document.writeln('    </script>');
+	// fin metodo interval
+
+	mywindow.document.write('</head><body style="padding:20px;zoom:'+CONST_ZOOM+';">');
+	mywindow.document.write(htmlContent);
+	mywindow.document.write('</body></html>');
+	mywindow.document.close();
+}
+
+/**
+ * Fix Werner Print Pago Nominas
+ * */
+function printTable(div, title) {
+
+	var isOSSystem = getMobileOperatingSystem() === 'iOS';
+	var isSafariBrowser = isSafari;
+	var isAndroid = isAnroidOS;
+
+	var htmlContent = div.html();
+	var stylesCssForPrint = $('#stylesTemplate').html();
+
+	var cssDependencies = [ "../nuevotbk/resources/css/bootstrap.min.css",
+   	                    "../nuevotbk/resources/css/main.css",
+   	                    "../nuevotbk/resources/css/tbk.css"];
+
+	var scriptsDependencies = [ "" ];
+
+	var mywindow = window.open('', 'Home', 'height=700,width=1000');
+
+	mywindow.document.head.innerHTML = '';
+	mywindow.document.body.innerHTML = '';
+
+	mywindow.document.write('<!doctype html><html><head><title>'+title+'</title>');
+	    
+	    // Seteo de dependencias js
+	    for (var i in scriptsDependencies) {
+	    
+	    var scriptDep = scriptsDependencies[i];
+	        
+	    mywindow.document.write('<script ');
+	    mywindow.document.write('src="' + scriptDep + '"/>');
+	    mywindow.document.write('</'+'script'+'>');
+	  }
+	    
+	     // Seteo de dependencias css
+	    for (var i in cssDependencies) {
+	    var cssDep = cssDependencies[i];  
+	    mywindow.document.write('<link rel="stylesheet" href="'+ cssDep+'" type="text/css" />');
+	  }
+	
+	mywindow.document.write('<style type="text/css" media="screen,print">');
+	mywindow.document.write(stylesCssForPrint);
+	mywindow.document.write('#grid-body-print{display:inline-block}');
+	mywindow.document.write('</style>');
+
+	
+	// changes for ipad : Mijail Aymara
+	mywindow.document.writeln('    <script>');
+	mywindow.document.writeln('       var interval = setInterval(function(){');
+	mywindow.document.writeln('          if(document.getElementById("grid-body-print")){');
+	mywindow.document.writeln('          if(' + isOSSystem + '){');
+	mywindow.document.writeln('          	window.focus(); window.print();');
+	mywindow.document.writeln('          } else if('+isSafariBrowser+' || '+isAndroid+'){');
+	mywindow.document.writeln('				window.focus(); window.print(); window.close()');	
+	mywindow.document.writeln('			 } else { ');
+	mywindow.document.writeln('			 	window.focus(); window.print(); window.close()');
+	mywindow.document.writeln(' 		 } ');
+	mywindow.document.writeln('             clearInterval(interval)');
+	mywindow.document.writeln('          }');
+	mywindow.document.writeln('       },750)');
+	mywindow.document.writeln('    </script>');
+	// fin metodo interval
+
+	mywindow.document.write('</head><body style="padding:20px;zoom:'+CONST_ZOOM+';">');
+
+	mywindow.document.write(htmlContent);
+	mywindow.document.write('</body></html>');
+	mywindow.document.close();
+}
+
+function getDateTimeForReport() {
+	
+	var f = new Date();
+	dateOutput = (f.getDate()<10?'0':'') + f.getDate() + ' ' + ConstantsSpaceLocal.MONTHS[f.getMonth()] + ' ' + f.getFullYear() + ' ' + (f.getHours()<10?'0':'')+ f.getHours() + ':' + (f.getMinutes()<10?'0':'') + f.getMinutes();
+	return dateOutput;
+}
+
+/* Cesar GM */
+function paginationData(dataToPaginate, typeBean, numRows, page) {
+
+	var dataPage = new Object();
+	var tamanio;
+
+	if (dataToPaginate != null) {
+
+		var dataView = dataToPaginate;
+
+		var tamanio = dataView.length;
+		var totalPagePosible = Math.ceil(tamanio / numRows);
+
+		if (page <= totalPagePosible) {
+
+			var from = (page - 1) * numRows;
+			var to = (page * numRows);
+
+			if (page < totalPagePosible) {
+				dataPage.flagPagination = 1;
+				page++;
+				dataPage[typeBean] = dataView.slice(from, to);
+			}
+
+			else if (page == totalPagePosible) {
+
+				dataPage[typeBean] = dataView.slice(from, tamanio); // 25,25
+				page = 0;
+			}
+
+		}
+	}
+
+	return dataPage;
+
+}
+
+function isNumber(value) {
+	var valueOk = false;
+	var regexNumber = /[0-9]+/;
+	if (regexNumber.test(value)) {
+		valueOk = true
+	}
+	return valueOk;
+}
+
+function validateRegex(regex, value) {
+	return regex.test(value);
+}
+
+function pasteValidation(idInput, space_accept) {
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validarAlfanumericosPaste(data, space_accept);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 50);
+
+}
+
+function validarSpecialAlfanumericosPaste(tecla, space_accept) {
+
+       var exprEmpty = /^\s+$/;
+       if (exprEmpty.test(tecla)) {
+               return false;
+       }
+       if (tecla == 127 | tecla == 8 | tecla == 0) {
+               if (!space_accept && tecla.includes(" ")) {
+                       return false;
+               }
+
+               if (tecla.indexOf('.') > -1)
+                       return false;
+
+               return true;
+       }
+       var expr = REG_EXPR_SPECIAL_ALPHANUMERIC_NO_SPACE;
+       if (space_accept !== undefined && space_accept) {
+               expr = REG_EXPR_SPECIAL_ALPHANUMERIC_WITH_SPACE;
+       }
+
+       var testExpr = expr.test(tecla);
+
+       return testExpr;
+}
+
+
+function validarAlfanumericosPaste(tecla, space_accept) {
+
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(tecla)) {
+		return false;
+	}
+	if (tecla == 127 | tecla == 8 | tecla == 0) {
+		if (!space_accept && tecla.includes(" ")) {
+			return false;
+		}
+
+		if (tecla.indexOf('.') > -1)
+			return false;
+
+		return true;
+	}
+	var expr = REG_EXPR_ALPHANUMERIC_NO_SPACE;
+	if (space_accept !== undefined && space_accept) {
+		expr = REG_EXPR_ALPHANUMERIC_WITH_SPACE;
+	}
+
+	var testExpr = expr.test(tecla);
+
+	return testExpr;
+}
+
+function validarAlfanumericosPasteScript(tecla, space_accept) {
+
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(tecla)) {
+		return false;
+	}
+	if (tecla == 127 | tecla == 8 | tecla == 0) {
+		if (!space_accept && tecla.includes(" ")) {
+			return false;
+		}
+
+		if (tecla.indexOf('.') > -1)
+			return false;
+
+		return true;
+	}
+	var expr = REG_EXPR_ALPHANUMERIC_NO_SPACE_SCRIPT;
+	if (space_accept !== undefined && space_accept) {
+		expr = REG_EXPR_ALPHANUMERIC_WITH_SPACE_SCRIPT;
+	}
+
+	var testExpr = expr.test(tecla);
+	if (testExpr) {
+		if (tecla.split("-").length > 2)
+			testExpr = false;
+		else
+			testExpr = true;
+	}
+	return testExpr;
+}
+
+function validarDecimal_(tecla) {
+	if (tecla == 127 | tecla == 8 | tecla == 0)
+		return true;
+
+	var expr = REG_EXP_DECIMAL_COMPLETO;
+	var testExpr = expr.test(tecla);
+
+	if (testExpr) {
+		if (tecla.split(".").length > 2)
+			testExpr = false;
+		else
+			testExpr = true;
+	}
+	return testExpr;
+
+}
+
+function validarAlfanumericosPasteCaracter(tecla, space_accept) {
+
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(tecla)) {
+		return false;
+	}
+	if (tecla == 127 | tecla == 8 | tecla == 0) {
+		if (!space_accept && tecla.includes(" ")) {
+			return false;
+		}
+
+		if (tecla.indexOf('.') > -1)
+			return false;
+
+		return true;
+	}
+	var expr = /^[a-z0-9\_\-\/]+$/i;
+	var testExpr = expr.test(tecla);
+	return testExpr;
+}
+
+// Mijail: Usar este validador, dado que no reconoce evento keypress en
+// dispositivos mobiles
+function validarAlfanumericosKeyDown(idInput, space_accept) {
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validarAlfanumericosPaste(data, space_accept);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 20);
+}
+function camsWordValueValidation(wordValue) {
+	return REG_EXPR_CAMS_WORD_VALUE.test(wordValue);
+}
+function camsWordValueKeyDown(wordValueInput) {
+	let beforeValue = $(wordValueInput).val();
+	setTimeout(function() {
+		let wordValue = $(wordValueInput).val();
+		if (wordValue) {
+			let isOk = camsWordValueValidation(wordValue);
+			if (!isOk) {
+				$(wordValueInput).val(beforeValue);
+			}
+		}
+	}, 20);
+}
+function validarAlfanumericosKeyDownScript(idInput, space_accept) {
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validarAlfanumericosPasteScript(data, space_accept);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 20);
+}
+
+function validarSpecialAlfanumericosKeyDown(idInput, space_accept) {
+       var valueBefore = $(idInput).val();
+       setTimeout(function() {
+               var data = $(idInput).val();
+               var isOk = validarSpecialAlfanumericosPaste(data, space_accept);
+               if (!isOk) {
+                       $(idInput).val(valueBefore);
+               }
+       }, 20);
+}
+
+function validarNumericosKeyDown(idInput,longitud) {
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validarNumerico_(data,longitud);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 20);
+}
+
+function validarDecimalesKeyDown(idInput)
+{
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validarDecimal_(data);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 20);
+}
+
+function validateNumberKeyDown(idInput, longitud) {
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validateNumberText(data, longitud);
+
+		if (!isOk) {
+			if (validateNumberText(valueBefore, longitud)) {
+				$(idInput).val(valueBefore);
+			}
+		}
+	}, 20);
+}
+
+function validateNumberText(valTexto, longitud) {
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(valTexto)) {
+		return false;
+	}
+	if (valTexto == 127 | valTexto == 8 | valTexto == 0) {
+		if (!valTexto.includes(".") && !valTexto.includes(" ")) {
+			return true;
+		}
+	}
+
+	var expr = REG_EXPR_ONLY_NUMERIC;
+	var testExpr = expr.test(valTexto);
+
+	if (longitud !== undefined) {
+		if (testExpr) {
+			if (valTexto.length <= longitud)
+				testExpr = true;
+			else
+				testExpr = false;
+		}
+	}
+	return testExpr;
+
+}
+
+function validarTodayLess(var_date) {
+	var d = new Date();
+	var dayfield = var_date.split('/')[0];
+	var monthfield = var_date.split('/')[1];
+	var yearfield = var_date.split('/')[2];
+	var_date = new Date(yearfield, monthfield - 1, dayfield);
+	if (var_date.getTime() > d.getTime()) {
+		return false;
+	}
+	return true;
+}
+
+
+function formatearNumeroText(valString) {
+
+	var tipoMoneda = valString.slice(0, 4);
+	valString = valString.slice(4, valString.length);
+
+	if (valString != "0.00") {
+		valString = valString.toString();
+		var posicionPuntito = valString.indexOf(".");
+
+		var valDecimal;
+
+		if (posicionPuntito != -1) {
+			valDecimal = valString.slice(posicionPuntito + 1,
+					posicionPuntito.length);
+			if (valDecimal.length == 1) {
+
+				valDecimal = valDecimal + "0";
+			}
+
+			valString = valString.slice(0, posicionPuntito);
+		}
+
+		while (/(\d+)(\d{3})/.test(valString.toString())) {
+			valString = valString.toString().replace(/(\d+)(\d{3})/,
+					'$1' + ',' + '$2');
+		}
+
+		if (posicionPuntito != -1) {
+			valString = valString + "." + valDecimal;
+		} else {
+			valString = valString + ".00";
+		}
+	}
+	return tipoMoneda + valString;
+}
+
+function formatearNumero(valString) {
+
+	if (valString != "0.00") {
+		valString = valString.toString();
+		var posicionPuntito = valString.indexOf(".");
+
+		var valDecimal;
+
+		if (posicionPuntito != -1) {
+			valDecimal = valString.slice(posicionPuntito + 1,
+					posicionPuntito.length);
+			if (valDecimal.length == 1) {
+				valDecimal = valDecimal + "0";
+			}
+
+			valString = valString.slice(0, posicionPuntito);
+		}
+
+		while (/(\d+)(\d{3})/.test(valString.toString())) {
+			valString = valString.toString().replace(/(\d+)(\d{3})/,
+					'$1' + ',' + '$2');
+		}
+
+		if (posicionPuntito != -1) {
+			valString = valString + "." + valDecimal;
+		} else {
+			valString = valString + ".00";
+		}
+	}
+	return valString;
+}
+
+function completeZeros(monto, cantidad) {
+
+	if (monto.length != cantidad) {
+
+		var cantidadZeros = cantidad - monto.length;
+		var i;
+		var txtZeros = "";
+
+		for (i = 0; i < cantidadZeros; ++i) {
+			txtZeros = txtZeros + "0";
+		}
+
+		monto = txtZeros + monto;
+	}
+
+	return monto;
+}
+
+function initDateWithMinDateToday(idFecha) {
+
+	var actualDate = new Date();
+	var actualYear = actualDate.getFullYear();
+	var actualMonth = actualDate.getMonth();
+	var actualDay = actualDate.getDate();
+
+	var afterDate = new Date();
+	afterDate = new Date(new Date().setDate(new Date().getDate() + 30));
+	var afterYear = afterDate.getFullYear();
+	var afterMonth = afterDate.getMonth();
+	var afterDay = afterDate.getDate();
+
+	var minDate = new Date(actualYear, actualMonth, actualDay);
+	var maxDate = new Date(afterYear, afterMonth, afterDay);
+
+	$(idFecha).datepicker({
+		dateFormat : 'dd/mm/yy',
+		minDate : minDate,
+		maxDate : maxDate
+	});
+
+	$(idFecha).attr('value', getTodayDDMMYYYY());
+
+	var isLangSpanish = isSpanishLanguage();
+
+	if (isLangSpanish) {
+		convertCalendarSpanish(idFecha);
+	}
+}
+
+function addDecimalZeros(number, decimals) {
+	var numberFormmated;
+	var number;
+	var zerosTemp = "";
+	var index = number.indexOf(".");
+	if (index == -1) {
+		for (i = 1; i <= decimals; i++) {
+			zerosTemp = zerosTemp + "0";
+		}
+		numberFormmated = number + "." + zerosTemp;
+	} else {
+		var decimalsTemp = number.split(".")[1].length;
+		var zeros = decimals - decimalsTemp;
+
+		for (i = 1; i <= zeros; i++) {
+			zerosTemp = zerosTemp + "0";
+		}
+		numberFormmated = number + zerosTemp;
+	}
+
+	return numberFormmated;
+}
+
+function validateEmail(email) {
+	var regexp = REG_EXP_EMAIL;
+	return regexp.test(email);
+}
+
+function addEventsNumericValidation(parentInput, input, length, type, excetions) {
+
+	if (type == CODE_NUMERIC_VALIDATION) {
+		
+		$(parentInput).on("keypress", input, function(event){
+			if((event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 0)){
+				return true;
+			}else {
+				return false;
+			}
+		});
+		
+		$(parentInput).on("keydown", input, function(event) {
+			return validateNumberKeyDown($(input), length);
+		});
+	}
+
+}
+
+function addEventsAlphabeticValidation(parentInput, input, length, type,
+		exceptions) {
+
+	var accept_space = exceptions.space != undefined ? exceptions.space : false;
+
+	if (type == CODE_LETTERS_VALIDATION) {
+
+	} else if (type == CODE_ALPHANUMERIC_VALIDATION) {
+		
+		$(parentInput).on("keypress", input, function(event){
+			var arroba = '64';
+			if(event.charCode == arroba){
+				return false;
+			}else {
+				return true;
+			}
+		});
+		
+		$(parentInput).on("keydown", input, function(event) {
+			if (allowSpecialCharacters(event)) {
+				return true;
+			} else {
+				var limite = $(input).val().length < length ? true : false;
+				if (limite) {
+					return validarAlfanumericosKeyDown($(input), accept_space);
+				} else {
+					return false;
+				}
+			}
+
+		});
+	}
+}
+
+function allowSpecialCharacters(event) {
+	// 8 == delete , 46 == suprimir, 17 = ctrl,
+	if (event.keyCode == 8 || event.keyCode == 46 || event.keyCode == 17) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function validarDecimal(text){
+    
+    var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(text)) {
+		return false;
+	}
+	
+	if (text == 127 | text == 8 | text == 0) {
+		if (!text.includes(".") && !text.includes(" ")) {
+			return true;
+		}
+	}
+	
+    if (text == 8 || text == 46 || text == 37 || text == 39) {
+    	return true;
+	}
+    
+    var regex = /^[0-9]{1,9}(\.([0-9]{1,2})?)?$/g;
+    return regex.test(text);
+}
+
+function validarDecimalKeyDown(element){
+
+    var valueBefore = $(element).val();
+	setTimeout(function() {
+		var data = $(element).val();
+		var isOk = validarDecimal(data);
+
+		if (!isOk) {
+			if (validarDecimal(valueBefore)) {
+				$(element).val(valueBefore);
+			}
+		}
+	}, 20);
+}
+
+function addEventDecimalValidation(input) {
+	$(input).keydown(function(e) {
+		return validarDecimalKeyDown(this);
+	});
+	
+	$(input).on("keypress", function(event){
+		var arroba = '64';
+		if(event.charCode == arroba){
+			return false;
+		}else {
+			return true;
+		}
+	});
+}
+
+function addEventDecimalValidationFixed(input) {
+	$(input).on("keypress", function(e) {
+		var arroba = '64';
+		if(event.charCode == arroba){
+			return false;
+		}else {
+			return validarDecimalKeyPressAfterInsert(e, this);
+		}
+	});
+}
+
+function validarDecimalChangeRate(text){
+    
+    var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(text)) {
+		return false;
+	}
+	
+	if (text == 127 | text == 8 | text == 0) {
+		if (!text.includes(".") && !text.includes(" ")) {
+			return true;
+		}
+	}
+	
+    if (text == 8 || text == 46 || text == 37 || text == 39) {
+    	return true;
+	}
+    
+    var regex = /^[0-9](\.([0-9]{1,4})?)?$/g;
+    return regex.test(text);
+}
+
+function validarDecimalChangeRateKeyDown(element){
+
+    var valueBefore = $(element).val();
+	setTimeout(function() {
+		var data = $(element).val();
+		var isOk = validarDecimalChangeRate(data);
+
+		if (!isOk) {
+			if (validarDecimalChangeRate(valueBefore)) {
+				$(element).val(valueBefore);
+			}
+		}
+	}, 20);
+}
+
+function addEventDecimalChangeRateValidation(input) {
+	$(input).keydown(function(e) {
+		return validarDecimalChangeRateKeyDown(this);
+	});
+}
+
+function addEventNumericValidation(input, length) {
+	$(input).keydown(function(e) {
+		return validateNumberKeyDown(this, length);
+	});
+}
+
+function addEventAlphaNumericValidation(input, length, exceptions) {
+
+	var accept_space = exceptions.space != undefined ? exceptions.space : false;
+	
+	$(input).keydown(function(e) {
+
+		if (allowSpecialCharacters(e)) {
+			return true;
+		} else {
+			var limite =  $(this).val().length < length ? true : false;
+			if (limite) {
+				return validarAlfanumericosKeyDown(this , accept_space);
+			} else {
+				return false;
+			}
+		}
+		
+	});
+
+}
+	
+	
+function validateCCIKeyDown(idInput) {
+	var valueBefore = $(idInput).val();
+	var valueBeforeLength = valueBefore.length;
+
+	setTimeout(function() {
+		var valueAfter = $(idInput).val();
+		var valueAfterLength = valueAfter.length;
+
+		
+		if (valueBeforeLength == 0 || valueAfterLength > valueBeforeLength) {
+
+			if (valueAfterLength < 3) {
+
+				var isNumeric = validateNumeric(valueAfter);
+
+				if (isNumeric) {
+						$(idInput).val(valueAfter);
+				} else
+					$(idInput).val(valueBefore);
+			}
+			else if (valueAfterLength == 3) {
+				var first_val = valueAfter.substring(0, 3);
+				var separator = valueAfter.substring(4);
+				var isNumericFirstPart = validateNumeric(first_val);
+
+				if (isNumericFirstPart) {
+					$(idInput).val(first_val + '-');
+				} else
+					$(idInput).val(valueBefore);
+
+			}
+			else if (valueAfterLength == 4) {
+				var first_val = valueAfter.substring(0, 3);
+				var second_val = valueAfter.substring(3);
+
+				if (validateNumeric(first_val) && validateNumeric(second_val)) {
+					$(idInput).val(first_val + '-' + second_val);
+				} else
+					$(idInput).val(valueBefore);
+
+			}
+			else if (valueAfterLength >= 5 && valueAfterLength < 7) {
+				var first_val = valueAfter.substring(0, 3);
+				var separator = valueAfter.substring(3);
+				var second_val = valueAfter.substring(4, 7);
+				var isNumeric = validateNumeric(second_val);
+
+				if (isNumeric) {
+					$(idInput).val(valueAfter);
+				} else
+					$(idInput).val(valueBefore);
+			}
+
+			else if (valueAfterLength == 7) {
+
+				var first_val = valueAfter.substring(0, 3);
+				var second_val = valueAfter.substring(4, 7);
+				var isNumericFirstPart = validateNumeric(first_val);
+				var isNumericSecondPart = validateNumeric(second_val);
+
+				if (isNumericSecondPart && isNumericFirstPart) {
+					$(idInput).val(valueAfter + '-');
+				} else
+					$(idInput).val(valueBefore);
+
+			}
+			else if (valueAfterLength == 8) {
+				var first_val = valueAfter.substring(0, 3);
+				var second_val = valueAfter.substring(4,7);
+				var third_val = valueAfter.substring(7);
+
+				if (validateNumeric(first_val) && validateNumeric(second_val) && 
+						validateNumeric(third_val)) {
+					$(idInput).val(first_val + '-' + second_val + "-" + third_val);
+				} else
+					$(idInput).val(valueBefore);
+			} else if (valueAfterLength > 8 && valueAfterLength < 20) {
+				
+				var first_val = valueAfter.substring(0, 3);
+				var second_val = valueAfter.substring(4, 7);
+				var third_val = valueAfter.substring(8, 20);
+
+				if (validateNumeric(first_val) && validateNumeric(second_val) && validateNumeric(third_val)) {
+						$(idInput).val(valueAfter);
+				} else
+					$(idInput).val(valueBefore);
+			}
+			else if (valueAfterLength == 20) {
+				
+				if(REG_EXPR_ONLY_NUMERIC.test(valueAfter)){
+					var firstPart = valueAfter.substring(0, 3);
+					var secondPart = valueAfter.substring(3, 6);
+					var thirdPart = valueAfter.substring(6, 18);
+					var fourthPart = valueAfter.substring(18, 20);
+					
+					var cciFormated = firstPart + "-" + secondPart + "-" + thirdPart + "-" + fourthPart;
+					$(idInput).val(cciFormated);
+				} else {
+				var first_val = valueAfter.substring(0, 3);
+				var separator = valueAfter.substring(4);
+				var second_val = valueAfter.substring(4, 7);
+				var separator2 = valueAfter.substring(8);
+				var third_val = valueAfter.substring(8, 20);
+				
+				var isNumericFirstPart = validateNumeric(first_val);
+				var isNumericSecondPart = validateNumeric(second_val);
+				var isNumericThirdPart = validateNumeric(third_val);
+
+					if (isNumericSecondPart && isNumericFirstPart && isNumericThirdPart) {
+						$(idInput).val(valueAfter + '-');
+					} else{
+						$(idInput).val(valueBefore);
+					}
+				}
+
+			}
+			else if (valueAfterLength == 21) {
+				var first_val = valueAfter.substring(0, 3);
+				var second_val = valueAfter.substring(4, 7);
+				var third_val = valueAfter.substring(8, 20);
+				var fourth_val = valueAfter.substring(20);
+
+				if (validateNumeric(first_val) && validateNumeric(second_val) && 
+						validateNumeric(third_val) && validateNumeric(fourth_val)) {
+					$(idInput).val(first_val + '-' + second_val + "-" + third_val + "-" + fourth_val);
+				} else
+					$(idInput).val(valueBefore);
+
+			}else if (valueAfterLength > 21 && valueAfterLength <= 23) {
+				
+				var first_val = valueAfter.substring(0, 3);
+				var second_val = valueAfter.substring(4, 7);
+				var third_val = valueAfter.substring(8, 20);
+				var fourth_val = valueAfter.substring(21);
+
+				if (validateNumeric(first_val) && validateNumeric(second_val) && validateNumeric(third_val) 
+						&& validateNumeric(fourth_val) ) {
+						$(idInput).val(valueAfter);
+				} else
+					$(idInput).val(valueBefore);
+			}
+			
+			
+		}
+		else {
+			if (valueAfterLength == 4) {
+				var val = valueAfter.substring(0, 3);
+				$(idInput).val(val);
+			}
+			else if (valueAfterLength == 8) {
+				var firstPart = valueAfter.substring(0, 3);
+				var secondPart = valueAfter.substring(4, 7);
+				$(idInput).val(firstPart + '-' + secondPart);
+			}
+			else if (valueAfterLength == 21) {
+				var firstPart = valueAfter.substring(0, 3);
+				var secondPart = valueAfter.substring(4, 7);
+				var thirdPart = valueAfter.substring(8, 20);
+				
+				$(idInput).val(firstPart + '-' + secondPart + '-' + thirdPart);
+			}else if(valueAfterLength == 20){
+				if(REG_EXPR_ONLY_NUMERIC.test(valueAfter)){
+					var firstPart = valueAfter.substring(0, 3);
+					var secondPart = valueAfter.substring(3, 6);
+					var thirdPart = valueAfter.substring(6, 18);
+					var fourthPart = valueAfter.substring(18, 20);
+					
+					var cciFormated = firstPart + "-" + secondPart + "-" + thirdPart + "-" + fourthPart;
+					$(idInput).val(cciFormated);
+				}
+			}
+		}
+
+	}, 40);
+	
+}
+function activeRequiredForm(form_name){
+	var tempForm = $(form_name + ' input.required-val'),
+		tempFormSelect = $(form_name + ' select.required-val'),
+		tempButton = $(form_name + ' button.btn');
+	
+	isEmptyForm(form_name,tempForm,tempFormSelect, tempButton);
+
+	tempForm.blur(function () {
+		isEmptyForm(form_name,tempForm,tempFormSelect, tempButton);
+	});
+
+	tempForm.keyup(function() {
+		isEmptyForm(form_name,tempForm,tempFormSelect, tempButton);
+	});	
+
+	tempForm.change(function(){
+		isEmptyForm(form_name,tempForm,tempFormSelect, tempButton);
+	})
+}
+function isEmptyForm(formName,form_input,form_Select, button_name){
+	var empty_input = false,
+		empty_select = false,
+		ctrl_input = form_input,
+		ctrl_select = form_Select;
+	var boolLenghtError = $(formName).find("label.error").length > 0 ? true : false;
+	if( ctrl_input.is('input') ) {
+		form_input.each(function() {
+		if ($(this).val().trim() == '') {
+			empty_input = true;
+		}
+		});
+	}
+	if(ctrl_select.is('select')){
+		 form_Select.each(function() {
+			var idx = this.selectedIndex;
+			if (idx == 0) { empty_select = true; }
+		});
+	}
+	if ((empty_input) || boolLenghtError) { 
+		
+		button_name.prop('disabled', true).addClass('btn-inactive');
+	}else if((ctrl_select.is('select') && empty_select) || boolLenghtError){
+		button_name.prop('disabled', true).addClass('btn-inactive');
+	} 
+	else { button_name.removeAttr('disabled').removeClass('btn-inactive'); }
+}
+function validateCciValue(cciValue){
+	var bank         = cciValue.substring(0, 3);
+	var office       = cciValue.substring(3, 6);
+	var account      = cciValue.substring(6, 18);
+	var controlDigit = cciValue.substring(18, 20);
+	var firstControlDigit = getDigitControl(bank.concat(office));
+	var secondControlDigit = getDigitControl(account);
+
+	return parseInt(controlDigit.charAt(0)) == parseInt(firstControlDigit) && parseInt(controlDigit.charAt(1)) == parseInt(secondControlDigit)
+}
+
+function getDigitControl(stringControl){
+	var index = 1;
+    var controlDigit = 0;
+    var MODULE = 10;
+    var strings = [];
+    for(var aa=0; aa<stringControl.length; aa++){
+    	var character = stringControl.charAt(aa);
+    	strings.push(character);
+    }
+
+    for(var ii=0; ii<strings.length; ii++){
+    	var digit = strings[ii];
+        if (index % 2 == 1) {
+            var value = (parseInt(digit) * 1);
+
+            controlDigit += value;
+
+        } else {
+            var value = (parseInt(digit) * 2);
+
+            if (String(value).length > 1) {
+            	var values = [String(value).charAt(0), String(value).charAt(1)];
+            	for(var jj=0; jj<values.length; jj++){
+            		var val = values[jj];
+                    controlDigit += parseInt(String(val));
+                }
+            } else {
+                controlDigit += value;
+            }
+        }
+        index++;
+    }
+
+    controlDigit = MODULE - (controlDigit % MODULE);
+
+    var controlDigitString = String(controlDigit);
+    if (controlDigitString.length > 1) {
+        controlDigit = parseInt(controlDigitString.substring(controlDigitString.length - 1, controlDigitString.length));
+    }
+
+    return controlDigit;
+}
+
+function validarAlfanumericosWithPointPaste(tecla, space_accept) {
+
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(tecla)) {
+		return false;
+	}
+	if (tecla == 127 | tecla == 8 | tecla == 0) {
+		if (!space_accept && tecla.includes(" ")) {
+			return false;
+		}
+
+		if (tecla.indexOf('.') > -1)
+			return false;
+
+		return true;
+	}
+	var expr = REG_EXPR_ALPHANUMERIC_NO_SPACE_POINT;
+	if (space_accept !== undefined && space_accept) {
+		expr = REG_EXPR_ALPHANUMERIC_WITH_SPACE_POINT;
+	}
+
+	var testExpr = expr.test(tecla);
+
+	return testExpr;
+}
+
+function validarAlfanumericosWithPointKeyDown(idInput, space_accept) {
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validarAlfanumericosWithPointPaste(data, space_accept);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 20);
+}
+
+function addEventAlphaNumericWithPointValidation(input, length, exceptions) {
+
+	var accept_space = exceptions.space != undefined ? exceptions.space : false;
+	
+	$(input).keydown(function(e) {
+
+		if (allowSpecialCharacters(e)) {
+			return true;
+		} else {
+			var limite =  $(this).val().length < length ? true : false;
+			if (limite) {
+				return validarAlfanumericosWithPointKeyDown(this , accept_space);
+			} else {
+				return false;
+			}
+		}
+		
+	});
+
+}
+
+function validateNumberInvoice(idInput, space_accept){
+	
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validateNumberInvoiceText(data, space_accept);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 20);
+	
+}
+
+function validateNumberInvoiceText(tecla, space_accept) {
+
+	var exprEmpty = /^\s+$/;
+	if (exprEmpty.test(tecla)) {
+		return false;
+	}
+	if (tecla == 127 | tecla == 8 | tecla == 0) {
+		if (!space_accept && tecla.includes(" ")) {
+			return false;
+		}
+
+		if (tecla.indexOf('.') > -1)
+			return false;
+
+		return true;
+	}
+	var expr = REG_EXPR_NUMBER_INVOICE_NO_SPACE;
+	if (space_accept !== undefined && space_accept) {
+		expr = REG_EXPR_NUMBER_INVOICE_WITH_SPACE;
+	}
+
+	var testExpr = expr.test(tecla);
+
+	return testExpr;
+}
+
+function validationAlphanumericKeyPress(evt){
+    if(evt.which == 0 || evt.which ==8){
+		return true;
+	}
+	var theEvent = evt || window.event;
+    var theVal = theEvent.target.value;
+    var key = theEvent.keyCode || theEvent.which;
+
+    key = String.fromCharCode(key);
+
+    if (key.length == 0) return;
+    
+    var regex = /^[a-z0-9]+$/i;
+    if (!regex.test(key)) {
+    	if (theEvent.preventDefault) theEvent.preventDefault();
+    	return false;
+	}
+	return true;
+}
+
+function validationSpecialAlphanumericKeyPress(evt){
+    if(evt.which == 0 || evt.which ==8){
+    	return true;
+    }
+    var theEvent = evt || window.event;
+    var theVal = theEvent.target.value;
+    var key = theEvent.keyCode || theEvent.which;
+
+    key = String.fromCharCode(key);
+
+    if (key.length == 0) return;
+
+    //var regex = /^[a-zA-Z\d!@#$%^&*()]+$/;
+	var regex = REG_EXPR_SPECIAL_ALPHANUMERIC_NO_SPACE; // TFRC 20260604 - permitir varios caracteres especiales
+    if (!regex.test(key)) {
+    	if (theEvent.preventDefault) theEvent.preventDefault();
+    	return false;
+	}
+	return true;
+}
+
+function validationNumericKeyPress(evt){
+    if(evt.which == 0 || evt.which ==8){
+		return true;
+	}
+	var theEvent = evt || window.event;
+    var theVal = theEvent.target.value;
+    var key = theEvent.keyCode || theEvent.which;
+
+    key = String.fromCharCode(key);
+
+    if (key.length == 0) return;
+    
+    var regex = /^[0-9.,\b]+$/;
+    if (!regex.test(key)) {
+        if (theEvent.preventDefault) theEvent.preventDefault();
+        return false;
+    }
+    return true;
+}
+
+function validationNumberInvoiceKeyPress(evt, space_accept){
+    if(evt.which == 0 || evt.which ==8){
+		return true;
+	}
+	var theEvent = evt || window.event;
+    var theVal = theEvent.target.value;
+    var key = theEvent.keyCode || theEvent.which;
+
+    key = String.fromCharCode(key);
+
+    if (key.length == 0) return;
+    
+    var regex = REG_EXPR_NUMBER_INVOICE_NO_SPACE;
+    
+    if (space_accept !== undefined && space_accept)
+    	regex = REG_EXPR_NUMBER_INVOICE_WITH_SPACE;
+	
+    if (!regex.test(key)) {
+        if (theEvent.preventDefault) theEvent.preventDefault();
+        return false;
+    }
+    return true;
+}
+
+var swipHandler = {	
+	leftSwipeEvts : [],
+	rightSwipeEvts : [],
+	upSwipeEvts : [],
+	downSwipeEvts : [],	
+	addEvent : function(type,method){
+		switch(type){
+			case 'all':
+				this.upSwipeEvts.push(method);
+				this.downSwipeEvts.push(method);
+				this.leftSwipeEvts.push(method);
+				this.rightSwipeEvts.push(method);
+				break;
+			case 'up':
+				this.upSwipeEvts.push(method);
+				break;
+			case 'down':
+				this.downSwipeEvts.push(method);
+				break;
+			case 'left':
+				this.leftSwipeEvts.push(method);
+				break;
+			case 'right':
+				this.rightSwipeEvts.push(method);
+				break;
+		}
+	},
+	init : function(){
+		document.addEventListener('touchstart', handleTouchStart, false);        
+		document.addEventListener('touchmove', handleTouchMove, false);
+
+		var xDown = null;                                                        
+		var yDown = null;                                                        
+
+		function handleTouchStart(evt) {                                         
+		    xDown = evt.touches[0].clientX;                                      
+		    yDown = evt.touches[0].clientY;                                      
+		};                                                
+
+		function handleTouchMove(evt) {
+		    if ( ! xDown || ! yDown ) {
+		        return;
+		    }
+
+		    var xUp = evt.originalEvent.touches[0].clientX;                                    
+		    var yUp = evt.originalEvent.touches[0].clientY;
+
+		    var xDiff = xDown - xUp;
+		    var yDiff = yDown - yUp;
+
+		    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+		        if ( xDiff > 0 ) {
+		            /* left swipe */ 
+		        	alert("left swipe");
+		        	leftSwipeEvts.each(function(item){
+		        		item();
+		        	})
+		        } else {
+		            /* right swipe */
+		        	alert("right swipe");
+		        	rightSwipeEvts.each(function(item){
+		        		item();
+		        	})
+		        }                       
+		    } else {
+		        if ( yDiff > 0 ) {
+		            /* up swipe */ 
+		        	alert("up swipe");
+		        	upSwipeEvts.each(function(item){
+		        		item();
+		        	})
+		        } else { 
+		            /* down swipe */
+		        	alert("down swipe");
+		        	downSwipeEvts.each(function(item){
+		        		item();
+		        	})
+		        }                                                                 
+		    }
+		    /* reset values */
+		    xDown = null;
+		    yDown = null;                                             
+		};
+	}
+}
+
+function validarAlfanumericosWithPointKeyDown(idInput, space_accept) {
+	var valueBefore = $(idInput).val();
+	setTimeout(function() {
+		var data = $(idInput).val();
+		var isOk = validarAlfanumericosWithPointPaste(data, space_accept);
+		if (!isOk) {
+			$(idInput).val(valueBefore);
+		}
+	}, 20);
+}
+
+function addEventAlphaNumericWithPointValidation(input, length, exceptions) {
+
+	var accept_space = exceptions.space != undefined ? exceptions.space : false;
+	
+	$(input).keydown(function(e) {
+
+		if (allowSpecialCharacters(e)) {
+			return true;
+		} else {
+			var limite =  $(this).val().length < length ? true : false;
+			if (limite) {
+				return validarAlfanumericosWithPointKeyDown(this , accept_space);
+			} else {
+				return false;
+			}
+		}
+		
+	});
+
+}
+
+/**
+ * Esta funcion agrega un evento al parametro que se le ingresa para mostrar u ocultar
+ * su simbolo.
+ * Se requiere que tenga esta estructura
+ * <input  class="form-control input__monto" type="text" >
+ * <label class="label__active">Importe</label>
+ * <label class="tipo__moneda"></label>
+ */
+function addSignBeforeInputText(parent, sign_input){
+	var label__active = sign_input.next();
+	var sign = label__active.next();
+	
+	parent.on("click", function () {
+		if (label__active.hasClass("active")) {
+			sign.addClass("block");
+		} else{
+			sign.removeClass("block");
+		}
+	});
+	
+}
+function doGetCaretPosition (oFieldId) {
+
+	var oField = document.getElementById(oFieldId);
+	  // Initialize
+	  var iCaretPos = 0;
+
+	  // IE Support
+	  if (document.selection) {
+
+	    // Set focus on the element
+	    oField.focus();
+
+	    // To get cursor position, get empty selection range
+	    var oSel = document.selection.createRange();
+
+	    // Move selection start to 0 position
+	    oSel.moveStart('character', -oField.value.length);
+
+	    // The caret position is selection length
+	    iCaretPos = oSel.text.length;
+	  }
+
+	  // Firefox support
+	  else if (typeof oField.selectionStart==='number')
+	    iCaretPos = oField.selectionStart;
+
+	  // Return results
+	  return iCaretPos;
+	}
+
+function insertString(a,b,position){
+	var output = [a.slice(0, position), b, a.slice(position)].join('');
+	return output;
+}

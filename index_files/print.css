@@ -1,0 +1,129 @@
+
+@page {
+	size: A4 portrait;
+	margin-top: 1cm;
+	margin-bottom: 1cm;
+}
+
+@media screen {
+	.no-view {
+		display: none;
+	}
+	#container-print-home.body-print{
+		width: 210mm;
+		margin: auto;
+		margin-top: 20px;
+	}
+	#layer-pending-operations-print{
+		margin-bottom: 115px;
+	}
+}
+@media print {
+	html, body {
+		height: auto;
+		-webkit-print-color-adjust: exact;
+	}
+	.body-print {
+		height: auto !important;
+	}
+	.print+.print {
+		/*page-break-before: always;*/
+	}
+	.no-view {
+		display: block;
+	}
+	div#footer {
+		margin-top: 0px;
+	}
+	#container-print-home.body-print{
+	    margin: 0px;
+	}
+	
+	/* Proporciones de print */
+	.col-1-20-print {
+		width: 8.33333333%;
+	}	
+	.col-2-20-print {
+		width: 9%;
+	}
+	.col-6-20-print {
+		width: 33%;
+	}
+	.col-7-20-print {
+		width: 38%;
+	}	
+	/* /Proporciones de print */
+}
+
+#header-sheet-print div.text-header{
+	font-weight: bold; 
+	font-size: 17px;
+}
+
+div.container-img{
+	/*position: fixed;
+	top: 180px;*/
+}
+
+.mark-top, .mark-global, .mark-total-divisas, .mark-detail-divisas {
+	margin-top: 0.3cm;
+}
+
+.mark-global {
+	
+}
+
+.mark-total-divisas {
+	
+}
+
+.mark-detail-divisas {
+	
+}
+
+.container-full {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.money-containers.print a {
+	width: 100%;
+	max-width: none;
+	margin-left: 0px;
+	background-color: #f0eeee !important;
+	-webkit-print-color-adjust: exact;
+}
+
+.color-header {
+	color: #bbb !important;
+}
+
+.color-body {
+	color: #888 !important;
+}
+
+h4.msg-print {
+	padding: 0.2cm 0cm;
+	display: block;
+}
+
+.item-box {
+	display: inline-block;
+	zoom: 1;
+	margin-right: 20px;
+	cursor: default;
+}
+
+.home-print-graphic .legend-container .item-box>div:before {
+	content: '\e92e';
+	font-family: "scotiabank";
+	font-size: 16px;
+	position: relative;
+	top: 1px;
+	margin-right: 4px;
+	color: #44defa !important;
+}
+
+.home-print-graphic .legend-container .item-box:last-child>div:before {
+	color: #85bd9f !important;
+}

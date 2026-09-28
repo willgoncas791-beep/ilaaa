@@ -1,0 +1,998 @@
+@media (min-width: 1200px) {
+	.token-keyboard-box ul.keyboard-row li.x2 .btn {
+		font-size: 12px
+	}
+}
+
+@media (min-width: 992px) {
+	.token-keyboard-box ul.keyboard-row li a.btn-key {
+		font-size: 16px
+	}
+
+	.token-keyboard-box ul.keyboard-row li.x2 .btn {
+		font-size: 10px
+	}
+
+	.container-content {
+		max-height: 690px;
+		min-height: 690px;
+	}
+}
+
+@media (min-width: 992px) {
+	.messagem {
+		padding: 18px 24px;
+	}
+}
+
+#msg-box3 {
+	background-color: rgba(251, 99, 48, 0.08);
+	height: 60px;
+	padding: 18px 24px 18px 120px;
+}
+
+#msg-box3 .container-banner {
+	max-width: 1200px;
+	width: 100%;
+}
+
+#msg-box3 .container-banner .banner-info {
+	height: 24px;
+	display: flex;
+	align-items: center;
+}
+
+#msg-box3 .container-banner .banner-info .contenedor-span {
+	text-align: start;
+	width: auto;
+	flex-grow: 1;
+}
+
+#msg-box3 .container-banner .banner-info span {
+	color: #333333;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 0px;
+	font-family: "Scotia", "Roboto", sans-serif;
+	padding-top: 4px;
+	line-height: 24px;
+}
+
+@media (max-width:998px) {
+	#msg-box3 .container-banner .banner-info .contenedor-span {
+		text-align: center;
+	}
+}
+
+@media (max-width:990px) {
+	.login-general-container .row .col-md-6.loginCams {
+		padding-left: 0%;
+		padding-right: 0%;
+		margin: 0% auto;
+		height: 680px;
+	}
+
+	.footer .col-logo .logo {
+		display: none;
+	}
+
+	#msg-box3 .container-banner .banner-info span {
+		font-size: 16px !important;
+		font-family: "Scotia", "Roboto", sans-serif;
+		padding-top: 4px;
+		line-height: 24px;
+	}
+
+	#msg-box3 {
+		padding-left: 24px;
+	}
+}
+
+@media (max-width:510px) {
+	.header {
+		height: 40px;
+	}
+
+	.login-general-container .row .loginCams .loginHead .titleLogin {
+		font-size: 29px;
+	}
+
+	.login-general-container .row .col-md-6.loginCams .loginHead {
+		width: auto;
+	}
+
+	.login-general-container .row .col-md-6.loginCams .loginBody {
+		width: auto;
+		padding-right: 0%;
+		padding-top: 5%;
+		padding-bottom: 5%;
+		padding-left: 12%
+	}
+
+	.login-general-container .row .col-md-6.loginCams {
+		height: 720px;
+	}
+
+	#msg-box3 {
+		padding-left: 0%;
+	}
+
+	#msg-box3 #icon-info {
+		margin-right: 0px;
+		margin-left: 10px
+	}
+
+	#msg-box3 .container-banner .banner-info span {
+		line-height: 18px;
+		font-size: 14px !important
+	}
+
+	.login-general-container .row .col-md-6.loginCams .loginFooter {
+		padding-left: 52px;
+	}
+
+	.login-general-container .row .loginCams .loginHead .titleLogin2 {
+		font-size: 18px;
+	}
+
+	.head-top-log {
+		height: 40px;
+	}
+
+	.lang-login {
+		top: 16px;
+	}
+
+	.icon-scotiabank_33_help {
+		position: absolute;
+		top: -10px;
+	}
+}
+
+@media (min-width:390px) and (max-width:510px) {
+	.login-general-container .row .col-md-6.loginCams .loginHead img {
+		position: static;
+		margin-bottom: 4%
+	}
+}
+
+@media (max-width:389px) {
+	.login-general-container .row .col-md-6.loginCams {
+		height: 780px;
+	}
+
+	.login-general-container .row .col-md-6.loginCams .loginHead img {
+		position: static;
+		margin-bottom: 4%
+	}
+}
+
+@media (min-width:511px) and (max-width:610px) {
+	.login-general-container .row .col-md-6.loginCams .loginHead img {
+		margin-left: 7%;
+	}
+}
+
+@media (max-width:455px) {
+	.footer {
+		color: #fff;
+		background-color: #d52b1e;
+		height: 70px;
+		position: relative;
+		margin-top: 0px;
+		clear: both;
+		padding-top: 10px;
+		color: #fff;
+	}
+
+	#applicationHost {
+		min-height: 0%;
+	}
+}
+
+@media (min-width:792px) and (max-width:1200px) {
+	.header {
+		height: 59px
+	}
+}
+
+@media (min-width:455px) and (max-width:990px) {
+	.login-general-container .col-md-6.loginCams {
+		height: 667px;
+	}
+
+	.footer {
+		height: 115px;
+		margin-top: 0px;
+	}
+
+	#applicationHost {
+		min-height: 0%;
+	}
+
+}
+
+@media(min-width:1440px) {
+	#msg-box3 {
+		padding-left: 24px;
+	}
+}
+
+@media (min-width: 1460px) {
+	.login-general-container .row .col-md-6.loginCams .container-loginCams {
+		max-width: 588px;
+		width: 100%;
+		margin: 0px auto;
+	}
+}
+
+@media (min-width: 990px) and (max-width: 1460px) {
+	.login-general-container .row .col-md-6.loginCams {
+
+		height: 732.67px;
+	}
+
+}
+
+@media (min-width: 990px) and (max-width: 1460px) {
+	.login-general-container .row .col-md-6.loginCams .loginBody {
+		width: 493px;
+	}
+}
+
+@media (max-width:650px),
+(min-width: 990px) and (max-width: 1460px) {
+	.login-general-container .row .col-md-6.loginCams .loginHead {
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: 0%;
+		padding-right: 0%;
+	}
+}
+
+@media (min-width: 990px) and (max-width: 1160px) {
+	.login-general-container .row .col-md-6.loginCams .loginHead img {
+		margin-left: 7%;
+	}
+}
+
+@media (max-width:650px),
+(min-width: 990px) and (max-width: 1460px) {
+	.login-general-container .row .col-md-6.loginCams .container-loginCams {
+		max-width: 588px;
+		width: 100%;
+		margin: 0px auto;
+	}
+}
+
+.login-general-container .col-md-6.loginCams .loginHead img {
+	position: absolute;
+	top: -8px;
+	left: -50px;
+}
+
+.login-general-container .col-md-6.loginCams .loginFooter img {
+	position: absolute;
+	left: -42px;
+}
+
+#icon-info {
+	margin-right: 12px;
+}
+
+.login-general-container .row .col-md-6.loginCams .container-loginCams {
+	max-width: 588px;
+	width: 100%;
+	margin: 0px auto;
+}
+
+.login-general-container .col-md-6.loginCams {
+	height: 600px;
+	display: flex;
+	align-items: center;
+	padding-left: 0px;
+	padding-right: 0px;
+	background-color: white;
+	text-align: center;
+	color: #333333;
+	font-weight: 400;
+	font-size: 16px;
+	font-family: "Scotia", "Roboto", sans-serif;
+}
+
+.login-general-container .loginCams .loginHead {
+	width: 409px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.login-general-container .loginCams .loginHead .titleLogin {
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 40px;
+}
+
+.login-general-container .loginCams .loginHead .titleLogin2 {
+	margin-top: 8px;
+	height: 30px;
+	font-size: 20px;
+	line-height: 30px;
+}
+
+.login-general-container .loginCams .loginHead .buttonLogin {
+	margin-top: 30px;
+	width: 250px;
+	height: 48px;
+	font-size: 16px;
+	padding: 14px 13px 14px 13px;
+	border-radius: 100px;
+	color: #fff;
+	background-color: #EC111A;
+	border-style: none;
+	text-align: center;
+	vertical-align: middle;
+	text-transform: none;
+	-webkit-appearance: button;
+	cursor: pointer;
+	line-height: 20px;
+	font-weight: 700;
+}
+
+.login-general-container .loginCams .loginBody {
+	width: 493px;
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 24px;
+	padding-left: 60px;
+	text-align: left;
+	border: 1px solid #E2E8EE;
+}
+
+.login-general-container .loginCams .loginBody .txt1 {
+	height: 24px;
+	font-weight: 700;
+	line-height: 24px;
+}
+
+.login-general-container .loginCams .loginBody .txt2 {
+	margin-top: 6px;
+	height: 24px;
+	line-height: 24px;
+}
+
+.login-general-container .loginCams .loginBody .loginVerVideo {
+	margin-top: 24px;
+	height: 48px;
+	font-size: 16px;
+	padding: 14px 30px 14px 30px;
+	border-radius: 100px;
+	color: #EC111A;
+	background-color: #fff;
+	border-style: none;
+	border: 1px solid #EC111A;
+	text-align: center;
+	vertical-align: middle;
+	text-transform: none;
+	-webkit-appearance: button;
+	cursor: pointer;
+	line-height: 20px;
+	font-weight: 700;
+	margin-left: -24px;
+}
+
+.login-general-container .loginCams .loginFooter {
+	text-align: left;
+	margin-top: 30px;
+	font-size: 16px;
+	line-height: 24px;
+	padding-left: 42px;
+}
+
+.login-general-container .form-data {
+	margin-top: 0px;
+}
+
+.login-general-container .form-data:before {
+	visibility: hidden;
+}
+
+.login-general-container .form-data:after {
+	visibility: hidden;
+}
+
+.input-group {
+	width: 100%;
+}
+
+.form-data .titleLogin {
+	white-space: nowrap;
+	width: auto;
+	margin-right: 0px;
+	margin-left: 0px;
+	font-size: 28px;
+	font-weight: 800;
+	line-height: 40px;
+	font-family: "Scotia", "Roboto", sans-serif;
+	color: #333333;
+}
+
+.form-data .login-head img {
+	width: 80px;
+	height: 68.5px
+}
+
+#login-form-data .form-data {
+	max-width: 588px;
+	width: 558px;
+	box-sizing: border-box;
+	box-shadow: 0 0 3px #bd2222;
+}
+
+.form-data .login-head {
+	display: flex;
+	gap: 10px;
+	margin: 0px 0px 41px 0px;
+	margin-left: 0px;
+	justify-content: center;
+}
+
+#applicationHost .page-login .form-data .validationMessage-container {
+	min-height: 0px;
+	left: 0;
+	right: 0px;
+	bottom: 0;
+	height: 0px;
+	top: -33px;
+	position: relative;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.page-login .form-data .checkbox {
+	text-align: left;
+	color: #333333;
+	top: 33px;
+}
+
+.page-login .form-data .checkbox input {
+	zoom: 1.85;
+	left: 20px;
+	top: -5px;
+}
+
+.page-login .form-data .checkbox span {
+	margin-left: 17px;
+	font-size: 16px;
+}
+
+.page-login .login-general-container .form-data .checkbox label {
+	font-size: 16px;
+}
+
+.page-login .form-data .forgot-password {
+	cursor: pointer;
+	font-size: 16px;
+	color: #007EAB;
+	font-weight: bold;
+	margin-top: -33px;
+	position: absolute;
+}
+
+.page-login .form-data .register {
+	/* 	    	padding-bottom: 14px; */
+}
+
+.page-login .form-data .register span {
+	cursor: pointer;
+	font-size: 16px;
+	color: #007EAB;
+	font-weight: bold;
+}
+
+.page-login .login-form-data .form-data .questions {
+	padding-bottom: 0px;
+	padding-top: 0px;
+	margin-bottom: 0px;
+}
+
+.page-login .form-data .questions span {
+	cursor: pointer;
+	font-size: 16px;
+	color: #007EAB;
+	font-weight: bold;
+}
+
+#msg-box3 {
+	position: absolute;
+	z-index: 2;
+	width: 97.24%;
+	height: 60px;
+	margin-left: 1.38%;
+	margin-right: 1.38%;
+	border-radius: 5px;
+	background: #fff3ef;
+	border: 1px solid #FB633080;
+}
+
+.page-login .login-general-container .form-data .btn-scotiabank {
+	margin-top: 19px;
+	height: 54px;
+}
+
+.btn-scotiabank {
+	text-transform: none;
+}
+
+.icon-user-name {
+	position: absolute;
+	top: 18px;
+	height: 18px;
+	width: 18px;
+}
+
+.icon-lock {
+	position: absolute;
+	top: 18px;
+}
+
+.icon-eye {
+	position: absolute;
+	top: 18px;
+	left: 95%;
+}
+
+.login-form-data {
+	margin-top: 78px;
+	background: #ffffff;
+	margin-bottom: 10px;
+}
+
+.g-input_design label.active {
+	top: -20px;
+	left: 0px;
+	height: 18px;
+}
+
+.g-input_design label {
+	top: -20px;
+	left: 0px;
+	height: 18px;
+	color: #4c4c4c;
+	font-size: 14px;
+}
+
+.login-form-data .g-input_design>input {
+	padding-left: 30px;
+	height: 47px;
+	padding-top: 29px;
+	padding-bottom: 21px;
+}
+
+.page-login .login-form-data .form-data>div {
+	margin-bottom: 51px;
+}
+
+.page-login .login-form-data .form-data .options,
+.page-login .login-form-data .form-data .register,
+.page-login .login-form-data .form-data .video-box {
+	margin-bottom: 17px;
+}
+
+.login-general-container .col-md-6:first-of-type {
+	width: 48.95833%;
+}
+
+.login-general-container .col-md-6:nth-child(2) {
+	padding: 0px;
+}
+
+.form-data .g-input_design label {
+	font-weight: bold;
+}
+
+.form-data .g-input_design .form-control {
+	font-size: 18px;
+}
+
+.g-input_design .form-control {
+	border-bottom: 2px solid #cccccc;
+}
+
+.page-login .form-data .options .btn-scotiabank {
+	font-size: 16px;
+}
+
+.page-login .form-data .video-box {
+	border: 2px solid #cccccc;
+	border-radius: 8px;
+	border-width: 1px;
+	padding-top: 24px;
+	padding-bottom: 24px;
+	position: relative;
+	padding-right: 16px;
+	padding-left: 16px;
+	margin-bottom: 0px;
+
+}
+
+#icon-password-eye,
+#icon-token-eye {
+	z-index: 999;
+}
+
+.video-box .video-button button {
+	height: 48px;
+	width: auto;
+	font-size: 16px;
+	font-weight: 700;
+	padding: 14px 30px 14px 30px;
+	border-radius: 100px;
+	color: #EC111A;
+	background-color: #fff;
+	border-style: none;
+	border: 1px solid #EC111A;
+}
+
+.video-box .video-button {
+	position: absolute;
+	right: 25.5px;
+	bottom: 0px;
+	top: 24px;
+
+}
+
+.page-login .txt1 {
+	font-size: 16px;
+	font-weight: 700;
+	margin-left: 32px;
+	margin-bottom: 6px;
+	display: block;
+}
+
+.page-login .txt2 {
+	font-size: 15px;
+	margin-left: 32px;
+}
+
+.ico-security {
+	position: absolute;
+}
+
+.container-input {
+	position: relative;
+}
+
+@media (min-width: 992px) {
+	.page-login .login-general-container .form-data {
+		min-height: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+@media (max-width: 1168px) {
+	.form-data .login-head img {
+		left: 4.2%;
+	}
+}
+
+@media (max-width: 991px) {
+	#login-form-data .form-data {
+		margin-left: 18px;
+		margin-right: 18px;
+		padding-left: 0;
+		padding-right: 0;
+		width: auto;
+	}
+
+	.video-box .video-button {
+		position: relative;
+		top: 10.5px;
+		left: 0;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.head-top-log.hidden-md.hidden-lg {
+		display: none;
+	}
+}
+
+@media (max-width: 767px) {
+	#applicationHost .checkbox .tooltip-remember-username {
+		width: 274px;
+		top: -158px;
+	}
+	#applicationHost .page-login .form-data .validationMessage-container {
+		top: -50px;
+	}
+
+	.form-data .titleLogin {
+		font-size: 21px;
+		padding-left: 0%;
+		margin: 0 5px;
+	}
+
+	.form-data .login-head img {
+		height: 51px;
+		width: 60px;
+		position: inherit;
+	}
+
+	.form-data .login-head {
+		margin-bottom: 36px;
+		height: 97px;
+	}
+
+	.form-data .login-head {
+		margin-top: 10px;
+		margin-bottom: 50px;
+		/* white-space: normal;
+		text-align: center;
+		display: block; */
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		gap: 10px;
+
+	}
+
+	#login-form-data .form-data {
+		padding-top: 75px;
+	}
+
+	#msg-box3 .container-banner .banner-info .contenedor-span {
+		text-align: left;
+		position: absolute;
+		padding: 48px 18px 1px 18px;
+		left: 0;
+		top: 0;
+		word-break: break-word;
+		overflow-wrap: break-word;
+		white-space: normal;
+	}
+
+	#msg-box3 .container-banner .banner-info span {
+		line-height: 18px;
+		font-size: 14px !important;
+	}
+
+	#msg-box3 {
+		height: 150px;
+		margin-left: 0%;
+		margin-right: 0%;
+		width: 100%;
+	}
+
+	#page-host {
+		top: -6px;
+	}
+}
+
+#applicationHost {
+	min-height: 100%;
+	height: 100%;
+}
+
+#durandal-wrapper {
+	background-color: #ffffff;
+	height: 100%;
+}
+
+#page-host {
+	height: 933px;
+}
+
+.login-general-container.content-login-module {
+	height: 100%;
+	background-color: #ffffff;
+}
+
+.login-general-container.content-login-module .row {
+	height: 100%;
+}
+
+.login-general-container.content-login-module .row .container-content {
+	height: 100%;
+	max-height: 100%;
+	min-height: 100%;
+}
+
+.login-general-container.content-login-module .row .container-content>div,
+.login-general-container.content-login-module .row .container-content>div>div,
+.login-general-container.content-login-module .row .container-content>div>div>div,
+.login-general-container.content-login-module .row .container-content>div>div>div>div,
+.login-general-container.content-login-module .row .container-content>div>div>div>div>.carousel-base,
+.carousel-container-preview, .carousel-container {
+	height: 100%;
+}
+
+.login-general-container.content-login-module .row .container-content .slide img {
+	height: 100%;
+}
+
+.div-error {
+	display: none;
+	position: relative;
+	top: 2px;
+	color: #BE061B;
+	width: 100%;
+}
+
+.div-error span {
+	padding-left: 5px;
+	top: 0px;
+	position: absolute;
+}
+
+.checkbox .informate-tooltip {
+	position: absolute;
+	top: 2px;
+	padding-left: 6px;
+}
+
+.checkbox .tooltip-remember-username b {
+	position: absolute;
+	top: 17px;
+}
+
+.checkbox .tooltip-remember-username {
+	position: absolute;
+	top: -135px;
+	left: 62px;
+	background: #fff;
+	border-radius: 10px;
+	padding: 24px;
+	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+	font-size: 14px;
+	color: #333;
+	z-index: 1000;
+	height: auto;
+	width: 380px;
+	z-index: 1000;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(4px);
+	transition: opacity .15s ease, transform .15s ease, visibility .15s;
+	pointer-events: none;
+	box-shadow: 0 6px 16px rgba(0, 0, 0, .25);
+
+
+}
+
+
+.tooltip-remember-username::before {
+	content: "";
+	position: absolute;
+	bottom: -10px;
+	left: 194px;
+	transform: translateX(-50%);
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #fff;
+}
+
+
+
+/* === Mostrar por hover del icono === */
+.informate-tooltip:hover+.tooltip-remember-username,
+.informate-tooltip:focus+.tooltip-remember-username,
+/* Mantener visible si pasas el mouse sobre el tooltip */
+/* .tooltip-remember-username:hover {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+	pointer-events: auto;
+} */
+
+/*Mostrar por clase (abierto por click/tap)*/
+.tooltip-remember-username.is-open {
+	opacity: 1 !important;
+	visibility: visible !important;
+	transform: translateY(0) !important;
+	pointer-events: auto !important;
+}
+
+
+.tooltip-close {
+	position: absolute;
+	top: 16.5px;
+	right: 24px;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	color: #000000;
+	font-size: 18px;
+	line-height: 18px;
+	cursor: pointer;
+	opacity: .8;
+}
+
+.tooltip-close:hover,
+.tooltip-close:focus {
+	opacity: 1;
+	outline: none;
+}
+
+
+/* 1) Forzar oculto cuando el wrapper tenga is-force-closed */
+.checkbox.is-force-closed .tooltip-remember-username {
+	opacity: 0 !important;
+	visibility: hidden !important;
+	transform: translateY(4px) !important;
+	pointer-events: none !important;
+}
+
+/* 2) También anula la visibilidad por hover del icono y del tooltip */
+.checkbox.is-force-closed .informate-tooltip:hover+.tooltip-remember-username,
+.checkbox.is-force-closed .informate-tooltip:focus+.tooltip-remember-username,
+
+.checkbox .tooltip-arrow {
+	position: absolute;
+	bottom: -10px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #fff;
+}
+
+.hide-footer-new-login {
+	display: none;
+}
+
+.footer-carousel {
+	position: absolute;
+	bottom: 0px;
+	left: 11px;
+	padding: 10px;
+	background: transparent;
+	color: #D6D6D6;
+	font-size: 16px;
+}
+
+#applicationHost .loginNew {
+	all: unset;
+	background-color: #ffffff;
+	container-type: inline-size;
+	display: flex;
+	justify-content: normal;
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+	@container (max-width: 588px) {
+		#applicationHost .loginNew .login-form-data .form-data {
+			padding-right: 10px;
+			padding-left: 10px;
+			width: 500px;
+		}
+		.video-box .video-button {
+			position: relative;
+			top: 10.5px;
+			left: 0;
+    	}	
+	}
+}
+
+#input-password-login::-ms-reveal,
+#input-password-login::-ms-clear,
+#input-token::-ms-reveal,
+#input-token::-ms-clear {
+    display: none;
+}
+
+
+#input-password-login::-webkit-textfield-decoration-container,
+#input-token::-webkit-textfield-decoration-container {
+    visibility: hidden;
+}

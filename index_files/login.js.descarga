@@ -1,0 +1,925 @@
+"use strict"
+define(function (require) {
+
+    var count_clave = 0,
+        numeroConvenio = '',
+        numeroUsuario = '',
+        claveLogin = '',
+        capsActive = false;
+
+    var inputs = {
+        camsBtn: '#camsLogin'
+    }
+
+    return {
+        attached: function (view) {
+
+            var inputNroConvenio = $("#input-nro-convenio");
+            var inputNroUsuario = $("#input-nro-usuario");
+            var inputUserNameSend = $("#input-username-send");
+            var btnKeyAceptar = $("#btnKeyAceptar");
+            var btnKeyLimpiar = $("#btnKeyLimpiar");
+            var btnDeleteKey = $(".btn-delete-clave");
+            var btnKeyCerrar = $("#btnKeyCerrar");
+            var btnSumitLogin = $("#btn-login-pass");
+            var btnKeyCaps = $("#btnKeyCaps");
+            var chkRemerberConventions = $("#chkRemerberConventions");
+            var loginForm = $("#login-form-data");
+
+            var div_errors = $("#login-form-data .validationMessage");
+            $(function () {
+
+                globalMethod.clearAudit();
+
+                tbk.SecurityContext.init();
+
+                var reloadOptionsMenu = $.fn.reloadOptionsMenu(false);
+                reloadOptionsMenu.activate();
+
+                // <Eliminar contenido de input cuando sales de helper.>
+                function closeHelp(e) {
+                    var $clicked = $(e.target);
+                    if ($clicked.parents("#help1-hed").length === 0 && $clicked.attr("id") !== "#help1-hed") {
+                        $("#help1-hed .input-group.search-container input").val("").keyup();
+                        $("#help1-hed .input-group.search-container-postLogin input").val("").keyup();
+                    }
+                    if ($clicked.parents("#help2-hed").length === 0 && $clicked.attr("id") !== "#help2-hed") {
+                        $("#help2-hed .input-group.search-container input").val("").keyup();
+                        $("#help2-hed .input-group.search-container-postLogin input").val("").keyup()
+                    }
+                }
+                $(document).on("click", function (e) {
+                    closeHelp(e);
+                })
+                // </Eliminar contenido de input cuando sales de helper.>
+                var userNameState = INPUT_EMPTY;
+                var agreementState = INPUT_EMPTY;
+                var userState = INPUT_EMPTY;
+                var passwordState = INPUT_EMPTY;
+
+                var recoveryAgreementState = INPUT_EMPTY;
+                var recoveryUserState = INPUT_EMPTY;
+
+                var SIZE_INPUT_USERNAME = parseInt($('#input-user-name').attr('maxlength'));
+                var SIZE_INPUT_USER = parseInt($('#input-nro-usuario').attr('maxlength'));
+                var SIZE_INPUT_AGREEMENT = parseInt($('#input-nro-convenio').attr('maxlength'));
+                var SIZE_INPUT_WORD = 8;
+
+                // VALIDADORES ---------------------------
+                var patter_username = new RegExp('^[A-Za-z0-9]{' + SIZE_INPUT_USERNAME + '}$');
+                var patter_agreement = new RegExp('^\\d{' + SIZE_INPUT_AGREEMENT + '}$', 'i');
+                var patter_user = new RegExp('^\\d{' + SIZE_INPUT_USER + '}$', 'i');
+                var patter_password_special = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()])[A-Za-z\\d!@#$%^&*()]{' + SIZE_INPUT_WORD + ',}$');
+                var patter_password = new RegExp('[a-zA-Z|\\d]{' + SIZE_INPUT_WORD + '}', 'i');
+
+                function validateUserName(value) {
+                    return patter_username.test(value);
+                }
+
+                function validateAgreement(value) {
+                    return patter_agreement.test(value);
+                }
+
+                function validateUser(value) {
+                    return patter_user.test(value);
+                }
+
+                function validatePassword(value) {
+                    var haSpecialChar = /[!@#$%^&*()]/.test(value);
+                    return haSpecialChar ? patter_password_special.test(value) : patter_password.test(value);
+                }
+
+                // VALIDACIONES DE LOGIN -------------------
+                function validateInputUserName() {
+
+                    var user_name = $("#input-user-name").val();
+                    userNameState = validateInput(user_name, userNameState, LENGTH_USER_NAME, validateUserName);
+                    return userNameState;
+                }
+
+                function validateInputAgreement() {
+                    var nro_convenio = $("#input-nro-convenio").val();
+                    agreementState = validateInput(nro_convenio, agreementState, LENGTH_AGREEMENT, validateAgreement);
+                    return agreementState;
+                }
+
+                function validateInputUser() {
+                    var nro_usuario = $("#input-nro-usuario").val();
+                    userState = validateInput(nro_usuario, userState, LENGTH_USER, validateUser);
+                    return userState;
+                }
+
+
+                function displayErrorUserName() {
+                    var resultUserName = validateInputUserName();
+                    var $divUserName = $(div_errors[1]);
+                    displayError($divUserName, resultUserName, least_32_characters, more_than_32_characters, only_alphanumeric, ConstantsThymeleaf.field_required)
+                    return resultUserName;
+                }
+                function displayErrorAgreement() {
+                    var resultAgreement = validateInputAgreement();
+                    var $divAgreement = $(div_errors[1]);
+                    displayError($divAgreement, resultAgreement, least_4_characters, more_than_4_characters, only_numbers, ConstantsThymeleaf.field_required)
+                    return resultAgreement;
+                }
+
+                function displayErrorUser() {
+                    var resultUser = validateInputUser();
+                    var $divUser = $(div_errors[2]);
+                    displayError($divUser, resultUser, least_2_characters, more_than_2_characters, only_numbers, ConstantsThymeleaf.field_required);
+                    return resultUser;
+                }
+
+                function validateInputPassword() {
+                    var password = $("#input-password").val();
+                    passwordState = validateInput(password, passwordState, LENGTH_PASSWORD, validatePassword);
+                    return passwordState;
+                }
+
+                function displayErrorPassword() {
+                    var resultPassword = validateInputPassword();
+                    var $divPassword = $(div_errors[3]);
+                    displayError($divPassword, resultPassword, least_8_characters, more_than_8_characters, only_numbers, ConstantsThymeleaf.field_required);
+                    return resultPassword;
+                }
+
+                function validateInputs() {
+                    $("#input-username-send").val($("#input-nro-convenio").val() + ":" + $("#input-nro-usuario").val());
+                    btnSumitLogin.attr("disabled", "");
+                    $(div_errors).addClass("hidden");
+                    var resultAgreement;
+                    var resultUser;
+                    var resultCaptcha;
+                    var resultPassword;
+                    resultAgreement = validateInputAgreement();
+                    resultUser = validateInputUser();
+                    resultPassword = validateInputPassword();
+                    return resultAgreement == INPUT_SUCCESS && resultUser == INPUT_SUCCESS && resultPassword == INPUT_SUCCESS;
+                }
+                //-------------------------------------------
+                // VALIDACION FINAL -------------------------
+
+                // $("#input-user-name").on("blur", function() {
+                // 	debugger;
+                //     btnSumitLogin.prop("disabled",true);
+                //     var resultUserName= displayErrorUserName();
+                //     if(resultUserName == INPUT_SUCCESS){
+                //         var validate = validateInputs();
+                //         if(validate){
+                //             btnSumitLogin.removeAttr("disabled");
+                //         }
+                //     }
+                // });
+
+                $("#input-nro-convenio").on("blur", function () {
+                    btnSumitLogin.prop("disabled", true);
+                    var resultAgreement = displayErrorAgreement();
+                    if (resultAgreement == INPUT_SUCCESS) {
+                        var validate = validateInputs();
+                        if (validate) {
+                            btnSumitLogin.removeAttr("disabled");
+                        }
+                    }
+                });
+                $("#input-nro-usuario").on("blur", function () {
+                    btnSumitLogin.prop("disabled", true);
+                    var resultUser = displayErrorUser();
+                    if (resultUser == INPUT_SUCCESS) {
+                        var validate = validateInputs();
+                        if (validate) {
+                            btnSumitLogin.removeAttr("disabled");
+                        }
+                    }
+                });
+
+                function validacionFinal() {
+                    $(div_errors).addClass("hidden");
+                    btnSumitLogin.prop("disabled", true);
+                    agreementState = INPUT_TYPED;
+                    userState = INPUT_TYPED;
+                    passwordState = INPUT_TYPED;
+                    var validate = validateInputs();
+                    if (validate) {
+                        inputUserNameSend.val(inputNroConvenio.val() + ":" + inputNroUsuario.val());
+                        btnSumitLogin.removeAttr("disabled");
+                    } else {
+                        displayErrorAgreement();
+                        displayErrorUser();
+                        displayErrorPassword();
+                    }
+                }
+
+                function changeOfEye(input, event) {
+                    const isPassword = input.attr("type") === "password";
+                    input.attr("type", isPassword ? "text" : "password");
+                    event.attr("src", isPassword ? "../nuevotbk/resources/img/icon-eye.svg" : "../nuevotbk/resources/img/icon-eye-hide.svg");
+                }
+
+                $(document).on("click", "#icon-password-eye", function () {
+                    changeOfEye($("#input-password-login"), $(this));
+                });
+
+                $(document).on("click", "#icon-token-eye", function () {
+                    changeOfEye($("#input-token"), $(this));
+                });
+
+                $("#questions-login").on("click", function () {
+                    const divLogin = $("#applicationHost");
+                    const divModal = $("#frequently-asked-questions");
+
+                    divLogin.attr("style", "display:none");
+                    divModal.attr("style", "display:block")
+                });
+
+                $("#btnGoToModalAppMovil").on("click", function () {
+                    window.location.href = "/main/loginPage";
+
+                });
+
+                const iconRememberUser = document.getElementById("info-remember-username");
+                const tooltipRememberUser = document.getElementById("tooltip-remember-username");
+                const tooltipCloseBtn = tooltipRememberUser?.querySelector(".tooltip-close");
+
+                iconRememberUser?.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    tooltipRememberUser?.classList.toggle("is-open");
+                });
+
+                tooltipCloseBtn?.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    tooltipRememberUser?.classList.remove("is-open");
+                });
+
+                tooltipRememberUser?.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                });
+
+                document.addEventListener("click", (e) => {
+                    if (!iconRememberUser?.contains(e.target) && !tooltipRememberUser?.contains(e.target)) {
+                        tooltipRememberUser?.classList.remove("is-open");
+                    }
+                });
+
+                tooltipRememberUser?.addEventListener("mousedown", (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                function obtenerLimites(regex) {
+                    const matches = regex.source.match(/\{(\d+),(\d+)?\}/);
+                    return {
+                        min: matches ? parseInt(matches[1]) : 0,
+                        max: matches && matches[2] ? parseInt(matches[2]) : Infinity
+                    };
+                }
+
+                function validate(formConfig, id, value) {
+                    const config = formConfig[id];
+                    const limites = obtenerLimites(config.regex);
+                    if (value.length === 0) {
+                        return field_required_login;
+                    }
+                    if (value.length < limites.min) {
+                        return least_x_characters.replace("{1}", limites.min);
+                    }
+                    if (value.length > limites.max) {
+                        return more_than_x_characters.replace("{1}", limites.max);
+                    }
+                    if (!config.regex.test(value)) {
+                        return password_minimum_two_letters_numbers_server;
+                    }
+                    return "";
+                }
+
+                function initValidator({ formRoot, formConfig, buttonId, errorSuffix = '-error' }) {
+                    const status = {};
+                    Object.keys(formConfig).forEach(k => status[k] = false);
+
+                    function updateButton() {
+                        const btn = formRoot.querySelector(`#${buttonId}`);
+                        if (!btn) return;
+                        const isReady = Object.values(status).every(v => v === true);
+                        btn.disabled = !isReady;
+                    }
+
+                    Object.keys(formConfig).forEach(id => {
+                        const input = formRoot.querySelector(`#${id}`);
+                        if (!input) {
+                            return;
+                        }
+                        const errorDisplay = formRoot.querySelector(`#${id}${errorSuffix}`);
+                        const divError = formRoot.querySelector(`#${id} ~ .div-error`);
+
+                        input.addEventListener('input', (e) => {
+                            const errorMessage = validate(formConfig, id, e.target.value);
+
+                            if (errorMessage) {
+                                if (errorDisplay) errorDisplay.innerText = errorMessage;
+                                input.classList.add('invalid');
+                                if (divError) divError.style.display = "block";
+                                status[id] = false;
+                            } else {
+                                if (errorDisplay) errorDisplay.innerText = "";
+                                input.classList.remove('invalid');
+                                if (divError) divError.style.display = "none";
+                                status[id] = true;
+                            }
+                            updateButton();
+                        });
+
+                        input.addEventListener('blur', (e) => {
+                            const errorMessage = validate(formConfig, id, e.target.value);
+                            if (errorDisplay) errorDisplay.innerText = errorMessage;
+                            if (errorMessage) input.classList.add('invalid');
+                        });
+
+                        status[id] = false;
+                    });
+
+                    updateButton();
+
+                    return {
+                        updateButton,
+                        getStatus: () => ({ ...status })
+                    };
+                }
+
+                const loginFormConfig = {
+                    'input-user-name': { regex: /^.{1,128}$/, name: "usuario" },
+                    'input-password-login': { regex: /^.{1,128}$/, name: "contrasenia" },
+                    'input-token': { regex: /^.{1,6}$/, name: "token" }
+                };
+
+                const loginValidator = initValidator({
+                    formRoot: document.getElementById('login-form-data'),
+                    formConfig: loginFormConfig,
+                    buttonId: 'btn-login-pass'
+                });
+
+
+                //Chrome: Activar label en los campos autocompletados.
+                try {
+                    $("input:-webkit-autofill").next().addClass("active");
+                } catch (e) { }
+
+                function clearCrossSession() {
+                    if (typeof (Storage) !== "undefined") {
+                        // Store
+                        localStorage.removeItem("cross_session_convenio");
+                        localStorage.removeItem("cross_session_usuario");
+                    }
+                }
+
+                function saveCrossSession() {
+                    if (typeof (Storage) !== "undefined") {
+                        // Store
+                        localStorage.setItem("cross_session_convenio", $(
+                            "#input-nro-convenio").val());
+                        localStorage.setItem("cross_session_usuario", $(
+                            "#input-nro-usuario").val());
+                        localStorage.setItem("cross_session_username", $(
+                            "#input-user-name").val());
+                    }
+                }
+
+                btnKeyAceptar.on("click", function () {
+                    validacionFinal();
+                });
+
+                btnKeyCerrar.on("click", function () {
+                    validacionFinal();
+                })
+
+                btnKeyLimpiar.on("click", function () {
+                    validacionFinal();
+                });
+
+                btnDeleteKey.on("click", function () {
+                    validacionFinal();
+                });
+
+                function submitLogin($form) {
+                    chkRemerberConventions.change();
+                    saveCrossSession();
+                    $("#xCorrelationId").val(localStorage.getItem("correlationId"));
+                    $form.submit();
+                }
+
+                loginForm.submit(function (e) {
+                    e.preventDefault();
+                    var $form = this;
+                    requireMain(['enroll/login.enroll'], function (enroll) {
+                        enroll.loadDeviceId().then(function (data) {
+                            submitLogin($form);
+                        }).catch(function (err) {
+                            console.log(err);
+                            $('.validationMessage-container:eq(0) > .validationMessage').text('Service enroll unavailable.').removeClass('hidden');
+                        });
+                    });
+                });
+
+                //--------------------------------------------
+                //VALIDACION PARAMETRIZABLE : maymara
+                $("#numericOnly").bind("paste", function (e) {
+                    var valueBefore = $('#numericOnly').val();
+                    setTimeout(function () {
+                        var data = $('#numericOnly').val();
+                        var isOk = validarAlfanumericos(data, SIZE_INPUT_AGREEMENT, false);
+                        if (!isOk) {
+                            $('#numericOnly').val(valueBefore);
+                        }
+                    }, 50);
+
+                });
+
+                function validateInputAgreementChangePass(idInputAgreement) {
+                    var nro_convenio = $(idInputAgreement).val();
+                    agreementState = validateInput(nro_convenio, agreementState, LENGTH_AGREEMENT, validateAgreement);
+                    return agreementState;
+                }
+
+                function validateInputUserChangePass(idInputUser) {
+                    var nro_usuario = $(idInputUser).val();
+                    userState = validateInput(nro_usuario, userState, LENGTH_USER, validateUser);
+                    return userState;
+                }
+
+                function validateInputsChangePass(idInputSubmit, idInputAgreement, idInputUser) {
+                    $(idInputSubmit).attr("disabled", "");
+                    $(div_errors).addClass("hidden");
+
+                    recoveryAgreementState = validateInputAgreementChangePass(idInputAgreement);
+                    recoveryUserState = validateInputUserChangePass(idInputUser);
+
+                    return recoveryAgreementState == INPUT_SUCCESS && recoveryUserState == INPUT_SUCCESS;
+                }
+
+                function displayErrorAgreementChangePass(idInputaAgreement) {
+                    recoveryAgreementState = validateInputAgreementChangePass(idInputaAgreement);
+                    var $divAgreement = $("#vm-auto-forget-pass-nro-convenio");
+                    displayError($divAgreement, recoveryAgreementState, least_4_characters, more_than_4_characters, only_numbers, ConstantsThymeleaf.field_required)
+
+                    return recoveryAgreementState;
+                }
+
+                function displayErrorUserChangePass(idInputUser) {
+                    recoveryUserState = validateInputUserChangePass(idInputUser);
+                    var $divUser = $("#vm-auto-forget-pass-nro-usuario");
+                    displayError($divUser, recoveryUserState, least_2_characters, more_than_2_characters, only_numbers, ConstantsThymeleaf.field_required);
+                    return recoveryUserState;
+                }
+
+                /*Modificado: maymara: 20-02-2017*/
+                function validateRecovery() {
+                    var isOK = false;
+                    $("#btn-recovery-submit").attr("disabled", "disabled");
+
+                    var longitudNroConvenio = $("#input-recovery-nro-convenio").val().length;
+                    var longitudNroUsuario = $("#input-recovery-nro-usuario").val().length;
+
+                    if (longitudNroConvenio == SIZE_INPUT_AGREEMENT && longitudNroUsuario == SIZE_INPUT_USER) {
+                        isOK = true;
+                    }
+
+                    return isOK;
+
+                }
+
+
+                $('#link-recuperar-clave').click(function () {
+                    var numConv = $('#input-nro-convenio').val(),
+                        numUsu = $('#input-nro-usuario').val();
+                    $('#input-recovery-nro-convenio').val(numConv).next('label').addClass('active');
+                    $('#input-recovery-nro-usuario').val(numUsu).next('label').addClass('active');
+                    $("#btn-recovery-submit").attr("disabled", "disabled");
+                    displayErrorAgreementChangePass("#input-recovery-nro-convenio");
+                    displayErrorUserChangePass("#input-recovery-nro-usuario");
+                    var valid = validateRecovery();
+                    if (valid) {
+                        $("#btn-recovery-submit").removeAttr("disabled");
+                    }
+                });
+
+                // Modificado: maymara: 20-02-2017*/ 
+                $("#input-recovery-nro-convenio,#input-recovery-nro-usuario,#input-captcha").on("blur", function (e) {
+
+                    $("#vm-auto-forget-pass").addClass("hidden");
+                    $("#btn-recovery-submit").attr("disabled", "disabled");
+
+                    if ($(this).attr("id") == "input-recovery-nro-convenio") {
+                        displayErrorAgreementChangePass("#input-recovery-nro-convenio");
+                    }
+                    else if ($(this).attr("id") == "input-recovery-nro-usuario") {
+                        displayErrorUserChangePass("#input-recovery-nro-usuario");
+                    }
+
+                    if (INPUT_SUCCESS == recoveryAgreementState && INPUT_SUCCESS == recoveryUserState) {
+                        $("#btn-recovery-submit").removeAttr("disabled");
+                        $("#vm-auto-forget-pass").addClass("hidden");
+                    }
+
+                });
+                //************************************************//
+                //   Validar paste de caracteres especiales : maymara
+                //************************************************//
+
+                // para olvido su clave
+                $("#input-recovery-nro-convenio").bind("paste", function (e) {
+                    pasteValidation("#input-recovery-nro-convenio", false);
+                });
+
+                $("#input-recovery-nro-usuario").bind("paste", function (e) {
+                    pasteValidation("#input-recovery-nro-usuario", false);
+                });
+
+                // para login
+                $("#input-nro-convenio").bind("paste", function (e) {
+                    pasteValidation("#input-nro-convenio", false);
+                });
+
+                $("#input-nro-usuario").bind("paste", function (e) {
+                    pasteValidation("#input-nro-usuario", false);
+                });
+
+                $("#input-password").bind("paste", function (e) {
+                    pasteValidation("#input-password", false);
+                });
+
+                $("#input-captcha").bind("paste", function (e) {
+                    pasteValidation("#input-captcha", false);
+                });
+
+                // para login
+
+                $("#forget-pass").on("click", function () {
+
+                    if ($("#input-nro-convenio").val().trim() != "") {
+                        $("#input-recovery-nro-convenio").val($("#input-nro-convenio").val());
+                    }
+                    else {
+                        $("#input-recovery-nro-convenio").val("");
+                    }
+                    if ($("#input-nro-usuario").val().trim() != "") {
+                        $("#input-recovery-nro-usuario").val($("#input-nro-usuario").val());
+                    }
+                    else {
+                        $("#input-recovery-nro-usuario").val("");
+                    }
+
+
+                    $("#vm-auto-forget-pass").addClass("hidden");
+                    $("#vm-auto-forget-pass-nro-convenio").addClass("hidden");
+                    $("#vm-auto-forget-pass-nro-usuario").addClass("hidden");
+
+                    var labelNroConvenioRecovery = $("#input-recovery-nro-convenio").next('label');
+
+                    if ($("#input-nro-convenio").val().trim() != "") {
+                        labelNroConvenioRecovery.toggleClass('active', true);
+                    }
+                    else {
+                        labelNroConvenioRecovery.toggleClass('active', false);
+                    }
+
+
+                    var labelNroUsuarioRecovery = $("#input-recovery-nro-usuario").next('label');
+
+                    if ($("#input-nro-usuario").val().trim() != "") {
+                        labelNroUsuarioRecovery.toggleClass('active', true);
+                    }
+                    else {
+                        labelNroUsuarioRecovery.toggleClass('active', false);
+                    }
+
+                    if ($("#input-nro-usuario").val().trim() != "" && $("#input-nro-convenio").val().trim() != "") {
+                        var longitudNroConvenio = $("#input-recovery-nro-convenio").val().length;
+                        var longitudNroUsuario = $("#input-recovery-nro-usuario").val().length;
+
+                        if (longitudNroConvenio == SIZE_INPUT_AGREEMENT && longitudNroUsuario == SIZE_INPUT_USER) {
+                            $("#btn-recovery-submit").removeAttr("disabled");
+                        }
+                        else {
+                            $("#btn-recovery-submit").attr("disabled", "");
+                        }
+                    }
+                    else {
+                        $("#btn-recovery-submit").attr("disabled", "");
+                    }
+
+                });
+
+                $("#input-nro-convenio,#input-recovery-nro-convenio").keydown(function (e) {
+                    validateNumberKeyDown(this, LENGTH_AGREEMENT);
+                });
+                $("#input-nro-usuario,#input-recovery-nro-usuario").keydown(function (e) {
+                    validateNumberKeyDown(this, LENGTH_USER);
+                });
+                $("#input-password").keydown(function (e) {
+                    return validarAlfanumericosKeyDown(this, false);
+                });
+                $("#input-captcha").keydown(function (e) {
+                    return validarAlfanumericosKeyDown(this, false);
+                });
+
+                //Maymara: 2017-05-16: me'todos para caracteres ingresados por conjugacio'n de teclas (alt+64)
+                $("#input-nro-convenio,#input-nro-usuario,#input-recovery-nro-convenio,#input-recovery-nro-usuario").keypress(function (evt) {
+                    validationNumericKeyPress(evt);
+                })
+
+                $("#input-password,#input-captcha").keypress(function (evt) {
+                    validationAlphanumericKeyPress(evt);
+                })
+
+                $("#input-nro-convenio,#input-nro-usuario,#input-recovery-nro-convenio,#input-recovery-nro-usuario").on('paste', function (e) {
+                    e.preventDefault();
+                });
+
+                $("#input-password,#input-captcha").on('paste', function (e) {
+                    e.preventDefault();
+                });
+                // Fin caracteres especiales
+
+                function validateRememberConventions() {
+
+                    if (chkRemerberConventions.is(':checked')) {
+
+                        if (typeof (Storage) !== "undefined") {
+                            // Store
+                            localStorage.setItem("ls_nro_convenio", $(
+                                "#input-nro-convenio").val());
+                            localStorage.setItem("ls_nro_usuario", $(
+                                "#input-nro-usuario").val());
+                            localStorage.setItem("ls_username", $(
+                                "#input-user-name").val());
+
+                        } else {
+                        }
+
+                    } else {
+                        if (typeof (Storage) !== "undefined") {
+                            //fix: soluciona conflicto con no mostrar msg en afiliacion aduanas
+                            localStorage.removeItem('ls_nro_convenio');
+                            localStorage.removeItem('ls_nro_usuario');
+                            localStorage.removeItem("ls_username");
+                        }
+                    }
+
+                }
+
+                chkRemerberConventions.on(
+                    "change",
+                    function () {
+                        validateRememberConventions();
+                    });
+
+                $('.btn-key').on('click', function (e) {
+                    e.preventDefault();
+                    // debugger;
+                    $('#clave-label').addClass('active');
+                    if (count_clave < SIZE_INPUT_WORD) {
+                        claveLogin = $('#input-password').val();
+                        if (capsActive) {
+                            claveLogin = claveLogin + $(this).data('may');
+                        } else {
+                            claveLogin = claveLogin + $(this).data('min');
+                        }
+                        $('#input-password').val(claveLogin);
+                        count_clave++;
+                    }
+                    if (count_clave > 7) {
+                        validacionFinal();
+                    }
+                });
+
+                $("#btn-recovery-submit").on("click", function () {
+                    var valid = validateRecovery();
+                    if (valid) {
+                        $("#btn-recovery-submit").removeAttr("disabled");
+                        $("#vm-auto-forget-pass-nro-convenio").addClass("hidden");
+                        $("#vm-auto-forget-pass-nro-usuario").addClass("hidden");
+                        $("#vm-auto-forget-pass").addClass("hidden");
+                        var data = {
+                            'contract': $("#input-recovery-nro-convenio").val(),
+                            'userCode': $("#input-recovery-nro-usuario").val()
+                        };
+                        $.post(URLRequests.REQUEST_LOGIN_AUTOFORGET, data, function (data) {
+                            switch (data.stateAutoForgetPass) {
+                                case "200":
+                                    recoveryUserState = INPUT_EMPTY;
+                                    recoveryAgreementState = INPUT_EMPTY;
+                                    $('.modal').modal('hide');
+
+                                    $('.background').css('top', '125px');
+
+                                    $('.js-msg-box-delete').slideToggle(400, function () {
+                                        scrollto("#page-host");
+                                        var $yo = $(this);
+                                        setTimeout(function () {
+                                            $yo.slideToggle();
+                                        }, 3500);
+                                        setTimeout(function () {
+                                            $('.background').css('top', '0px');
+                                        }, 4000);
+                                    });
+                                    $("#btn-recovery-submit").attr("disabled", "");
+                                    var hash = "";
+
+                                    break;
+                                case "400":
+                                    $("#vm-auto-forget-pass").removeClass("hidden")
+                                        .html($("#vm-auto-forget-pass").attr('data-error'));
+                                    break;
+                                case "500":
+                                    $("#vm-auto-forget-pass").removeClass("hidden")
+                                        .html($("#vm-auto-forget-pass").attr('data-unexpected'));
+                                    break;
+                            }
+                        }).fail(function (err) {
+                            console.error(err);
+                        });
+                    }
+                });
+
+                if (typeof (Storage) !== "undefined") {
+
+                    if (localStorage.getItem("ls_nro_convenio") != null) {
+                        $("#input-nro-convenio").val(
+                            localStorage.getItem("ls_nro_convenio"));
+                        var labelNroConvenio = $("#input-nro-convenio").next(
+                            'label');
+                        labelNroConvenio.toggleClass('active');
+                    }
+                    if (localStorage.getItem("ls_nro_usuario") != null) {
+                        $("#input-nro-usuario").val(
+                            localStorage.getItem("ls_nro_usuario"));
+                        var labelNroUsuario = $("#input-nro-usuario").next('label');
+                        labelNroUsuario.toggleClass('active');
+                    }
+                    const inputUser = document.getElementById("input-user-name");
+                    if (localStorage.getItem("ls_username") != null) {
+                        if(inputUser != null){
+                            inputUser.value = localStorage.getItem("ls_username");
+                            inputUser.dispatchEvent(new Event("input", { bubbles: true }));
+                        }
+                        $("#input-user-name").next("label").addClass("active");
+                    }
+
+                    if (localStorage.getItem("ls_nro_convenio") != null
+                        || localStorage.getItem("ls_nro_usuario") != null
+                        || localStorage.getItem("ls_username") != null) {
+                        $("#chkRemerberConventions").attr('checked', true);
+                    }
+                }
+
+                animaLabel($('input[type="text"], input[type="password"]'));
+
+                $('input[type="text"], input[type="password"]').each(function (k, v) {
+                    if ($(v).val() !== "") {
+                        $(v).next().addClass("active");
+                    }
+                });
+
+                $("input.form-control").focusout();
+                clearCrossSession();
+
+                $.fn.modalLoad('hide');
+            });
+        },
+        compositionComplete: function (view) {
+
+            requireMain(['login/carruselPreLogin'], function (carrusel) {
+                carrusel.compositionComplete(view);
+                window.currentSlide = carrusel.currentSlide;
+            });
+
+            requireMain(['login/carruselForm1'], function (carrusel) {
+                carrusel.compositionComplete(view);
+            });
+
+            requireMain(['login/carruselForm2'], function (carrusel) {
+                carrusel.compositionComplete(view);
+            });
+
+            requireMain(['login/carruselForm3'], function (carrusel) {
+                carrusel.compositionComplete(view);
+            });
+
+            $("[data-toggle=popover]").each(function () {
+                var $this = $(this);
+                var cls = $this.data("popoverclass") || '';
+                var useViewport = $this.data("useviewport") || false;
+
+                var template = '<div class="popover ' + cls + '" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>';
+                var viewport = useViewport ? { selector: 'body', padding: 30 } : { selector: 'body', padding: 0 };
+
+                document.getElementsByTagName("head")[0]
+                    .append(generateElements('<script src=' + cloudFrontMemcycoCdn + ' defer referrerpolicy="strict-origin-when-cross-origin"></script>')[0]);
+
+                $this.popover({
+                    html: true,
+                    container: 'body',
+                    placement: 'auto bottom',
+                    trigger: 'focus',
+                    content: $($this.data("target")).html(),
+                    template: template,
+                    viewport: viewport
+                });
+            });
+
+            $(function () {
+                animaLabel($('input[type="text"]'));
+                animaLabel($('input[type="number"]'));
+                animaLabel($('input[type="password"]'));
+            });
+
+            $(document).ready(function () {
+
+                $('.butacct').attr('disabled', 'disabled');
+
+                $('#btn-cancel-clave').click(function () {
+                    $('#input-recovery-nro-convenio').val('').next('label').removeClass('active');
+                    $('#input-recovery-nro-usuario').val('').next('label').removeClass('active');
+                });
+
+                $('#input-password').click(function () {
+                    $('.token-keyboard-box').slideDown();
+                    $('#camsLogin').parent().slideUp();
+                });
+
+                $('#input-password').focusout(function () {
+                    $('#clave-label').addClass('active');
+                })
+
+                $('.btn-close-clave').click(function () {
+                    $(".token-keyboard-box").slideUp('fast');
+                    $('#camsLogin').parent().slideDown('fast');
+                    if (count_clave == 0) {
+                        $('#clave-label').removeClass('active');
+                    }
+                });
+
+                $('.btn-clean-clave').click(function () {
+                    $('#input-password').val('');
+                    count_clave = 0;
+                });
+
+                $('.btn-enter-clave').click(function () {
+                    $(".token-keyboard-box").slideUp('fast');
+                });
+
+                $('.btn-caps-clave').click(function () {
+                    if (!capsActive) {
+                        $(this).addClass('active');
+                    } else {
+                        $(this).removeClass('active');
+                    }
+                    var comp = this;
+                    $(".btn-key").each(function (i, comp) {
+                        if (!capsActive) {
+                            $(comp).text($(comp).data('may'));
+                        } else {
+                            $(comp).text($(comp).data('min'));
+                        }
+                    });
+                    capsActive = !capsActive;
+                });
+
+                $('.btn-delete-clave').click(function () {
+                    if (count_clave > 0) {
+                        count_clave = count_clave - 1;
+                        claveLogin = $('#input-password').val();
+                        claveLogin = claveLogin.slice(0, -1);
+                        $('#input-password').val(claveLogin);
+                    }
+                });
+
+                (function configEvents() {
+                    $(inputs.camsBtn).on('click', btnCamsLogin);
+                })();
+
+                function redirectToCams() {
+                    $("#input-username-send").remove();
+                    $("#input-password").remove();
+                    $("#xCorrelationId").val(localStorage.getItem("correlationId"));
+                    $("#login-form-data").attr("action", "cams/login");
+                    $("#login-form-data").off("submit");
+                    $("#login-form-data").submit();
+                }
+
+                function btnCamsLogin(e) {
+                    e.preventDefault();
+                    requireMain(['enroll/login.enroll'], function (enroll) {
+                        enroll.loadDeviceId().then(function (data) {
+                            redirectToCams();
+                        }).catch(function (err) {
+                            console.log(err);
+                            $('#btn-login-pass').attr('disabled', true);
+                            $('.validationMessage-container:eq(0) > .validationMessage').text('Service enroll unavailable.').removeClass('hidden');
+                        });
+
+                    })
+                }
+
+            });
+        }
+    };
+});

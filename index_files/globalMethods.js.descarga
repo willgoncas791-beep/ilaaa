@@ -1,0 +1,128 @@
+/*
+ * Recursively merge properties of two objects 
+ */
+var globalMethod = {
+	MergeRecursive : function(obj1, obj2) {
+		for ( var p in obj2) {
+			try {
+				// Property in destination object set; update its value.
+				if (obj2[p].constructor == Object) {
+					obj1[p] = MergeRecursive(obj1[p], obj2[p]);
+
+				} else {
+					obj1[p] = obj2[p];
+
+				}
+
+			} catch (e) {
+				// Property in destination object not set; create it and set
+				// its value.
+				obj1[p] = obj2[p];
+			}
+		}
+		return obj1;
+	},
+	isObject : function(obj) {
+		return obj.constructor == Object;
+	},
+	setCookie: function(name,value,days) {
+	    var expires = "";
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime() + (days*24*60*60*1000));
+	        expires = "; expires=" + date.toUTCString();
+	    }
+	    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+	},
+	getCookie: function(name) {
+	    var nameEQ = name + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0;i < ca.length;i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	    }
+	    return null;
+	},
+	eraseCookie: function(name) {   
+	    document.cookie = name+'=; Max-Age=-99999999;';  
+	},
+	getAudit: function(){
+		if (typeof (Storage) !== "undefined") {
+			return localStorage.getItem(ConstantsThymeleaf.X_KEY_AUTH_KEY);
+		}else{
+			return this.getCookie(ConstantsThymeleaf.X_KEY_AUTH_KEY);
+		}
+	},
+	createAudit: function(){
+		if (typeof (Storage) !== "undefined") {
+			if(!localStorage.getItem(ConstantsThymeleaf.X_KEY_AUTH_KEY)){
+				localStorage.setItem(ConstantsThymeleaf.X_KEY_AUTH_KEY, ConstantsThymeleaf.X_KEY_AUTH_VALUE);
+			}
+		}else{
+			if(!this.getCookie(ConstantsThymeleaf.X_KEY_AUTH_KEY)){
+				this.setCookie(ConstantsThymeleaf.X_KEY_AUTH_KEY, ConstantsThymeleaf.X_KEY_AUTH_VALUE);
+			}
+		}
+	},
+	clearAudit: function(){
+		if (typeof (Storage) !== "undefined") {
+			localStorage.removeItem('TBK_KEY_AUTH');
+		}else{
+			globalMethod.eraseCookie('TBK_KEY_AUTH');
+		}
+	},
+	validateAudit: function(token){
+		var RESPONSE_TOKEN = token;
+		var X_AUTH_TOKEN = this.getAudit();
+		return RESPONSE_TOKEN == null || RESPONSE_TOKEN == X_AUTH_TOKEN;
+	},
+	obtainBeanCrossSession: function(attr){
+		var fnc = {
+			isValid: function(){
+				return attr.conv == null
+                    || attr.user == null
+                    || (attr.conv == attr.viewConv && attr.user == attr.viewUser)
+                    || attr.username == attr.viewUsername;
+			},
+			executeValidateCrossSession: function(fnc){
+				if(!this.isValid()){
+					fnc(attr);
+				}
+			}
+		}    					
+		return {
+			fnc: fnc
+		}
+	},
+	dataValidAudit: function(token){
+		var RESPONSE_TOKEN = token;
+		var X_AUTH_TOKEN = globalMethod.getAudit();
+		var attr = {};
+		attr['AUTH_TOKEN_RESPONSE']= RESPONSE_TOKEN;
+		attr['AUTH_TOKEN_STORAGE']= X_AUTH_TOKEN;
+		return attr;
+	},
+	handleCrossSession: function(attr){
+		window.location = globalMethod.sanitizeUrl(URLRequests.REQUEST_CROSS_SESSION + "?" + $.param( attr ));
+		throw new tbk.SecurityContext.SecurityException("AUTH: Redireccionando a login.");
+	},
+	logoff: function(){
+		var data = {};
+		$.fn.httpData(data);
+		$.fn.submitForm(URLRequests.URL_LOGOUT,data);
+	},
+	sanitizeUrl: function(url) {
+		const sanitizedUrl = url.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+		const entityMap = {
+		  '&': '\u0026',
+		  '<': '\u003c',
+		  '>': '\u003e',
+		  '"': '\u0022',
+		  "'": '\u0027',
+		  '/': '\u002f'
+		};
+		return sanitizedUrl.replace(/[&<>"'/]/g, match => entityMap[match]);
+	}
+}
