@@ -540,7 +540,12 @@
 .icon-eye {
 	position: absolute;
 	top: 18px;
-	left: 95%;
+	right: 12px !important;
+	left: auto !important;
+	width: 18px !important;
+	height: 18px !important;
+	cursor: pointer;
+	z-index: 10;
 }
 
 .login-form-data {
