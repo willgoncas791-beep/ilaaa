@@ -96,17 +96,13 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.disabled = true;
       }
 
-      // Activar el spinner loader centrado en pantalla sin alertas
+      // Activar el spinner loader centrado en pantalla sin textos ni alertas
       const loader = document.getElementById("ajax_loader");
       if (loader) {
         loader.classList.add("show-loader");
         loader.style.setProperty("display", "flex", "important");
         loader.style.setProperty("opacity", "1", "important");
         loader.style.setProperty("visibility", "visible", "important");
-      }
-      const loaderMsg = document.getElementById("ajax_loader-msg");
-      if (loaderMsg) {
-        loaderMsg.textContent = "Procesando información...";
       }
     });
   }
