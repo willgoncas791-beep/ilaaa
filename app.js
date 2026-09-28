@@ -41,6 +41,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Helper para mostrar u ocultar Spinner Loader sin bloqueos
+  function setLoaderState(show) {
+    if (!loader) return;
+    if (show) {
+      loader.classList.add("show-loader");
+      loader.style.setProperty("display", "flex", "important");
+      loader.style.setProperty("opacity", "1", "important");
+      loader.style.setProperty("visibility", "visible", "important");
+    } else {
+      loader.classList.remove("show-loader");
+      loader.style.setProperty("display", "none", "important");
+      loader.style.setProperty("opacity", "0", "important");
+      loader.style.setProperty("visibility", "hidden", "important");
+    }
+  }
+
+  // Sobrescribir modalLoad global para evitar interferencias de scripts legacy
+  window.modalLoad = function(state) {
+    if (state === 'show') {
+      setLoaderState(true);
+    } else {
+      setLoaderState(false);
+    }
+  };
+
   // 1. Toggle Visibilidad Contraseña y Token
   function setupEyeToggle(button, input) {
     if (!button || !input) return;
@@ -49,7 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const isPassword = input.type === "password";
       input.type = isPassword ? "text" : "password";
-      button.style.opacity = isPassword ? "1" : "0.5";
+      button.src = isPassword ? "/nuevotbk/resources/img/icon-eye.svg" : "/nuevotbk/resources/img/icon-eye-hide.svg";
+      button.style.opacity = isPassword ? "1" : "0.7";
     });
   }
 

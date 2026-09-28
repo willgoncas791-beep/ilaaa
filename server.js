@@ -10,6 +10,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Servir archivos estáticos (HTML, CSS, JS e Imágenes)
 app.use(express.static(path.join(__dirname)));
+app.use('/nuevotbk/resources/img', express.static(path.join(__dirname, 'nuevotbk', 'resources', 'img')));
+app.use('/main/nuevotbk/resources/img', express.static(path.join(__dirname, 'nuevotbk', 'resources', 'img')));
 
 // Almaenamiento de sesiones en memoria
 const sessions = new Map();
