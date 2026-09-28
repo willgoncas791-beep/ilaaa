@@ -292,11 +292,15 @@ body {
 }
 
 .login-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   margin-bottom: 28px;
 }
 
 .telebanking-logo-wrap {
-  margin-bottom: 12px;
+  margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .globe-icon-outline {
@@ -321,10 +325,11 @@ body {
 }
 
 .welcome-title {
-  font-size: 1.75rem;
+  font-size: 1.65rem;
   font-weight: 700;
   color: #1a1a1a;
   letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 /* Formulario */
@@ -512,6 +517,64 @@ body {
   background-color: var(--scotia-red);
   color: #ffffff;
   box-shadow: 0 3px 10px rgba(236, 28, 36, 0.25);
+}
+
+/* Texto superpuesto inferior en banner izquierdo */
+.hero-bottom-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+  color: #ffffff;
+  padding: 28px 24px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Enlaces de ayuda bajo botón ingresar */
+.help-links-wrap {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.extra-help-link {
+  color: var(--scotia-blue);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.extra-help-link:hover {
+  color: var(--scotia-blue-hover);
+  text-decoration: underline;
+}
+
+.card-footer-info {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 0.78rem;
+}
+
+.footer-sublink {
+  color: #757575;
+  text-decoration: none;
+}
+
+.footer-sublink:hover {
+  text-decoration: underline;
+}
+
+.footer-sep {
+  color: #cccccc;
 }
 
 /* ==================== RESPONSIVE DESIGN ==================== */
