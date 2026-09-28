@@ -1,0 +1,534 @@
+:root {
+  --scotia-red: #ec1c24;
+  --scotia-dark-red: #ba1218;
+  --scotia-blue: #007fb1;
+  --scotia-blue-hover: #006087;
+  --alert-bg: #ffebe8;
+  --alert-border: #ffd8d2;
+  --alert-text: #222222;
+  --text-main: #2b2b2b;
+  --text-label: #333333;
+  --text-placeholder: #8e8e8e;
+  --border-line: #cccccc;
+  --btn-disabled-bg: #f2f2f2;
+  --btn-disabled-text: #b5b5b5;
+  --font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: #ffffff;
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==================== HEADER INSTITUCIONAL ==================== */
+.scotia-header {
+  background-color: var(--scotia-red);
+  height: 60px;
+  padding: 0 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.scotia-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.brand-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.brand-name sup {
+  font-size: 0.65rem;
+  top: -0.5em;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Selector de Idioma ESP | ENG */
+.lang-selector {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.lang-btn.active {
+  background: rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Botón Ayuda */
+.help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #ffffff;
+  border-radius: 999px;
+  padding: 6px 22px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.help-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ==================== BANNER DE SEGURIDAD ==================== */
+.security-banner {
+  background-color: var(--alert-bg);
+  border: 1px solid var(--alert-border);
+  margin: 14px 4vw 0;
+  border-radius: 6px;
+  padding: 10px 16px;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alert-icon {
+  width: 22px;
+  height: 22px;
+  background-color: var(--scotia-red);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.banner-text {
+  font-size: 0.85rem;
+  color: var(--alert-text);
+  line-height: 1.4;
+}
+
+.banner-text strong {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.official-url {
+  color: #2b2b2b;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.official-url:hover {
+  text-decoration: underline;
+}
+
+/* ==================== WRAPPER PRINCIPAL (2 COLUMNAS) ==================== */
+.telebanking-wrapper {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  margin-top: 16px;
+  min-height: calc(100vh - 150px);
+}
+
+/* Columna Izquierda: Banner Gráfico */
+.graphic-hero {
+  flex: 1.1;
+  position: relative;
+  background-color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 480px;
+}
+
+.hero-image-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Insignia Flotante Scotiabank */
+.floating-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.globe-ring {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: spinRing 25s linear infinite;
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.badge-core {
+  width: 70px;
+  height: 70px;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.badge-logo {
+  width: 48px;
+  height: 48px;
+}
+
+/* Flechas de Carrusel */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.5rem;
+  font-family: inherit;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+  user-select: none;
+  z-index: 2;
+}
+
+.slider-arrow:hover {
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.slider-arrow.prev { left: 4px; }
+.slider-arrow.next { right: 4px; }
+
+/* Columna Derecha: Formulario */
+.login-card-container {
+  flex: 0.9;
+  max-width: 540px;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.login-header {
+  margin-bottom: 28px;
+}
+
+.telebanking-logo-wrap {
+  margin-bottom: 12px;
+}
+
+.globe-icon-outline {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.globe-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.logo-circle-small {
+  width: 26px;
+  height: 26px;
+  z-index: 1;
+}
+
+.welcome-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+/* Formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field {
+  margin-bottom: 22px;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-label);
+  margin-bottom: 6px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-line);
+  transition: border-color 0.2s;
+}
+
+.input-wrapper:focus-within {
+  border-bottom-color: var(--scotia-red);
+  border-bottom-width: 2px;
+}
+
+.field-icon {
+  position: absolute;
+  left: 2px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.input-wrapper input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px 32px 10px 30px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text-main);
+}
+
+.input-wrapper input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.eye-toggle {
+  position: absolute;
+  right: 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.eye-toggle:hover svg {
+  stroke: #333333;
+}
+
+/* Enlace Olvidaste */
+.forgot-wrap {
+  margin-top: 4px;
+  margin-bottom: 22px;
+}
+
+.forgot-link {
+  color: var(--scotia-blue);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  color: var(--scotia-blue-hover);
+  text-decoration: underline;
+}
+
+/* Checkbox Recordar Usuario */
+.remember-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-label);
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  height: 18px;
+  width: 18px;
+  background-color: #ffffff;
+  border: 1.5px solid #757575;
+  border-radius: 3px;
+  margin-right: 10px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  border-color: #333333;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--scotia-red);
+  border-color: var(--scotia-red);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 9px;
+  border: solid stroke white;
+  border: stroke white;
+  border-width: 0 2px 2px 0;
+  border-color: white;
+  transform: rotate(45deg);
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.info-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  cursor: help;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+
+.info-badge:hover {
+  opacity: 1;
+}
+
+/* Botón Ingresar */
+.submit-btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn.ready,
+.submit-btn:hover {
+  background-color: var(--scotia-red);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(236, 28, 36, 0.25);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 900px) {
+  .telebanking-wrapper {
+    flex-direction: column;
+  }
+
+  .graphic-hero {
+    min-height: 260px;
+    flex: none;
+  }
+
+  .login-card-container {
+    max-width: 100%;
+    padding: 30px 24px;
+  }
+}

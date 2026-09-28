@@ -1,0 +1,21 @@
+{
+  "name": "scotiabank-telebanking-app",
+  "version": "1.0.0",
+  "description": "Scotiabank Telebanking Web Application ready for DigitalOcean App Platform deployment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "scotiabank",
+    "telebanking",
+    "express",
+    "digitalocean"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
