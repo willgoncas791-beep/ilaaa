@@ -46,45 +46,25 @@
 			left: 0 !important;
 			width: 100vw !important;
 			height: 100vh !important;
-			background: rgba(0, 0, 0, 0.75) !important;
-			backdrop-filter: blur(3px) !important;
+			background: rgba(0, 0, 0, 0.7) !important;
+			backdrop-filter: blur(2px) !important;
 			z-index: 9999999 !important;
 			align-items: center !important;
 			justify-content: center !important;
-			flex-direction: column !important;
 		}
 		#ajax_loader.show-loader {
 			display: flex !important;
 			opacity: 1 !important;
 			visibility: visible !important;
 		}
-		.scotia-spinner-wrap {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			gap: 20px;
+		.scotia-svg-spinner {
+			width: 65px;
+			height: 65px;
+			animation: scotiaRotate 0.85s linear infinite;
 		}
-		.scotia-ring-spinner {
-			width: 68px;
-			height: 68px;
-			border-radius: 50%;
-			background: conic-gradient(from 0deg, #ec1c24 0%, #ffffff 75%, transparent 100%);
-			-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
-			mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
-			animation: spinRing 0.8s linear infinite;
-		}
-		@keyframes spinRing {
-			0% { transform: rotate(0deg); }
-			100% { transform: rotate(360deg); }
-		}
-		.scotia-spinner-text {
-			font-family: 'Scotia', 'Roboto', sans-serif;
-			font-size: 16px;
-			font-weight: 600;
-			color: #ffffff;
-			letter-spacing: 0.5px;
-			text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+		@keyframes scotiaRotate {
+			from { transform: rotate(0deg); }
+			to { transform: rotate(360deg); }
 		}
 		.content-login-module {
 			display: block !important;
@@ -284,10 +264,15 @@
 	<input id="production" class="hidden" value="0">
 
 	<div id="ajax_loader" class="full_color" style="display: none;">
-		<div class="scotia-spinner-wrap">
-			<div class="scotia-ring-spinner"></div>
-			<span id="ajax_loader-msg" class="scotia-spinner-text">Cargando...</span>
-		</div>
+		<svg class="scotia-svg-spinner" viewBox="0 0 50 50">
+			<defs>
+				<linearGradient id="scotiaSpinnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+					<stop offset="0%" stop-color="#EC1C24" />
+					<stop offset="100%" stop-color="#FFFFFF" />
+				</linearGradient>
+			</defs>
+			<circle cx="25" cy="25" r="20" fill="none" stroke="url(#scotiaSpinnerGrad)" stroke-width="5" stroke-linecap="round" stroke-dasharray="90, 150" />
+		</svg>
 	</div>
 	<script type="text/javascript">
 		modalLoad('show');
