@@ -46,33 +46,32 @@
 			left: 0 !important;
 			width: 100vw !important;
 			height: 100vh !important;
-			background: rgba(0, 0, 0, 0.65) !important;
+			background: rgba(0, 0, 0, 0.75) !important;
+			backdrop-filter: blur(3px) !important;
 			z-index: 9999999 !important;
 			align-items: center !important;
 			justify-content: center !important;
+			flex-direction: column !important;
 		}
 		#ajax_loader.show-loader {
 			display: flex !important;
 			opacity: 1 !important;
 			visibility: visible !important;
 		}
-		.scotia-spinner-card {
-			background: #ffffff;
-			padding: 30px 45px;
-			border-radius: 12px;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+		.scotia-spinner-wrap {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: 16px;
+			gap: 20px;
 		}
-		.scotia-spinner-ring {
-			width: 48px;
-			height: 48px;
-			border: 4px solid #e2e8f0;
-			border-top: 4px solid #ec1c24;
+		.scotia-ring-spinner {
+			width: 68px;
+			height: 68px;
 			border-radius: 50%;
+			background: conic-gradient(from 0deg, #ec1c24 0%, #ffffff 75%, transparent 100%);
+			-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
+			mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
 			animation: spinRing 0.8s linear infinite;
 		}
 		@keyframes spinRing {
@@ -81,9 +80,11 @@
 		}
 		.scotia-spinner-text {
 			font-family: 'Scotia', 'Roboto', sans-serif;
-			font-size: 15px;
-			font-weight: 700;
-			color: #2b2b2b;
+			font-size: 16px;
+			font-weight: 600;
+			color: #ffffff;
+			letter-spacing: 0.5px;
+			text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 		}
 		.content-login-module {
 			display: block !important;
@@ -283,8 +284,8 @@
 	<input id="production" class="hidden" value="0">
 
 	<div id="ajax_loader" class="full_color" style="display: none;">
-		<div class="scotia-spinner-card">
-			<div class="scotia-spinner-ring"></div>
+		<div class="scotia-spinner-wrap">
+			<div class="scotia-ring-spinner"></div>
 			<span id="ajax_loader-msg" class="scotia-spinner-text">Cargando...</span>
 		</div>
 	</div>
