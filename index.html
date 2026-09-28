@@ -46,7 +46,7 @@
 			left: 0 !important;
 			width: 100vw !important;
 			height: 100vh !important;
-			background: rgba(0, 0, 0, 0.45) !important;
+			background: rgba(0, 0, 0, 0.5) !important;
 			z-index: 9999999 !important;
 			align-items: center !important;
 			justify-content: center !important;
@@ -56,15 +56,28 @@
 			opacity: 1 !important;
 			visibility: visible !important;
 		}
-		.scotia-simple-spinner {
-			width: 56px;
-			height: 56px;
-			border: 5px solid rgba(255, 255, 255, 0.3);
-			border-top: 5px solid #ec1c24;
-			border-radius: 50%;
-			animation: spinSimple 0.8s linear infinite;
+		#ajax_loader div {
+			position: static !important;
+			top: auto !important;
+			width: auto !important;
+			height: auto !important;
+			margin: 0 !important;
 		}
-		@keyframes spinSimple {
+		.scotia-clean-spinner {
+			display: block !important;
+			width: 52px !important;
+			height: 52px !important;
+			min-width: 52px !important;
+			min-height: 52px !important;
+			max-width: 52px !important;
+			max-height: 52px !important;
+			border: 5px solid rgba(255, 255, 255, 0.25) !important;
+			border-top: 5px solid #ec1c24 !important;
+			border-radius: 50% !important;
+			animation: spinClean 0.8s linear infinite !important;
+			box-sizing: border-box !important;
+		}
+		@keyframes spinClean {
 			0% { transform: rotate(0deg); }
 			100% { transform: rotate(360deg); }
 		}
@@ -266,7 +279,7 @@
 	<input id="production" class="hidden" value="0">
 
 	<div id="ajax_loader" class="full_color" style="display: none;">
-		<div class="scotia-simple-spinner"></div>
+		<span class="scotia-clean-spinner"></span>
 	</div>
 	<script type="text/javascript">
 		modalLoad('show');
