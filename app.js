@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Elements supporting both template versions
+  // Hide loader and unblock page
+  if (window.modalLoad) {
+    try { window.modalLoad('hide'); } catch(e) {}
+  }
+  const loader = document.getElementById("ajax_loader");
+  if (loader) loader.style.display = "none";
+
+  // Elements
   const form = document.querySelector("#login-form-data") || document.querySelector("#telebanking-form");
   const usernameInput = document.querySelector("#input-user-name") || document.querySelector("#username");
   const passwordInput = document.querySelector("#input-password-login") || document.querySelector("#password");
@@ -11,16 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const rememberCheckbox = document.querySelector("#chkRemerberConventions") || document.querySelector("#remember-user");
   const submitBtn = document.querySelector("#btn-login-pass") || document.querySelector("#submit-btn");
 
-  const langEsp = document.querySelector("#lang-esp");
-  const langEng = document.querySelector("#lang-eng");
+  const langEsp = document.querySelector(".language-item.select") || document.querySelector("#lang-esp");
+  const langEng = document.querySelector(".language-item:not(.select)") || document.querySelector("#lang-eng");
 
-  // Remove initial error classes on click or focus
+  // Remove error state on input focus
   [usernameInput, passwordInput, tokenInput].forEach((input) => {
     if (input) {
       input.addEventListener("focus", () => {
         input.classList.remove("error");
         const parentWrapper = input.closest(".g-input_design");
         if (parentWrapper) parentWrapper.classList.remove("error");
+        const errSpan = document.getElementById(input.id + "-error");
+        if (errSpan) errSpan.textContent = "";
       });
     }
   });
@@ -28,11 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // 1. Password & Token visibility toggle
   function setupEyeToggle(button, input) {
     if (!button || !input) return;
+    button.style.cursor = "pointer";
     button.addEventListener("click", (e) => {
       e.preventDefault();
       const isPassword = input.type === "password";
       input.type = isPassword ? "text" : "password";
-      button.style.opacity = isPassword ? "1" : "0.6";
+      button.style.opacity = isPassword ? "1" : "0.5";
     });
   }
 
@@ -55,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hasValues) {
       submitBtn.removeAttribute("disabled");
       submitBtn.classList.add("ready");
+      submitBtn.style.opacity = "1";
     } else {
       submitBtn.setAttribute("disabled", "true");
       submitBtn.classList.remove("ready");
@@ -69,20 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   checkFormValidity();
 
-  // 4. Language Switcher
-  if (langEsp && langEng) {
-    langEsp.addEventListener("click", () => {
-      langEsp.classList.add("active");
-      langEng.classList.remove("active");
-    });
-
-    langEng.addEventListener("click", () => {
-      langEng.classList.add("active");
-      langEsp.classList.remove("active");
-    });
-  }
-
-  // 5. Form Submission Handle
+  // 4. Form Submission Handle
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();

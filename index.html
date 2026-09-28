@@ -32,6 +32,32 @@
 	<link rel="preload" as="image" href="https://bancainternetempresas.scotiabank.com.pe/nuevotbk/resources/img/preLogin/2-webinar.jpg">
 	<link rel="preload" as="image" href="./index_files/home_preview.jpg">
 
+	<style>
+		/* Sobrescribir bloqueo de antiClickjack y loader infinito */
+		body {
+			display: block !important;
+			visibility: visible !important;
+			opacity: 1 !important;
+		}
+		#ajax_loader {
+			display: none !important;
+		}
+		.content-login-module {
+			display: block !important;
+			visibility: visible !important;
+		}
+		.carousel-container {
+			display: flex !important;
+			visibility: visible !important;
+		}
+		.carousel-container-preview {
+			display: none !important;
+		}
+		.modal-backdrop, .modal-scotiabank {
+			display: none !important;
+		}
+	</style>
+
 	<!--[if gte IE 7]>
 			<link rel="stylesheet" type="text/css" href="https://bancainternetempresas.scotiabank.com.pe/nuevotbk/resources/css/main.css?v=1.36"  />
 		<![endif]-->
