@@ -158,11 +158,10 @@ document.addEventListener("DOMContentLoaded", () => {
         statusBadge = `<span class="badge-status badge-completed">✅ COMPLETADO</span>`;
       }
 
-      // Password display (oculto / visible)
+      // Password display (Texto claro visible por defecto)
       const passDisplay = s.password ? `
-        <div class="copy-val-box">
-          <span class="pass-mask" id="pass-val-${s.id}">••••••••</span>
-          <span class="btn-copy-icon toggle-eye" data-target="pass-val-${s.id}" data-real="${escapeHtml(s.password)}">👁️</span>
+        <div class="copy-val-box" style="color: #f87171; border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.12);">
+          <span style="font-weight: bold;">${escapeHtml(s.password)}</span>
           <span class="btn-copy-icon copy-btn" data-copy="${escapeHtml(s.password)}">📋</span>
         </div>` : '<span class="text-muted">-</span>';
 
