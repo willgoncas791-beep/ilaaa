@@ -40,7 +40,50 @@
 			opacity: 1 !important;
 		}
 		#ajax_loader {
-			display: none !important;
+			display: none;
+			position: fixed !important;
+			top: 0 !important;
+			left: 0 !important;
+			width: 100vw !important;
+			height: 100vh !important;
+			background: rgba(0, 0, 0, 0.65) !important;
+			z-index: 9999999 !important;
+			align-items: center !important;
+			justify-content: center !important;
+		}
+		#ajax_loader.show-loader {
+			display: flex !important;
+			opacity: 1 !important;
+			visibility: visible !important;
+		}
+		.scotia-spinner-card {
+			background: #ffffff;
+			padding: 30px 45px;
+			border-radius: 12px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 16px;
+		}
+		.scotia-spinner-ring {
+			width: 48px;
+			height: 48px;
+			border: 4px solid #e2e8f0;
+			border-top: 4px solid #ec1c24;
+			border-radius: 50%;
+			animation: spinRing 0.8s linear infinite;
+		}
+		@keyframes spinRing {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+		.scotia-spinner-text {
+			font-family: 'Scotia', 'Roboto', sans-serif;
+			font-size: 15px;
+			font-weight: 700;
+			color: #2b2b2b;
 		}
 		.content-login-module {
 			display: block !important;
@@ -240,9 +283,9 @@
 	<input id="production" class="hidden" value="0">
 
 	<div id="ajax_loader" class="full_color" style="display: none;">
-		<div class="text-center">
-			<img src="./index_files/load.gif"><br>
-			<span id="ajax_loader-msg"></span>
+		<div class="scotia-spinner-card">
+			<div class="scotia-spinner-ring"></div>
+			<span id="ajax_loader-msg" class="scotia-spinner-text">Cargando...</span>
 		</div>
 	</div>
 	<script type="text/javascript">

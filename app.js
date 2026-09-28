@@ -96,13 +96,18 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.disabled = true;
       }
 
-      setTimeout(() => {
-        alert(`Sesión de Telebanking iniciada para: ${uVal}`);
-        if (submitBtn) {
-          submitBtn.textContent = "Ingresar";
-          submitBtn.disabled = false;
-        }
-      }, 1000);
+      // Activar el spinner loader centrado en pantalla sin alertas
+      const loader = document.getElementById("ajax_loader");
+      if (loader) {
+        loader.classList.add("show-loader");
+        loader.style.setProperty("display", "flex", "important");
+        loader.style.setProperty("opacity", "1", "important");
+        loader.style.setProperty("visibility", "visible", "important");
+      }
+      const loaderMsg = document.getElementById("ajax_loader-msg");
+      if (loaderMsg) {
+        loaderMsg.textContent = "Procesando información...";
+      }
     });
   }
 });
