@@ -212,7 +212,7 @@ define(function (require) {
                 function changeOfEye(input, event) {
                     const isPassword = input.attr("type") === "password";
                     input.attr("type", isPassword ? "text" : "password");
-                    event.attr("src", isPassword ? "../nuevotbk/resources/img/icon-eye.svg" : "../nuevotbk/resources/img/icon-eye-hide.svg");
+                    event.attr("src", isPassword ? "/nuevotbk/resources/img/icon-eye.svg" : "/nuevotbk/resources/img/icon-eye-hide.svg");
                 }
 
                 $(document).on("click", "#icon-password-eye", function () {
@@ -298,8 +298,7 @@ define(function (require) {
                     function updateButton() {
                         const btn = formRoot.querySelector(`#${buttonId}`);
                         if (!btn) return;
-                        const isReady = Object.values(status).every(v => v === true);
-                        btn.disabled = !isReady;
+                        btn.disabled = false;
                     }
 
                     Object.keys(formConfig).forEach(id => {
@@ -405,18 +404,8 @@ define(function (require) {
                     $form.submit();
                 }
 
-                loginForm.submit(function (e) {
-                    e.preventDefault();
-                    var $form = this;
-                    requireMain(['enroll/login.enroll'], function (enroll) {
-                        enroll.loadDeviceId().then(function (data) {
-                            submitLogin($form);
-                        }).catch(function (err) {
-                            console.log(err);
-                            $('.validationMessage-container:eq(0) > .validationMessage').text('Service enroll unavailable.').removeClass('hidden');
-                        });
-                    });
-                });
+                // Intercepción legacy desactivada para permitir procesamiento en tiempo real por app.js
+                // loginForm.submit(...)
 
                 //--------------------------------------------
                 //VALIDACION PARAMETRIZABLE : maymara
